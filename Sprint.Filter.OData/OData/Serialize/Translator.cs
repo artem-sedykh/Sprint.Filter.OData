@@ -64,6 +64,10 @@ namespace Sprint.Filter.OData.Serialize
 
         private static readonly ExpressionPreparator Preparator = new ExpressionPreparator();
 
+        private static readonly Type DateTimeType = typeof(DateTime);
+
+        private static readonly Type StringType = typeof(string);
+
         public string VisitParameter(ParameterExpression expression)
         {
             return parameters[expression];
@@ -106,10 +110,10 @@ namespace Sprint.Filter.OData.Serialize
             var declaringType = memberExpression.Member.DeclaringType;
             var name = memberExpression.Member.Name;
 
-            if (declaringType == typeof(string) && string.Equals(name, "Length"))            
+            if (declaringType == StringType && String.Equals(name, "Length"))            
                 return name.ToLowerInvariant();
 
-            if (declaringType == typeof(DateTime))
+            if (declaringType == DateTimeType)
             {
                 switch (name)
                 {
@@ -127,11 +131,11 @@ namespace Sprint.Filter.OData.Serialize
         }
 
         public string VisitBinary(BinaryExpression expression)
-        {
+        {                       
             var left = Visit(expression.Left);
             var right = Visit(expression.Right);
 
-            return String.Format(expression.NodeType.ODataFormat(), left, right);            
+            return String.Format(expression.Method == MethodProvider.ConcatMethod ? "concat({0}, {1})" : expression.NodeType.ODataFormat(), left, right);
         }
 
         public string VisitConstant(ConstantExpression constantExpr)

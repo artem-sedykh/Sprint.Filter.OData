@@ -79,6 +79,7 @@
     <Compile Include="Functions\StringFunctionsTest.cs" />
     <Compile Include="Serialize\MathFunctionsTest.cs" />
     <Compile Include="Serialize\SerializeDateFunctionsTest.cs" />
+    <Compile Include="Serialize\SerializeStringFunctionsTest.cs" />
     <Compile Include="Serialize\SerializeTranslatorTest.cs" />
     <Compile Include="Serialize\SerializeUserFunctions.cs" />
     <Compile Include="TranslatorTest.cs" />
