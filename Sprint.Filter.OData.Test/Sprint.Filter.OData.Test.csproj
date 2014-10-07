@@ -63,8 +63,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ExpressionMethodBinderTest.cs" />
-    <Compile Include="Reflection\ExpressionMethodBinder.cs" />
-    <Compile Include="Reflection\MyBinder.cs" />
     <Compile Include="Functions\QueryableExtensionsTest.cs" />
     <Compile Include="Functions\UserFunctionTest.cs" />
     <Compile Include="PrecedenceGroupingTest.cs" />
