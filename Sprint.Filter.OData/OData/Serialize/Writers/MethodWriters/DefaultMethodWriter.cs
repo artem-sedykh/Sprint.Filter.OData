@@ -19,8 +19,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
             var arguments = expression.Arguments.Select(writer).ToArray();
 
             if(method.IsStatic)
-                return String.Format("{0}({1})", method.Name, String.Join(", ", arguments));
-
+                throw new NotSupportedException(expression.ToString());
 
             var obj = writer(expression.Object);
 

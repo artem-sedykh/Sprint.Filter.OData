@@ -35,6 +35,6 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => SqlFunctions.StringConvert(t.Price, null, null) == "1"), Filter.Deserialize<Customer>("StringConvert(Price,null,null) eq '1'")));
 
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => SqlFunctions.StringConvert(t.FreightDecimalNullable, null, null) == "1"), Filter.Deserialize<Customer>("StringConvert(FreightDecimalNullable,null,null) eq '1'")));
-        }
+        }      
     }
 }

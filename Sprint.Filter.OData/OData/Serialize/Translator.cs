@@ -55,7 +55,7 @@ namespace Sprint.Filter.OData.Serialize
             new StringSubstringMethodWriter(), 
             new StringToLowerMethodWriter(), 
             new StringToUpperMethodWriter(), 
-            new StringTrimMethodWriter()
+            new StringTrimMethodWriter()            
         };
 
         #endregion
@@ -180,10 +180,23 @@ namespace Sprint.Filter.OData.Serialize
 
         internal string VisitConvert(UnaryExpression expression)
         {
-            if(expression.Type.IsNullableType())
+            if (expression.Type.IsValueType)
                 return Visit(expression.Operand);
-
+            
             throw new NotSupportedException(expression.ToString());
+        }
+
+        internal string VisitNegate(UnaryExpression expression)
+        {
+            return "-" + Visit(expression.Operand);
+        }
+
+        internal string VisitNot(UnaryExpression expression)
+        {
+            if (expression.Operand.NodeType.IsBinary() || expression.Operand.NodeType.IsBinaryLogical())
+                return String.Format("not ({0})", Visit(expression.Operand));
+
+            return String.Format("not {0}", Visit(expression.Operand));
         }
 
         internal string Visit(Expression expression, bool root=false)
@@ -193,13 +206,15 @@ namespace Sprint.Filter.OData.Serialize
 
             switch (expression.NodeType)
             {
+                case ExpressionType.Not:
+                    return VisitNot((UnaryExpression)expression);
+                case ExpressionType.Negate:
+                    return VisitNegate((UnaryExpression)expression);
                 case ExpressionType.Convert:
                     return VisitConvert((UnaryExpression)expression);
                 case ExpressionType.Quote:
-                    return VisitQuote((UnaryExpression)expression);
-                case ExpressionType.Negate:
-                case ExpressionType.NegateChecked:
-                case ExpressionType.Not:                
+                    return VisitQuote((UnaryExpression)expression);                
+                case ExpressionType.NegateChecked:                               
                 case ExpressionType.ConvertChecked:
                 case ExpressionType.ArrayLength:
                 case ExpressionType.TypeAs:
