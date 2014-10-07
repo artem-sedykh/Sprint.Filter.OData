@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{91C49B33-06CE-4ED2-BB20-EF5C8B013CCE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sprint.Filter</RootNamespace>
+    <AssemblyName>Sprint.Filter.OData</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\JetBrains\ReSharper\v8.2\Bin\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Helpers\ExpressionHelper.cs" />
+    <Compile Include="Helpers\ExpressionMethodBinder.cs" />
+    <Compile Include="OData\IMemberNameProvider.cs" />
+    <Compile Include="OData\MemberNameProvider.cs" />
+    <Compile Include="OData\Serialize\PreExpressionTranslator.cs" />
+    <Compile Include="OData\Serialize\Translator.cs" />
+    <Compile Include="OData\Serialize\Writers\QueryableMethodWriter.cs" />
+    <Compile Include="OData\Serialize\Writers\ContainsMethodWriter.cs" />
+    <Compile Include="OData\Serialize\Writers\IWriter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OData\Deserialize\ExpressionLexer.cs" />
+    <Compile Include="OData\Common\ODataBinaryExpression.cs" />
+    <Compile Include="OData\Common\ODataConstantExpression.cs" />
+    <Compile Include="OData\Common\ODataExpression.cs" />
+    <Compile Include="OData\Common\ODataLambdaExpression.cs" />
+    <Compile Include="OData\Common\ODataLogicalBinaryExpression.cs" />
+    <Compile Include="OData\Common\ODataMethodCallExpression.cs" />
+    <Compile Include="OData\Common\ODataParameterExpression.cs" />
+    <Compile Include="OData\Common\ODataPropertyExpression.cs" />
+    <Compile Include="OData\Common\ODataSyntaxExpression.cs" />
+    <Compile Include="OData\Common\ODataUnaryExpression.cs" />
+    <Compile Include="OData\Deserialize\Translator.cs" />
+    <Compile Include="Extensions\ExpressionTypeExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TokenOperatorExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="OData\Filter.cs" />
+    <Compile Include="OData\Deserialize\MethodProvider.cs" />
+    <Compile Include="OData\Util.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

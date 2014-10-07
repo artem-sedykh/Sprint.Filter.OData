@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData", "Sprint.Filter.OData\Sprint.Filter.OData.csproj", "{91C49B33-06CE-4ED2-BB20-EF5C8B013CCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData.Test", "Sprint.Filter.OData.Test\Sprint.Filter.OData.Test.csproj", "{EC86049B-3E00-4274-AF90-66AA84868A65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91C49B33-06CE-4ED2-BB20-EF5C8B013CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91C49B33-06CE-4ED2-BB20-EF5C8B013CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91C49B33-06CE-4ED2-BB20-EF5C8B013CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91C49B33-06CE-4ED2-BB20-EF5C8B013CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC86049B-3E00-4274-AF90-66AA84868A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC86049B-3E00-4274-AF90-66AA84868A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC86049B-3E00-4274-AF90-66AA84868A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC86049B-3E00-4274-AF90-66AA84868A65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
