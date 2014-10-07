@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Sprint.Filter.OData.Deserialize
+namespace Sprint.Filter.OData
 {
-    internal static class MethodProvider
+    public static class MethodProvider
     {
         private static readonly MethodInfo InnerContainsMethod;
         private static readonly MethodInfo InnerIndexOfMethod;
@@ -65,14 +65,14 @@ namespace Sprint.Filter.OData.Deserialize
             InnerDecimalCeilingMethod = mathType.GetMethod("Ceiling", new[] { typeof(decimal) });            
         }
 
-        public static MethodInfo ReplaceMethod
+        internal static MethodInfo ReplaceMethod
         {
             get
             {
                 return InnerReplaceMethod;
             }
         }
-        public static MethodInfo IndexOfMethod
+        internal static MethodInfo IndexOfMethod
         {
             get
             {                
@@ -80,7 +80,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo ContainsMethod
+        internal static MethodInfo ContainsMethod
         {
             get
             {                
@@ -88,7 +88,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo EndsWithMethod
+        internal static MethodInfo EndsWithMethod
         {
             get
             {                
@@ -96,7 +96,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo StartsWithMethod
+        internal static MethodInfo StartsWithMethod
         {
             get
             {                
@@ -104,7 +104,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static PropertyInfo LengthProperty
+        internal static PropertyInfo LengthProperty
         {
             get
             {                
@@ -112,14 +112,14 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo SubstringMethodWithOneArg
+        internal static MethodInfo SubstringMethodWithOneArg
         {
             get
             {                
                 return InnerSubstringMethodWithOneArg;
             }
         }
-        public static MethodInfo SubstringMethodWithTwoArg
+        internal static MethodInfo SubstringMethodWithTwoArg
         {
             get
             {                
@@ -127,7 +127,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo ConcatMethod
+        internal static MethodInfo ConcatMethod
         {
             get
             {                
@@ -135,7 +135,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo ToLowerMethod
+        internal static MethodInfo ToLowerMethod
         {
             get
             {                
@@ -143,7 +143,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo ToUpperMethod
+        internal static MethodInfo ToUpperMethod
         {
             get
             {                
@@ -151,7 +151,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo TrimMethod
+        internal static MethodInfo TrimMethod
         {
             get
             {                
@@ -159,7 +159,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static PropertyInfo DayProperty
+        internal static PropertyInfo DayProperty
         {
             get
             {                
@@ -167,7 +167,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static PropertyInfo HourProperty
+        internal static PropertyInfo HourProperty
         {
             get
             {                
@@ -175,7 +175,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static PropertyInfo MinuteProperty
+        internal static PropertyInfo MinuteProperty
         {
             get
             {                
@@ -183,7 +183,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static PropertyInfo SecondProperty
+        internal static PropertyInfo SecondProperty
         {
             get
             {                
@@ -191,7 +191,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static PropertyInfo MonthProperty
+        internal static PropertyInfo MonthProperty
         {
             get
             {                
@@ -199,7 +199,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static PropertyInfo YearProperty
+        internal static PropertyInfo YearProperty
         {
             get
             {                
@@ -207,7 +207,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo DoubleRoundMethod
+        internal static MethodInfo DoubleRoundMethod
         {
             get
             {                
@@ -215,7 +215,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo DecimalRoundMethod
+        internal static MethodInfo DecimalRoundMethod
         {
             get
             {                
@@ -223,7 +223,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo DoubleFloorMethod
+        internal static MethodInfo DoubleFloorMethod
         {
             get
             {                
@@ -231,7 +231,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo DecimalFloorMethod
+        internal static MethodInfo DecimalFloorMethod
         {
             get
             {                
@@ -239,7 +239,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo DoubleCeilingMethod
+        internal static MethodInfo DoubleCeilingMethod
         {
             get
             {                
@@ -247,7 +247,7 @@ namespace Sprint.Filter.OData.Deserialize
             }
         }
 
-        public static MethodInfo DecimalCeilingMethod
+        internal static MethodInfo DecimalCeilingMethod
         {
             get
             {                

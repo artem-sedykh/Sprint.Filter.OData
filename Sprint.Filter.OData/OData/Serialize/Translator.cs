@@ -34,7 +34,8 @@ namespace Sprint.Filter.OData.Serialize
             new IntegerValueWriter<ushort>()            
         };
 
-        private static readonly IMethodWriter DefaultMethodWriter = null;
+        private static readonly IMethodWriter DefaultMethodWriter = new DefaultMethodWriter();
+        private static readonly IMethodWriter UserFunctionMethodWriter = new UserFunctionMethodWriter();
 
         private static readonly IMethodWriter[] MethodWriters = new IMethodWriter[]
         {
@@ -74,7 +75,8 @@ namespace Sprint.Filter.OData.Serialize
             if(writer != null)
                 return writer.Write(expression, e => Visit(e));
 
-            //TODO: Добавть userFunctions methodWriter;
+            if (UserFunctionMethodWriter.CanHandle(expression))
+                return UserFunctionMethodWriter.Write(expression, e => Visit(e));
 
             return DefaultMethodWriter.Write(expression, e => Visit(e));
         }

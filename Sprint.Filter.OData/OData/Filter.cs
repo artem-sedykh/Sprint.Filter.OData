@@ -23,7 +23,7 @@ namespace Sprint.Filter.OData
             return expr;
         }
 
-        public static string Serialize<TModel, TResult>(Expression<Func<TModel, TResult>> expression)
+        public static string Serialize<TModel>(Expression<Func<TModel, bool>> expression)
         {
             var translator = new Serialize.Translator();
 
