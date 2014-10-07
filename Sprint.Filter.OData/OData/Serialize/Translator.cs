@@ -11,7 +11,7 @@ namespace Sprint.Filter.OData.Serialize
     {
         #region Writers
 
-        private static readonly IValueWriter[] ValueWriters = new IValueWriter[]
+        private static readonly IValueWriter[] ValueWriters =
         {
             new BooleanValueWriter(),
             new ByteArrayValueWriter(),
@@ -38,7 +38,7 @@ namespace Sprint.Filter.OData.Serialize
 
         private static readonly IMethodWriter UserFunctionMethodWriter = new UserFunctionMethodWriter();
 
-        private static readonly IMethodWriter[] MethodWriters = new IMethodWriter[]
+        private static readonly IMethodWriter[] MethodWriters =
         {
             new ContainsMethodWriter(),
             new QueryableMethodWriter(),
