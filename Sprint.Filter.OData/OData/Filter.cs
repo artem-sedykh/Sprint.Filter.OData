@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
 using Sprint.Filter.OData.Deserialize;
@@ -10,9 +9,6 @@ namespace Sprint.Filter.OData
     {        
         public static Expression<Func<TModel, bool>> Deserialize<TModel>(string query) where TModel : class
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             if (String.IsNullOrWhiteSpace(query))
                 return model => true;
 
@@ -24,10 +20,6 @@ namespace Sprint.Filter.OData
 
             var expr = translator.Translate<TModel, bool>(expression);
 
-            stopWatch.Stop();
-
-            Debug.WriteLine(stopWatch.ElapsedMilliseconds);
-
             return expr;
         }
 
@@ -35,7 +27,9 @@ namespace Sprint.Filter.OData
         {
             var translator = new Serialize.Translator();
 
-            return translator.Translate(expression);
+            var query = translator.Translate(expression);
+
+            return query;
         }
         
         public static Expression<Func<TResult>> Invoke<TResult>([NotNull]string query)

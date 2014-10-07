@@ -65,9 +65,7 @@ namespace Sprint.Filter.OData.Test.Serialize
         [TestMethod]
         public void Contains()
         {
-            var array = new[] { 1, 2, 3, 4, 5 };
-
-            var preTranslator = new PreExpressionTranslator();
+            var array = new[] { 1, 2, 3, 4, 5 };            
 
             
             //var expr = Linq.Expr<Customer, bool>(x => array.AsQueryable().Where(d=>d>4).Contains(x.Id) && x.Id==15 && DateTime.Now.GetDateTimeFormats().Contains(x.Name));

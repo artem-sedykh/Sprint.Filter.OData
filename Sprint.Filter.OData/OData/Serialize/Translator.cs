@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Xml;
 using Sprint.Filter.Extensions;
 using Sprint.Filter.OData.Serialize.Writers;
 
@@ -11,19 +9,58 @@ namespace Sprint.Filter.OData.Serialize
 {
     internal class Translator
     {
-        private static readonly IDictionary<MethodInfo, IMethodWriter> MethodWriters = new Dictionary<MethodInfo, IMethodWriter>();
+        #region Writers
+
+        private static readonly IValueWriter[] ValueWriters = new IValueWriter[]
+        {
+            new BooleanValueWriter(),
+            new ByteArrayValueWriter(),
+            new ByteValueWriter(), 
+            new DateTimeOffsetValueWriter(), 
+            new DateTimeValueWriter(), 
+            new DecimalValueWriter(), 
+            new SingleValueWriter(), 
+            new DoubleValueWriter(), 
+            new EnumValueWriter(), 
+            new GuidValueWriter(), 
+            new StreamValueWriter(), 
+            new StringValueWriter(), 
+            new TimeSpanValueWriter(), 
+            new IntegerValueWriter<int>(),
+            new IntegerValueWriter<long>(),
+            new IntegerValueWriter<short>(),
+            new IntegerValueWriter<uint>(),
+            new IntegerValueWriter<ulong>(),
+            new IntegerValueWriter<ushort>()            
+        };
+
+        private static readonly IMethodWriter DefaultMethodWriter = null;
+
+        private static readonly IMethodWriter[] MethodWriters = new IMethodWriter[]
+        {
+            new ContainsMethodWriter(),
+            new QueryableMethodWriter(),
+
+            new MathCeilingMethodWriter(), 
+            new MathFloorMethodWriter(), 
+            new MathRoundMethodWriter(),
+
+            new StringContainsMethodWriter(), 
+            new StringEndsWithMethodWriter(), 
+            new StringIndexOfMethodWriter(), 
+            new StringReplaceMethodWriter(), 
+            new StringStartsWithMethodWriter(), 
+            new StringSubstringMethodWriter(), 
+            new StringToLowerMethodWriter(), 
+            new StringToUpperMethodWriter(), 
+            new StringTrimMethodWriter()
+        };
+
+        #endregion
+
         private readonly IDictionary<ParameterExpression, string> parameters = new Dictionary<ParameterExpression, string>();
 
-
-        static Translator()
-        {
-            var queryableContains = typeof(Queryable).GetMethods().SingleOrDefault(x => x.Name == "Contains" && x.GetParameters().Length == 2);
-            var enumerableContains = typeof(Enumerable).GetMethods().SingleOrDefault(x => x.Name == "Contains" && x.GetParameters().Length == 2);
-            var contains = new ContainsMethodWriter();
-
-            MethodWriters[queryableContains] = contains;
-            MethodWriters[enumerableContains] = contains;
-        }
+        private static readonly ExpressionPreparator Preparator = new ExpressionPreparator();
 
         public string VisitParameter(ParameterExpression expression)
         {
@@ -32,49 +69,28 @@ namespace Sprint.Filter.OData.Serialize
 
         public string VisitMethodCall(MethodCallExpression expression)
         {
+            var writer = MethodWriters.FirstOrDefault(w => w.CanHandle(expression));
 
-            if(expression.Method.IsGenericMethod)
-            {
-                var method = expression.Method.GetGenericMethodDefinition();
+            if(writer != null)
+                return writer.Write(expression, e => Visit(e));
 
-                if(MethodWriters.ContainsKey(method))
-                    return MethodWriters[method].Write(expression, this);
+            //TODO: Добавть userFunctions methodWriter;
 
-                if(expression.Method.ReflectedType == typeof(Queryable) ||
-                   expression.Method.ReflectedType == typeof(Enumerable))
-                {
-                    var writer = new QueryableMethodWriter();
-
-                    return writer.Write(expression, this);
-                }
-                
-            }
-
-
-            return null;
+            return DefaultMethodWriter.Write(expression, e => Visit(e));
         }
 
-        public string VisitMember(MemberExpression memberExpr)
+        public string VisitMemberAccess(MemberExpression memberExpr)
         {
-            var isMemberOfParameter = IsMemberOfParameter(memberExpr);
+            var name = memberExpr.Member.Name;
 
-            if(isMemberOfParameter)
+            if (memberExpr.Expression != null)
             {
-                var name = memberExpr.Member.Name;
+                var left = Visit(memberExpr.Expression);
 
-                if (memberExpr.Expression != null)
-                {
-                    var left = Visit(memberExpr.Expression);
-
-                    return String.IsNullOrWhiteSpace(left) ? name : String.Format("{0}/{1}", left, name);
-                }
-
-                return name;
+                return String.IsNullOrWhiteSpace(left) ? name : String.Format("{0}/{1}", left, name);
             }
 
-            var expr = CollapseCapturedOuterVariables(memberExpr);
-
-            return Visit(expr);
+            return name;
         }
 
         public string VisitBinary(BinaryExpression expression)
@@ -87,23 +103,24 @@ namespace Sprint.Filter.OData.Serialize
 
         public string VisitConstant(ConstantExpression constantExpr)
         {
-            var type = constantExpr.Type;
+            var type = Nullable.GetUnderlyingType(constantExpr.Type) ?? constantExpr.Type;
 
-            if(type == typeof(DateTime))
-            {
-                var dateTimeValue =(DateTime) constantExpr.Value;
-                return String.Format("datetime'{0}'", XmlConvert.ToString(dateTimeValue, XmlDateTimeSerializationMode.Utc));
-            }
+            if(constantExpr.Value == null)
+                return "null";
 
+            var writer = ValueWriters.FirstOrDefault(w => w.Handles(type));
 
-            return constantExpr.Value.ToString();
+            if(writer == null)
+                throw new NotSupportedException(String.Format("type '{0}' is not supported", type));
+
+            return writer.Write(constantExpr.Value);            
         }
 
         public string VisitLambda(LambdaExpression lambda, bool root)
         {
             if(root)
             {
-                if (lambda.Parameters.Count > 1 && root)
+                if (lambda.Parameters.Count > 1)
                     throw new NotSupportedException();
 
                 parameters[lambda.Parameters[0]] = String.Empty;
@@ -133,157 +150,73 @@ namespace Sprint.Filter.OData.Serialize
             {
                 case ExpressionType.Quote:
                     return VisitQuote((UnaryExpression)expression);
-                case ExpressionType.Call:
-                    return VisitMethodCall((MethodCallExpression)expression);
-                case ExpressionType.Constant:
-                    return VisitConstant((ConstantExpression)expression);
+                case ExpressionType.Negate:
+                case ExpressionType.NegateChecked:
+                case ExpressionType.Not:
+                case ExpressionType.Convert:
+                case ExpressionType.ConvertChecked:
+                case ExpressionType.ArrayLength:
+                case ExpressionType.TypeAs:
+                    throw new NotSupportedException(expression.ToString());//return this.VisitUnary((UnaryExpression)exp);
                 case ExpressionType.Add:
+                case ExpressionType.AddChecked:
                 case ExpressionType.Subtract:
+                case ExpressionType.SubtractChecked:
                 case ExpressionType.Multiply:
+                case ExpressionType.MultiplyChecked:
                 case ExpressionType.Divide:
                 case ExpressionType.Modulo:
+                case ExpressionType.And:
                 case ExpressionType.AndAlso:
+                case ExpressionType.Or:
                 case ExpressionType.OrElse:
                 case ExpressionType.LessThan:
                 case ExpressionType.LessThanOrEqual:
                 case ExpressionType.GreaterThan:
                 case ExpressionType.GreaterThanOrEqual:
-                case ExpressionType.NotEqual:
                 case ExpressionType.Equal:
+                case ExpressionType.NotEqual:
+                case ExpressionType.Coalesce:
+                case ExpressionType.ArrayIndex:
+                case ExpressionType.RightShift:
+                case ExpressionType.LeftShift:
+                case ExpressionType.ExclusiveOr:
                     return VisitBinary((BinaryExpression)expression);
-                case ExpressionType.Lambda:
-                    return VisitLambda((LambdaExpression)expression, root);
-                case ExpressionType.MemberAccess:
-                    return VisitMember((MemberExpression)expression);
+                case ExpressionType.TypeIs:
+                    //return this.VisitTypeIs((TypeBinaryExpression)exp);
+                case ExpressionType.Conditional:
+                    throw new NotSupportedException(expression.ToString());
+                case ExpressionType.Constant:
+                    return VisitConstant((ConstantExpression)expression);
                 case ExpressionType.Parameter:
                     return VisitParameter((ParameterExpression)expression);
-                case ExpressionType.Not:
-                case ExpressionType.Negate:
-                    //return VisitUnary((ODataUnaryExpression)expression);
-
-                    return null;
+                case ExpressionType.MemberAccess:
+                    return VisitMemberAccess((MemberExpression)expression);
+                case ExpressionType.Call:
+                    return VisitMethodCall((MethodCallExpression)expression);
+                case ExpressionType.Lambda:
+                    return VisitLambda((LambdaExpression)expression, root);
+                case ExpressionType.New:
+                    throw new NotSupportedException(expression.ToString());
+                case ExpressionType.NewArrayInit:
+                case ExpressionType.NewArrayBounds:
+                    //return this.VisitNewArray((NewArrayExpression)exp);
+                case ExpressionType.Invoke:
+                    throw new NotSupportedException(expression.ToString());//return this.VisitInvocation((InvocationExpression)exp);
+                case ExpressionType.MemberInit:
+                    throw new NotSupportedException(expression.ToString());//return this.VisitMemberInit((MemberInitExpression)exp);
+                case ExpressionType.ListInit:
+                    throw new NotSupportedException(expression.ToString());//return this.VisitListInit((ListInitExpression)exp);
+                default:
+                    throw new Exception(string.Format("Unhandled expression type: '{0}'", expression.NodeType));
             }
-
-            return null;
         }
 
         public string Translate(Expression expression)
-        {
-            var preTranslator = new PreExpressionTranslator();
-            parameters.Clear();
-            return Visit(preTranslator.Translate(expression), true);
-        }
-
-
-        private static Expression CollapseCapturedOuterVariables(MemberExpression input)
-        {
-            if(input == null || input.NodeType != ExpressionType.MemberAccess)
-                return input;            
-            
-            if(input.Expression == null)
-            {
-                var val = GetValue(input);
-
-                return Expression.Constant(val);
-            }
-
-            switch (input.Expression.NodeType)
-            {
-                case ExpressionType.New:
-                case ExpressionType.MemberAccess:
-                    var value = GetValue(input);
-                    return Expression.Constant(value);
-                case ExpressionType.Constant:
-                    var obj = ((ConstantExpression)input.Expression).Value;
-                    if (obj == null)
-                    {
-                        return input;
-                    }
-
-                    var fieldInfo = input.Member as FieldInfo;
-                    if (fieldInfo != null)
-                    {
-                        var result = fieldInfo.GetValue(obj);
-                        return result is Expression ? (Expression)result : Expression.Constant(result);
-                    }
-
-                    var propertyInfo = input.Member as PropertyInfo;
-                    if (propertyInfo != null)
-                    {
-                        var result = propertyInfo.GetValue(obj, null);
-                        return result is Expression ? (Expression)result : Expression.Constant(result);
-                    }
-
-                    break;
-                case ExpressionType.TypeAs:
-                case ExpressionType.Convert:
-                case ExpressionType.ConvertChecked:
-                    return Expression.Constant(GetValue(input));
-            }
-
-            return input;
-        }
-
-        private static object GetValue(Expression input)
         {            
-            var objectMember = Expression.Convert(input, typeof(object));
-            var getterLambda = Expression.Lambda<Func<object>>(objectMember).Compile();
+            parameters.Clear();
 
-            return getterLambda();
-        }
-
-        private static bool IsMemberOfParameter(MemberExpression input)
-        {
-            if (input == null || input.Expression == null)
-            {
-                return false;
-            }
-
-            var nodeType = input.Expression.NodeType;
-            var tempExpression = input.Expression as MemberExpression;
-            while (nodeType == ExpressionType.MemberAccess)
-            {
-                if (tempExpression == null || tempExpression.Expression == null)
-                {
-                    return false;
-                }
-
-                nodeType = tempExpression.Expression.NodeType;
-                tempExpression = tempExpression.Expression as MemberExpression;
-            }
-
-            return nodeType == ExpressionType.Parameter;
-        }
-
-        public static bool ContainsParameters(Expression expression)
-        {
-            var visitor = new ParameterVisitor();
-            visitor.Visit(expression);
-
-            return visitor.ContainsParameters;
-        }
-    }
-
-    internal class ParameterVisitor : ExpressionVisitor
-    {
-        public IList<ParameterExpression> parameters=new List<ParameterExpression>(); 
-        public bool ContainsParameters { get; set; }
-
-        protected override Expression VisitParameter(ParameterExpression node)
-        {
-            ContainsParameters = true;
-
-            return base.VisitParameter(node);
-        }
-
-        protected override Expression VisitLambda<T>(Expression<T> node)
-        {
-            return base.VisitLambda(node);
-        }
-
-        public override Expression Visit(Expression node)
-        {
-            return base.Visit(node);
-        }
-    }
+            return Visit(Preparator.Visit(expression), true);
+        }                      
+    }    
 }
