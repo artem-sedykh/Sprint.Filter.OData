@@ -78,7 +78,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Functions\StringFunctionsTest.cs" />
     <Compile Include="Serialize\MathFunctionsTest.cs" />
+    <Compile Include="Serialize\SerializeDateFunctionsTest.cs" />
     <Compile Include="Serialize\SerializeTranslatorTest.cs" />
+    <Compile Include="Serialize\SerializeUserFunctions.cs" />
     <Compile Include="TranslatorTest.cs" />
     <Compile Include="TypeExtensionsTest.cs" />
   </ItemGroup>

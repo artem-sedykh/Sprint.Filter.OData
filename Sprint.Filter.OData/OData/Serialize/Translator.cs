@@ -35,6 +35,7 @@ namespace Sprint.Filter.OData.Serialize
         };
 
         private static readonly IMethodWriter DefaultMethodWriter = new DefaultMethodWriter();
+
         private static readonly IMethodWriter UserFunctionMethodWriter = new UserFunctionMethodWriter();
 
         private static readonly IMethodWriter[] MethodWriters = new IMethodWriter[]
@@ -83,16 +84,46 @@ namespace Sprint.Filter.OData.Serialize
 
         public string VisitMemberAccess(MemberExpression memberExpr)
         {
-            var name = memberExpr.Member.Name;
+            var memberCall = GetMemberCall(memberExpr);
+            
+            if(memberCall != null)            
+                return String.Format("{0}({1})", memberCall, Visit(memberExpr.Expression));            
 
+            var name = memberExpr.Member.Name;
+          
             if (memberExpr.Expression != null)
-            {
+            {                
                 var left = Visit(memberExpr.Expression);
 
                 return String.IsNullOrWhiteSpace(left) ? name : String.Format("{0}/{1}", left, name);
             }
 
             return name;
+        }
+
+        private static string GetMemberCall(MemberExpression memberExpression)
+        {
+            var declaringType = memberExpression.Member.DeclaringType;
+            var name = memberExpression.Member.Name;
+
+            if (declaringType == typeof(string) && string.Equals(name, "Length"))            
+                return name.ToLowerInvariant();
+
+            if (declaringType == typeof(DateTime))
+            {
+                switch (name)
+                {
+                    case "Hour":
+                    case "Minute":
+                    case "Second":
+                    case "Day":
+                    case "Month":
+                    case "Year":
+                        return name.ToLowerInvariant();
+                }
+            }
+
+            return null;
         }
 
         public string VisitBinary(BinaryExpression expression)
@@ -143,6 +174,14 @@ namespace Sprint.Filter.OData.Serialize
             return Visit(expression.Operand);
         }
 
+        internal string VisitConvert(UnaryExpression expression)
+        {
+            if(expression.Type.IsNullableType())
+                return Visit(expression.Operand);
+
+            throw new NotSupportedException(expression.ToString());
+        }
+
         internal string Visit(Expression expression, bool root=false)
         {
             if (expression == null)
@@ -150,12 +189,13 @@ namespace Sprint.Filter.OData.Serialize
 
             switch (expression.NodeType)
             {
+                case ExpressionType.Convert:
+                    return VisitConvert((UnaryExpression)expression);
                 case ExpressionType.Quote:
                     return VisitQuote((UnaryExpression)expression);
                 case ExpressionType.Negate:
                 case ExpressionType.NegateChecked:
-                case ExpressionType.Not:
-                case ExpressionType.Convert:
+                case ExpressionType.Not:                
                 case ExpressionType.ConvertChecked:
                 case ExpressionType.ArrayLength:
                 case ExpressionType.TypeAs:

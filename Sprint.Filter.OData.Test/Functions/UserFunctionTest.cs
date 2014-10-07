@@ -1,7 +1,6 @@
 ﻿using System.Data.Entity.SqlServer;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sprint.Filter.OData.Deserialize;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
@@ -18,6 +17,8 @@ namespace Sprint.Filter.OData.Test.Functions
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
             
             var methods = typeof(SqlFunctions).GetMethods().Where(x=>x.Name=="StringConvert").ToArray();
+
+            MethodProvider.UserFunctions.Clear();
 
             MethodProvider.RegisterFunction("StringConvert", methods);
         }
