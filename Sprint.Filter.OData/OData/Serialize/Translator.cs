@@ -266,9 +266,7 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.ExclusiveOr:
                     return VisitBinary((BinaryExpression)expression);
                 case ExpressionType.TypeIs:
-                    return VisitTypeIs((TypeBinaryExpression)expression);
-                case ExpressionType.Conditional:
-                    throw new NotSupportedException(expression.ToString());
+                    return VisitTypeIs((TypeBinaryExpression)expression);                                    
                 case ExpressionType.Constant:
                     return VisitConstant((ConstantExpression)expression);
                 case ExpressionType.Parameter:
@@ -279,17 +277,16 @@ namespace Sprint.Filter.OData.Serialize
                     return VisitMethodCall((MethodCallExpression)expression);
                 case ExpressionType.Lambda:
                     return VisitLambda((LambdaExpression)expression, root);
-                case ExpressionType.New:
-                    throw new NotSupportedException(expression.ToString());
+
+                case ExpressionType.New:                    
                 case ExpressionType.NewArrayInit:
-                case ExpressionType.NewArrayBounds:
-                    //return this.VisitNewArray((NewArrayExpression)exp);
-                case ExpressionType.Invoke:
-                    throw new NotSupportedException(expression.ToString());//return this.VisitInvocation((InvocationExpression)exp);
-                case ExpressionType.MemberInit:
-                    throw new NotSupportedException(expression.ToString());//return this.VisitMemberInit((MemberInitExpression)exp);
+                case ExpressionType.NewArrayBounds:                    
+                case ExpressionType.Invoke:                    
+                case ExpressionType.MemberInit:                    
                 case ExpressionType.ListInit:
-                    throw new NotSupportedException(expression.ToString());//return this.VisitListInit((ListInitExpression)exp);
+                case ExpressionType.Conditional:
+                    throw new NotSupportedException(expression.ToString());
+
                 default:
                     throw new Exception(string.Format("Unhandled expression type: '{0}'", expression.NodeType));
             }
@@ -298,7 +295,7 @@ namespace Sprint.Filter.OData.Serialize
         public string Translate(Expression expression)
         {            
             parameters.Clear();
-
+            
             return Visit(Preparator.Visit(expression), true);
         }                      
     }    

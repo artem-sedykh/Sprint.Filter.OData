@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
@@ -39,6 +41,18 @@ namespace Sprint.Filter.OData.Test.Serialize
 
             // ReSharper disable once RedundantCast
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t as Customer != null)), "cast(Sprint.Filter.OData.Test.Models.Customer) ne null");
+        }
+
+        [TestMethod]
+        public void Select()
+        {            
+            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Customers.Select(x => x.Id).Any())), "Customers/Select(x: x/Id)/Any()");
+        }
+
+        [TestMethod, ExpectedException(typeof(NotSupportedException))]
+        public void SelectNew()
+        {
+            Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Customers.Select(x => new { x.Id }).Any()));
         }
     }
 }
