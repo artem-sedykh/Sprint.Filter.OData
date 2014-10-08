@@ -12,6 +12,7 @@ namespace Sprint.Filter.OData
     {
         private static readonly ConcurrentDictionary<MemberInfo, string> KnownMemberNames = new ConcurrentDictionary<MemberInfo, string>();
         private static readonly ConcurrentDictionary<string, MemberInfo> KnownAliasNames = new ConcurrentDictionary<string, MemberInfo>();
+
         public MemberInfo ResolveAlias(Type type, string alias)
         {
             var key = type.AssemblyQualifiedName + alias;
@@ -82,7 +83,6 @@ namespace Sprint.Filter.OData
 
         private static MemberInfo CheckFrontingProperty(MemberInfo field)
         {            
-
             var declaringType = field.DeclaringType;
 
             var correspondingProperty = declaringType.GetProperties().FirstOrDefault(x => string.Equals(x.Name, field.Name.Replace("_", string.Empty), StringComparison.OrdinalIgnoreCase));
@@ -148,11 +148,8 @@ namespace Sprint.Filter.OData
 
             var xmlAttribute = attributes.OfType<XmlAttributeAttribute>()
                 .FirstOrDefault();
-            if (xmlAttribute != null && xmlAttribute.AttributeName == alias)
-            {
-                return true;
-            }
-            return false;
+
+            return xmlAttribute != null && xmlAttribute.AttributeName == alias;
         }
     }
 }

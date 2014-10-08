@@ -77,7 +77,8 @@
     <Compile Include="ConstantTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Functions\StringFunctionsTest.cs" />
-    <Compile Include="Serialize\MathFunctionsTest.cs" />
+    <Compile Include="Serialize\SerializeCustomPropertyName.cs" />
+    <Compile Include="Serialize\SerializeMathFunctionsTest.cs" />
     <Compile Include="Serialize\SerializeDateFunctionsTest.cs" />
     <Compile Include="Serialize\SerializeOperationTest.cs" />
     <Compile Include="Serialize\SerializeStringFunctionsTest.cs" />

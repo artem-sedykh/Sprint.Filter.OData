@@ -68,6 +68,8 @@ namespace Sprint.Filter.OData.Serialize
 
         private static readonly Type StringType = typeof(string);
 
+        private readonly IMemberNameProvider memberNameProvider = new MemberNameProvider();
+
         public string VisitParameter(ParameterExpression expression)
         {
             return parameters[expression];
@@ -91,9 +93,9 @@ namespace Sprint.Filter.OData.Serialize
             var memberCall = GetMemberCall(memberExpr);
             
             if(memberCall != null)            
-                return String.Format("{0}({1})", memberCall, Visit(memberExpr.Expression));            
+                return String.Format("{0}({1})", memberCall, Visit(memberExpr.Expression));
 
-            var name = memberExpr.Member.Name;
+            var name = memberNameProvider.ResolveName(memberExpr.Member);
           
             if (memberExpr.Expression != null)
             {                

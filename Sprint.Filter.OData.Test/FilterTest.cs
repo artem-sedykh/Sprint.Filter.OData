@@ -51,7 +51,7 @@ namespace Sprint.Filter.OData.Test
         public void CustomName()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.CustomName1 == 1 || t.CustomName2==2 || t.CustomName3==3),
-    Filter.Deserialize<Customer>("cn1 eq 1 or cn2 eq 2 or cn3 eq 3")));
+                Filter.Deserialize<Customer>("cn1 eq 1 or cn2 eq 2 or cn3 eq 3")));
         }
 
 
