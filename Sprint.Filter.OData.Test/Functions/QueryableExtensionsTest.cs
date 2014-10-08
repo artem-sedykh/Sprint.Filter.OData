@@ -178,11 +178,11 @@ namespace Sprint.Filter.OData.Test.Functions
         [TestMethod]
         public void Where()
         {
-//// ReSharper disable once ReplaceWithSingleCallToCount
-//            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Where(x => x.Id >2).Count() == 15),
-//                Filter.Deserialize<Customer>("Customers/Where(x: x/Id gt 2)/Count() eq 15")));
+            // ReSharper disable once ReplaceWithSingleCallToCount
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Where(x => x.Id > 2).Count() == 15),
+                Filter.Deserialize<Customer>("Customers/Where(x: x/Id gt 2)/Count() eq 15")));
 
-// ReSharper disable once ReplaceWithSingleCallToCount
+            // ReSharper disable once ReplaceWithSingleCallToCount
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Numbers.Where(x=> x >10).Count() == 15),
                 Filter.Deserialize<Customer>("Numbers/Where(x: x gt 10)/Count() eq 15")));
         }
