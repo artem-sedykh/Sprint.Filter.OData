@@ -114,14 +114,21 @@ namespace Sprint.Filter.OData.Deserialize
 
         #region Parcers
 
-        private ODataConstantExpression ParceValue(string typeName, string rawValue)
+        private Type GetType(string typeName)
         {
             var type = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .FirstOrDefault(t => t.FullName == typeName);
 
-            if(type == null)
+            if (type == null)
                 throw new FormatException("Could not load type " + typeName);
+
+            return type;
+        }
+
+        private ODataConstantExpression ParceValue(string typeName, string rawValue)
+        {
+            var type = GetType(typeName);
 
             var value = TypeDescriptor.GetConverter(type).ConvertFromString(rawValue);
 
@@ -746,6 +753,12 @@ namespace Sprint.Filter.OData.Deserialize
 
             if(parent == null && lambdaParameters != null && lambdaParameters.ContainsKey(name))
                 return lambdaParameters[name];
+
+            if(name.Contains("."))
+            {
+                var type = GetType(name);
+                return ODataExpression.Constant(type);
+            }
 
             return ODataExpression.PropertyOrField(name, parent ?? parameter);
         }

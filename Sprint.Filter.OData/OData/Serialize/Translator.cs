@@ -206,6 +206,13 @@ namespace Sprint.Filter.OData.Serialize
             return String.Format("{0}/Length", Visit(expression.Operand));            
         }
 
+        internal string VisitTypeIs(TypeBinaryExpression expression)
+        {
+            var member = Visit(expression.Expression);
+
+            return String.IsNullOrEmpty(member) ? String.Format("isof({0})", expression.TypeOperand.FullName) : String.Format("isof({0}, {1})", member, expression.TypeOperand.FullName);
+        }
+
         internal string Visit(Expression expression, bool root=false)
         {
             if (expression == null)
@@ -218,13 +225,13 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.Not:
                     return VisitNot((UnaryExpression)expression);
                 case ExpressionType.Negate:
+                case ExpressionType.NegateChecked: 
                     return VisitNegate((UnaryExpression)expression);
                 case ExpressionType.Convert:
+                case ExpressionType.ConvertChecked:
                     return VisitConvert((UnaryExpression)expression);
                 case ExpressionType.Quote:
-                    return VisitQuote((UnaryExpression)expression);                
-                case ExpressionType.NegateChecked:                               
-                case ExpressionType.ConvertChecked:                
+                    return VisitQuote((UnaryExpression)expression);                                                                           
                 case ExpressionType.TypeAs:
                     throw new NotSupportedException(expression.ToString());//return this.VisitUnary((UnaryExpression)exp);
                 case ExpressionType.Add:
@@ -252,7 +259,7 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.ExclusiveOr:
                     return VisitBinary((BinaryExpression)expression);
                 case ExpressionType.TypeIs:
-                    //return this.VisitTypeIs((TypeBinaryExpression)exp);
+                    return VisitTypeIs((TypeBinaryExpression)expression);
                 case ExpressionType.Conditional:
                     throw new NotSupportedException(expression.ToString());
                 case ExpressionType.Constant:

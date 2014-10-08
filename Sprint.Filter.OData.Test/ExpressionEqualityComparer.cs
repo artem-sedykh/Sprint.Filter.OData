@@ -58,6 +58,15 @@ namespace Sprint.Filter.OData.Test
                     Equals(unaryExpressionX.Operand, unaryExpressionY.Operand);
             }
 
+            var typeBinaryExpressionX = x as TypeBinaryExpression;
+            var typeBinaryExpressionY = y as TypeBinaryExpression;
+
+            if (typeBinaryExpressionY != null && typeBinaryExpressionX != null)
+            {
+                return typeBinaryExpressionY.Type == typeBinaryExpressionX.Type &&
+                    typeBinaryExpressionX.TypeOperand == typeBinaryExpressionY.TypeOperand && Equals(typeBinaryExpressionY.Expression, typeBinaryExpressionX.Expression);
+            }
+
             var methodCallExpressionX = x as MethodCallExpression;
             var methodCallExpressionY = y as MethodCallExpression;
 
