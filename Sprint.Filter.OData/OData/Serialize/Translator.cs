@@ -213,6 +213,13 @@ namespace Sprint.Filter.OData.Serialize
             return String.IsNullOrEmpty(member) ? String.Format("isof({0})", expression.TypeOperand.FullName) : String.Format("isof({0}, {1})", member, expression.TypeOperand.FullName);
         }
 
+        internal string VisitTypeAs(UnaryExpression expression)
+        {
+            var operand = Visit(expression.Operand);
+
+            return String.IsNullOrEmpty(operand) ? String.Format("cast({0})", expression.Type.FullName) : String.Format("cast({0}, {1})",operand, expression.Type.FullName);
+        }
+
         internal string Visit(Expression expression, bool root=false)
         {
             if (expression == null)
@@ -233,7 +240,7 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.Quote:
                     return VisitQuote((UnaryExpression)expression);                                                                           
                 case ExpressionType.TypeAs:
-                    throw new NotSupportedException(expression.ToString());//return this.VisitUnary((UnaryExpression)exp);
+                    return VisitTypeAs((UnaryExpression)expression);                    
                 case ExpressionType.Add:
                 case ExpressionType.AddChecked:
                 case ExpressionType.Subtract:

@@ -318,6 +318,28 @@ namespace Sprint.Filter.OData.Deserialize
 
                     throw new NotSupportedException(node.DebugView());
                 }
+                case "cast":
+                {
+                    if (node.Arguments.Length == 1)
+                    {
+                        var parameter = parameters.Select(x => x.Value).FirstOrDefault();
+                        if (parameter != null)
+                        {
+                            var type = (Type)((ConstantExpression)Visit(node.Arguments[0])).Value;
+
+                            return Expression.TypeAs(parameter, type);
+                        }
+                    }
+
+                    if (node.Arguments.Length == 2)
+                    {
+                        var arguments = node.Arguments.Select(Visit).ToArray();
+
+                        return Expression.TypeAs(arguments[0], (Type)((ConstantExpression)arguments[1]).Value);
+                    }
+
+                    throw new NotSupportedException(node.DebugView());
+                }
                 default:
                 {
                     if(node.Context != null)

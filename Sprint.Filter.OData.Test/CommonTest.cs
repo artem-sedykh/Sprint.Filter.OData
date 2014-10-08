@@ -16,7 +16,7 @@ namespace Sprint.Filter.OData.Test
         }
 
         [TestMethod]
-        public void IsofTest()
+        public void Isof()
         {
 
             // ReSharper disable once CSharpWarnings::CS0183
@@ -26,6 +26,18 @@ namespace Sprint.Filter.OData.Test
             // ReSharper disable once CSharpWarnings::CS0183
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t is Customer),
                  Filter.Deserialize<Customer>("isof(Sprint.Filter.OData.Test.Models.Customer)")));            
+        }
+
+        [TestMethod]
+        public void Cast()
+        {
+            // ReSharper disable once RedundantCast
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Parent as Customer!=null),
+                Filter.Deserialize<Customer>("cast(Parent, Sprint.Filter.OData.Test.Models.Customer) ne null")));
+
+            // ReSharper disable once RedundantCast
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t as Customer!=null),
+                 Filter.Deserialize<Customer>("cast(Sprint.Filter.OData.Test.Models.Customer) ne null")));
         }
     }
 }
