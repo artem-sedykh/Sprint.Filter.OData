@@ -201,6 +201,11 @@ namespace Sprint.Filter.OData.Serialize
             return String.Format("not {0}", Visit(expression.Operand));
         }
 
+        internal string VisitArrayLength(UnaryExpression expression)
+        {
+            return String.Format("{0}/Length", Visit(expression.Operand));            
+        }
+
         internal string Visit(Expression expression, bool root=false)
         {
             if (expression == null)
@@ -208,6 +213,8 @@ namespace Sprint.Filter.OData.Serialize
 
             switch (expression.NodeType)
             {
+                case ExpressionType.ArrayLength:
+                    return VisitArrayLength((UnaryExpression)expression); 
                 case ExpressionType.Not:
                     return VisitNot((UnaryExpression)expression);
                 case ExpressionType.Negate:
@@ -217,8 +224,7 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.Quote:
                     return VisitQuote((UnaryExpression)expression);                
                 case ExpressionType.NegateChecked:                               
-                case ExpressionType.ConvertChecked:
-                case ExpressionType.ArrayLength:
+                case ExpressionType.ConvertChecked:                
                 case ExpressionType.TypeAs:
                     throw new NotSupportedException(expression.ToString());//return this.VisitUnary((UnaryExpression)exp);
                 case ExpressionType.Add:

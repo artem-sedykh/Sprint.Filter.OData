@@ -5,7 +5,7 @@ using Sprint.Filter.OData.Test.Models;
 namespace Sprint.Filter.OData.Test.Serialize
 {
     [TestClass]
-    public class SerializeCustomPropertyName
+    public class SerializeCommonTests
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
@@ -16,11 +16,9 @@ namespace Sprint.Filter.OData.Test.Serialize
         }
 
         [TestMethod]
-        public void CustomName()
+        public void ArrayLength()
         {
-            var query = Filter.Serialize(Linq.Expr<Customer, bool>(t => t.CustomName1 == 1 || t.CustomName2 == 2 || t.CustomName3 == 3));
-
-            Assert.AreEqual(query, "cn1 eq 1 or cn2 eq 2 or cn3 eq 3");
+            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.CustomersArray.Length == 15)), "CustomersArray/Length eq 15");            
         }
     }
 }
