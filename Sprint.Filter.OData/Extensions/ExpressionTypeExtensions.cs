@@ -226,7 +226,7 @@ namespace Sprint.Filter.Extensions
                     return "{0} ne {1}";
 
                 default:
-                    throw new NotSupportedException();
+                    throw new NotSupportedException(type.ToString());
             }
         }
     }
