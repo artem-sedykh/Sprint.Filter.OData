@@ -117,7 +117,7 @@ namespace Sprint.Filter.Helpers
                         {
                             if(CanConvert(method, parameterType, argumentType))
                             {
-                                method.Priority--; //Если конвертировать можно, то уменьшаем приоритет метода
+                                method.Priority--;
                                 continue;
                             }                                
                         }
@@ -152,7 +152,7 @@ namespace Sprint.Filter.Helpers
 
         private static bool CanConvert(Method method, Type parameterType, Type argumentType)
         {
-            if (parameterType.IsGenericParameter)//Если параметром функции является GenericParameter
+            if (parameterType.IsGenericParameter)
             {
                 var constraints = parameterType.GetGenericParameterConstraints();
 
