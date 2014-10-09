@@ -219,7 +219,7 @@ namespace Sprint.Filter.OData.Deserialize
                     {
                         var context = Visit(node.Context);
 
-                        var genericArguments = context.Type.GenericTypeArguments.ToArray();
+                        var genericArguments = context.Type.GetTypeGenericArguments();
 
                         var arguments = node.Arguments.Select(argument => argument.NodeType == ExpressionType.Lambda ? VisitLambda((ODataLambdaExpression)argument, genericArguments[0]) : Visit(argument)).ToList();
 
@@ -235,7 +235,7 @@ namespace Sprint.Filter.OData.Deserialize
                     {
                         var context = Visit(node.Context);
 
-                        var genericArguments = context.Type.GenericTypeArguments.ToArray();
+                        var genericArguments = context.Type.GetGenericArguments();
 
                         var arguments = node.Arguments.Select(argument => argument.NodeType == ExpressionType.Lambda ? VisitLambda((ODataLambdaExpression)argument, genericArguments[0]) : Visit(argument)).ToList();
 
@@ -256,17 +256,15 @@ namespace Sprint.Filter.OData.Deserialize
                     {
                         var context = Visit(node.Context);
 
-                        var genericArguments = context.Type.GenericTypeArguments.ToList();
+                        var genericArguments = context.Type.GetTypeGenericArguments().ToList();
 
-                        var arguments = node.Arguments.Select(argument => argument.NodeType == ExpressionType.Lambda ? VisitLambda((ODataLambdaExpression)argument, genericArguments[0]) : Visit(argument)).ToList();
+                        var lambda = (LambdaExpression)VisitLambda((ODataLambdaExpression)node.Arguments[0], genericArguments[0]);
 
-                        genericArguments.AddRange(arguments.SelectMany(ExtractTypeFormExpression));
-
-                        arguments.Insert(0, context);
-
+                        genericArguments.Add(lambda.ReturnType);
+                        
                         var type = context.Type.IsIQueryable() ? typeof(Queryable) : typeof(Enumerable);
 
-                        return Expression.Call(type, functionName, genericArguments.ToArray(), arguments.ToArray());
+                        return Expression.Call(type, functionName, genericArguments.ToArray(), new [] { context, lambda });
                     }
                 case "any":
                 case "all":
@@ -286,7 +284,7 @@ namespace Sprint.Filter.OData.Deserialize
                     {
                         var context = Visit(node.Context);
 
-                        var genericArguments = context.Type.GenericTypeArguments.ToArray();
+                        var genericArguments = context.Type.GetTypeGenericArguments();
 
                         var arguments = node.Arguments.Select(argument => argument.NodeType == ExpressionType.Lambda ? VisitLambda((ODataLambdaExpression)argument, genericArguments[0]) : Visit(argument)).ToList();
 
@@ -340,6 +338,23 @@ namespace Sprint.Filter.OData.Deserialize
 
                     throw new NotSupportedException(node.DebugView());
                 }
+                case "contains":
+                {
+                    var context = Visit(node.Context);
+
+                    var genericArguments = context.Type.GetTypeGenericArguments();
+
+                    var argument = node.Arguments.Length == 0
+                        ? parameters.Select(x => x.Value).First()
+                        : Visit(node.Arguments[0]);
+
+                    if(genericArguments[0].IsNullableType() && Nullable.GetUnderlyingType(genericArguments[0]) == argument.Type)
+                        argument = Expression.Convert(argument, genericArguments[0]);
+
+                    var type = context.Type.IsIQueryable() ? typeof(Queryable) : typeof(Enumerable);
+
+                    return Expression.Call(type, functionName, genericArguments, new [] { context, argument });
+                }
                 default:
                 {
                     if(node.Context != null)
@@ -372,16 +387,6 @@ namespace Sprint.Filter.OData.Deserialize
                     throw new NotSupportedException(String.Format("Can't find a method: {0}", node.DebugView()));   
                 }                    
             }
-        }
-
-        private static Type[] ExtractTypeFormExpression(Expression expression)
-        {
-
-            var type = (expression.NodeType == ExpressionType.Lambda)
-                ? ((LambdaExpression)expression).Body.Type
-                : expression.Type;
-
-            return type.IsGenericType ? type.GetGenericArguments() : new[] { type };
         }
 
         private Expression VisitConstant(ODataConstantExpression node)

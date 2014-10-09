@@ -79,6 +79,9 @@ namespace Sprint.Filter.OData.Test.Functions
         [TestMethod]
         public void Count()
         {
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.IntArray.Count() == 15),
+              Filter.Deserialize<Customer>("IntArray/Count() eq 15")));
+
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Count() == 15),
                 Filter.Deserialize<Customer>("Customers/Count() eq 15")));
 
@@ -89,6 +92,9 @@ namespace Sprint.Filter.OData.Test.Functions
         [TestMethod]
         public void LongCount()
         {
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.IntArray.LongCount() == 15),
+               Filter.Deserialize<Customer>("IntArray/LongCount() eq 15")));
+
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.LongCount() == 15),
                 Filter.Deserialize<Customer>("Customers/LongCount() eq 15")));
 
@@ -131,7 +137,10 @@ namespace Sprint.Filter.OData.Test.Functions
 
         [TestMethod]
         public void Average()
-        {
+        {            
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.IntArray.Average(x => x) == 15),
+            Filter.Deserialize<Customer>("IntArray/Average(x: x) eq 15")));
+
 // ReSharper disable once CompareOfFloatsByEqualityOperator
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Average(x => x.Id) == 15),
              Filter.Deserialize<Customer>("Customers/Average(x: x/Id) eq 15")));
@@ -160,7 +169,10 @@ namespace Sprint.Filter.OData.Test.Functions
 
         [TestMethod]
         public void Select()
-        {
+        {            
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.IntArray.Select(x => x).Count() == 15),
+                Filter.Deserialize<Customer>("IntArray/Select(x: x)/Count() eq 15")));
+
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Select(x => x.Id).Count() == 15),
                 Filter.Deserialize<Customer>("Customers/Select(x: x/Id)/Count() eq 15")));
         }
@@ -178,6 +190,10 @@ namespace Sprint.Filter.OData.Test.Functions
         [TestMethod]
         public void Where()
         {
+            // ReSharper disable once ReplaceWithSingleCallToCount
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.IntArray.Where(x => x > 2).Count() == 15),
+                Filter.Deserialize<Customer>("IntArray/Where(x: x gt 2)/Count() eq 15")));
+
             // ReSharper disable once ReplaceWithSingleCallToCount
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Where(x => x.Id > 2).Count() == 15),
                 Filter.Deserialize<Customer>("Customers/Where(x: x/Id gt 2)/Count() eq 15")));
@@ -261,6 +277,22 @@ namespace Sprint.Filter.OData.Test.Functions
 
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Numbers.Distinct().OrderBy(x => x).ThenByDescending(x => x).First() == 15),
                 Filter.Deserialize<Customer>("Numbers/Distinct()/OrderBy(x: x)/ThenByDescending(x: x)/First() eq 15")));
+        }
+
+        [TestMethod]
+        public void Contains()
+        {
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Contains(t.Parent)),
+               Filter.Deserialize<Customer>("Customers/Contains(Parent)")));
+
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Contains(t)),
+               Filter.Deserialize<Customer>("Customers/Contains()")));
+
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Contains(t)),
+                Filter.Deserialize<Customer>("Customers/Contains()")));
+
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.IntArray.Contains(t.Id)),
+                Filter.Deserialize<Customer>("IntArray/Contains(Id)")));
         }
     }
 }

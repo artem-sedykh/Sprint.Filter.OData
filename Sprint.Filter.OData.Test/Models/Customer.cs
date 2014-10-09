@@ -64,6 +64,8 @@ namespace Sprint.Filter.OData.Test.Models
 
         public Customer[] CustomersArray { get; set; }
 
+        public int?[] IntArray { get; set; }
+
         public IEnumerable<Customer> EnumerableCustomers { get; set; }
 
         public List<Customer> ListCustomers { get; set; }

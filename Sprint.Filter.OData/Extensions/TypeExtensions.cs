@@ -49,5 +49,10 @@ namespace Sprint.Filter.Extensions
         {
             return type.IsGenericType && type.GetGenericArguments().Any(x => x.IsGenericParameter);
         }
+
+        internal static Type[] GetTypeGenericArguments(this Type type)
+        {
+            return type.IsArray ? new[] { type.GetElementType() } : type.GenericTypeArguments;
+        }
     }
 }

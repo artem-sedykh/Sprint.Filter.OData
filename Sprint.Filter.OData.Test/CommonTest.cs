@@ -18,7 +18,6 @@ namespace Sprint.Filter.OData.Test
         [TestMethod]
         public void Isof()
         {
-
             // ReSharper disable once CSharpWarnings::CS0183
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Parent is Customer),
                 Filter.Deserialize<Customer>("isof(Parent, Sprint.Filter.OData.Test.Models.Customer)")));
