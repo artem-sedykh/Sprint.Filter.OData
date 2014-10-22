@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sprint.Filter.OData.Mvc</RootNamespace>
     <AssemblyName>Sprint.Filter.OData.Mvc</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -51,6 +51,11 @@
       <Project>{91c49b33-06ce-4ed2-bb20-ef5c8b013cce}</Project>
       <Name>Sprint.Filter.OData</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\nuget-package\SprintFilterODataMvc.nuspec">
+      <Link>nuget-package\SprintFilterODataMvc.nuspec</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

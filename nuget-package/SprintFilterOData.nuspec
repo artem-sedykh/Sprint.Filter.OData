@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Sprint.Filter.OData</id>
+		    <version>1.0.0.0</version>		
+        <authors>Artem Sedykh</authors>
+        <owners>Artem Sedykh</owners>     		
+        <projectUrl>https://github.com/artem-sedykh/Sprint.Filter.OData</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>        
+        <description>OData filter parser</description>
+        <language>en-US</language>
+        <tags>Expression Tree, OData, OData Query Parser</tags>
+		    <releaseNotes></releaseNotes>      
+    </metadata>	
+    <files>
+        <file src="..\Sprint.Filter.OData\bin\Release\Sprint.Filter.OData.dll" target="lib\net45-full" />
+    </files>
+</package>

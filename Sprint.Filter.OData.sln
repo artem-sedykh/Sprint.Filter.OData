@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData.Test", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData.Mvc", "Sprint.Filter.OData.Mvc\Sprint.Filter.OData.Mvc.csproj", "{943BD583-A238-425A-B473-0F098BD8BCAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{05DA320E-28EC-46C4-840F-424593477C34}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{943BD583-A238-425A-B473-0F098BD8BCAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{943BD583-A238-425A-B473-0F098BD8BCAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{943BD583-A238-425A-B473-0F098BD8BCAE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{05DA320E-28EC-46C4-840F-424593477C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05DA320E-28EC-46C4-840F-424593477C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05DA320E-28EC-46C4-840F-424593477C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05DA320E-28EC-46C4-840F-424593477C34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
