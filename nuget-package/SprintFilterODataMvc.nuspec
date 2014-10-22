@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Sprint.Filter.OData</id>
-    <version>1.0.0.0</version>
+    <id>Sprint.Filter.OData.Mvc</id>
+    <version>1.0.0</version>
     <authors>Artem Sedykh</authors>
     <owners>Artem Sedykh</owners>
     <projectUrl>https://github.com/artem-sedykh/Sprint.Filter.OData</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>OData filter parser</description>
+    <description>OData filter parser, Mvc, Asp.Net Mvc</description>
     <language>en-US</language>
     <tags>Expression Tree, OData, OData Query Parser</tags>
     <releaseNotes></releaseNotes>
     <dependencies>
-      <dependency id="Sprint.Filter.OData" version="1.0.0" />
+      <dependency id="Sprint.Filter.OData" version="1.1.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Sprint.Filter.OData\bin\Release\Sprint.Filter.OData.dll" target="lib\net45-full" />
+    <file src="..\Sprint.Filter.OData.Mvc\bin\Release\Sprint.Filter.OData.Mvc.dll" target="lib\net45-full" />
   </files>
 </package>

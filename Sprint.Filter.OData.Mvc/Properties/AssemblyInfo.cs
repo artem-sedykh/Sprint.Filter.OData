@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Sprint.Filter.OData.Mvc")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Sprint.Filter.OData.Mvc")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Sprint.Filter.OData.Mvc")]

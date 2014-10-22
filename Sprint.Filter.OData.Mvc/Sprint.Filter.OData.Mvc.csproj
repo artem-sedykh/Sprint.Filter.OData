@@ -11,6 +11,9 @@
     <AssemblyName>Sprint.Filter.OData.Mvc</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+	<NugetDir>$(SolutionDir)Tools\NuGet.exe</NugetDir>
+    <nuspecDir>$(SolutionDir)nuget-package\SprintFilterODataMvc.nuspec</nuspecDir>
+    <OutputPackageDirectory>$(SolutionDir)nuget-package</OutputPackageDirectory>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -58,6 +61,14 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
+    </GetAssemblyIdentity>
+    <Exec Command="echo %(AssemblyVersion.Version)" />
+    <Message Text="Released " Importance="high" />
+    <Exec Command="&quot;$(NugetDir)&quot; pack &quot;$(nuspecDir)&quot; -Version %(AssemblyVersion.Version)  /OutputDirectory &quot;$(OutputPackageDirectory)&quot;" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
