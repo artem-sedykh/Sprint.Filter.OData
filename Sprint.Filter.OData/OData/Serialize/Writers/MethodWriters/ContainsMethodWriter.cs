@@ -16,23 +16,23 @@ namespace Sprint.Filter.OData.Serialize.Writers
             Priority = 1;
         }
 
-        public string Write(MethodCallExpression expression, Translator translator)
+        public string Write(MethodCallExpression expression, QueryTranslator queryTranslator)
         {
             var source = expression.Arguments[0];
             var item = expression.Arguments[1];
-            var identificator = translator.Visit(item);
+            var identificator = queryTranslator.Visit(item);
 
             if (source.NodeType == ExpressionType.Constant)
             {
                 var constant = (ConstantExpression)source;
 
                 var values = (from object obj in (IEnumerable)constant.Value
-                              select String.Format("{0} eq {1}", identificator, translator.VisitConstant(Expression.Constant(obj)))).ToArray();
+                              select String.Format("{0} eq {1}", identificator, queryTranslator.VisitConstant(Expression.Constant(obj)))).ToArray();
 
                 return "(" + String.Join(" or ", values) + ")";
             }
 
-            return string.Format("{0}/{1}({2})", translator.Visit(source), expression.Method.Name, identificator);
+            return string.Format("{0}/{1}({2})", queryTranslator.Visit(source), expression.Method.Name, identificator);
         }
 
         public int Priority { get; set; }

@@ -254,9 +254,9 @@ namespace Sprint.Filter.OData
                 return InnerDecimalCeilingMethod;
             }
         }
-
+        
         public static void RegisterFunction(string name, MethodInfo[] methodInfos)
-        {
+        {            
             if(UserFunctions.ContainsKey(name))
                 throw new Exception(String.Format("function '{0}' exists", name));
 

@@ -41,12 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Helpers\Evaluator.cs" />
     <Compile Include="Helpers\ExpressionHelper.cs" />
     <Compile Include="Helpers\ExpressionMethodBinder.cs" />
     <Compile Include="OData\IMemberNameProvider.cs" />
     <Compile Include="OData\MemberNameProvider.cs" />
-    <Compile Include="OData\Serialize\ExpressionPreparator.cs" />
-    <Compile Include="OData\Serialize\Translator.cs" />
+    <Compile Include="OData\Serialize\QueryTranslator.cs" />
     <Compile Include="OData\Serialize\Writers\ConstantWriters\BooleanValueWriter.cs" />
     <Compile Include="OData\Serialize\Writers\ConstantWriters\ByteArrayValueWriter.cs" />
     <Compile Include="OData\Serialize\Writers\ConstantWriters\ByteValueWriter.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="OData\Common\ODataPropertyExpression.cs" />
     <Compile Include="OData\Common\ODataSyntaxExpression.cs" />
     <Compile Include="OData\Common\ODataUnaryExpression.cs" />
-    <Compile Include="OData\Deserialize\Translator.cs" />
+    <Compile Include="OData\Deserialize\QueryTranslator.cs" />
     <Compile Include="Extensions\ExpressionTypeExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TokenOperatorExtensions.cs" />

@@ -1,4 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
@@ -37,6 +41,57 @@ namespace Sprint.Filter.OData.Test
             // ReSharper disable once RedundantCast
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t as Customer!=null),
                  Filter.Deserialize<Customer>("cast(Sprint.Filter.OData.Test.Models.Customer) ne null")));
+        }
+
+        [TestMethod]
+        public void Test()
+        {
+         // //  var epxression = Linq.Expr<Customer, int>(x => x.Id>);
+
+         //   var p = Expression.Parameter(typeof(Customer), "model");
+         ////   var ddddd = Expression.Invoke(epxression, p);
+
+
+         //   var visitor = new ExpandInvokeVistor();
+
+         //   var dddd=visitor.Visit(ddddd);
+            
+         //   var t = Sprint.Filter.Helpers.Evaluator.PartialEval(Linq.Expr<Customer, bool>(x => x.BirthDate == Now()));
+         //   var test = Linq.Expr<Customer, bool>(x => x.BirthDate == DateTime.Now);
+        }
+
+       // [ReturnConstantValueFunction]
+        public static DateTime Now( )
+        {
+            return DateTime.Now;
+        }
+    }
+    
+    public class ExpandInvokeVistor : ExpressionVisitor
+    {
+        private IDictionary<ParameterExpression, ParameterExpression> parameters = new Dictionary<ParameterExpression, ParameterExpression>();
+
+        protected override Expression VisitParameter(ParameterExpression node)
+        {
+            return parameters.ContainsKey(node) ? parameters[node] : base.VisitParameter(node);
+        }
+
+        protected override Expression VisitInvocation(InvocationExpression node)
+        {
+            var lambda = (LambdaExpression)node.Expression;
+
+            parameters = node.Arguments.Select((e, i) => new
+            {
+                Parameter = e,
+                ReplaceParameter = lambda.Parameters[i]
+            }).ToDictionary(x => x.ReplaceParameter, x => (ParameterExpression)x.Parameter);
+
+            return base.Visit(node.Expression);
+        }
+
+        public override Expression Visit(Expression node)
+        {            
+            return base.Visit(node);
         }
     }
 }

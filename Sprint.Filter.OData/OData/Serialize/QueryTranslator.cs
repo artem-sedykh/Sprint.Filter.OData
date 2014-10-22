@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Sprint.Filter.Extensions;
+using Sprint.Filter.Helpers;
 using Sprint.Filter.OData.Serialize.Writers;
 
 namespace Sprint.Filter.OData.Serialize
 {
-    internal class Translator
+    internal class QueryTranslator
     {
         #region Writers
 
@@ -60,9 +61,7 @@ namespace Sprint.Filter.OData.Serialize
 
         #endregion
 
-        private readonly IDictionary<ParameterExpression, string> parameters = new Dictionary<ParameterExpression, string>();
-
-        private static readonly ExpressionPreparator Preparator = new ExpressionPreparator();
+        private readonly IDictionary<ParameterExpression, string> parameters = new Dictionary<ParameterExpression, string>();        
 
         private static readonly Type DateTimeType = typeof(DateTime);
 
@@ -295,8 +294,10 @@ namespace Sprint.Filter.OData.Serialize
         public string Translate(Expression expression)
         {            
             parameters.Clear();
-            
-            return Visit(Preparator.Visit(expression), true);
+
+            expression = Evaluator.PartialEval(expression);
+
+            return Visit(expression, true);
         }                      
     }    
 }

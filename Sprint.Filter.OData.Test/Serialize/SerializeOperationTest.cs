@@ -33,7 +33,11 @@ namespace Sprint.Filter.OData.Test.Serialize
 
         [TestMethod]
         public void Equal()
-        {                        
+        {
+            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.NullableEnumData == (EnumData.TestData1 | EnumData.TestData2))), "NullableEnumData eq 6");
+            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.EnumDataShort == (EnumDataShort.TestData1 | EnumDataShort.TestData2))), "EnumDataShort eq 6");
+            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.EnumDataLong == (EnumDataLong.TestData1 | EnumDataLong.TestData2))), "EnumDataLong eq 6");
+
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => null == t.FreightDecimalNullable)), "null eq FreightDecimalNullable");
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Name != t.LastName)), "Name ne LastName");
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Id == 15)), "Id eq 15");
@@ -48,10 +52,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.FreightDecimalNullable == null)), "FreightDecimalNullable eq null");
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Name == null)), "Name eq null");
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => null == t.Name)), "null eq Name");
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.NullableEnumData == null)), "NullableEnumData eq null");
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.NullableEnumData == (EnumData.TestData1 | EnumData.TestData2))), "NullableEnumData eq Sprint.Filter.OData.Test.Models.EnumData'TestData1, TestData2'");            
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.EnumDataShort == (EnumDataShort.TestData1 | EnumDataShort.TestData2))), "EnumDataShort eq 6");
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.EnumDataLong == (EnumDataLong.TestData1 | EnumDataLong.TestData2))), "EnumDataLong eq 6");
+            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.NullableEnumData == null)), "NullableEnumData eq null");            
         }
 
         [TestMethod]
@@ -71,7 +72,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Name != null)), "Name ne null");
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => null != t.Name)), "null ne Name");
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.NullableEnumData != null)), "NullableEnumData ne null");
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.NullableEnumData != (EnumData.TestData1 | EnumData.TestData2))), "NullableEnumData ne Sprint.Filter.OData.Test.Models.EnumData'TestData1, TestData2'");
+            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.NullableEnumData != (EnumData.TestData1 | EnumData.TestData2))), "NullableEnumData ne 6");
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.EnumDataShort != (EnumDataShort.TestData1 | EnumDataShort.TestData2))), "EnumDataShort ne 6");
             Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.EnumDataLong != (EnumDataLong.TestData1 | EnumDataLong.TestData2))), "EnumDataLong ne 6");
         }

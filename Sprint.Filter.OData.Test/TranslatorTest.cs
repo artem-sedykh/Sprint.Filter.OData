@@ -71,7 +71,7 @@ namespace Sprint.Filter.OData.Test
 
 
             //var expr = Linq.Expr<Customer, IEnumerable<int>>(t => t.Customers.SelectMany(c => c.Items, (a, b) => a.Id + b.Id));
-            //var translator = new Translator();
+            //var translator = new QueryTranslator();
 
             //var d = translator.Invoke<Customer, IEnumerable<int>>(expression);
         }

@@ -21,6 +21,7 @@ namespace Sprint.Filter.OData.Test.Functions
             MethodProvider.UserFunctions.Clear();
 
             MethodProvider.RegisterFunction("StringConvert", methods);
+            
         }
 
         [TestMethod]

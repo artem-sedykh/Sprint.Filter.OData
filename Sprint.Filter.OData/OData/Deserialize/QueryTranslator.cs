@@ -9,7 +9,7 @@ using Sprint.Filter.OData.Common;
 
 namespace Sprint.Filter.OData.Deserialize
 {
-    internal class Translator
+    internal class QueryTranslator
     {
         private static readonly Expression OrdinalStringComparisonConstant = Expression.Constant(StringComparison.Ordinal);
 
@@ -479,6 +479,11 @@ namespace Sprint.Filter.OData.Deserialize
             var lambda = (LambdaExpression)VisitLambda(expression, typeof(TModel));
 
             return Expression.Lambda<Func<TModel, TResult>>(lambda.Body, lambda.Parameters);            
+        }
+
+        public LambdaExpression Translate(ODataLambdaExpression expression, Type modelType)
+        {            
+            return (LambdaExpression)VisitLambda(expression, modelType);
         }
 
         public Expression<Func<TResult>> Translate<TResult>(ODataLambdaExpression expression)
