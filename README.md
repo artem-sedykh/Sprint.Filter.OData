@@ -21,7 +21,10 @@ Filter.Deserialize<Customer>("Numbers/Max(x: x) eq 15")
 ##User functions
 
 ```csharp
-var methods = typeof(SqlFunctions).GetMethods().Where(x => x.Name == "StringConvert").ToArray();
+//Entity Framework StringConvert methods
+var methods = typeof(SqlFunctions)
+              .GetMethods()
+              .Where(x => x.Name == "StringConvert").ToArray();
 
 //Register user functions
 MethodProvider.RegisterFunction("StringConvert", methods);
@@ -31,6 +34,15 @@ Filter.Deserialize<Customer>("StringConvert(Price) eq '1'")
  
 Filter.Serialize<Customer>(t => SqlFunctions.StringConvert(t.Price) == "1")
 //result: StringConvert(Price) eq '1'
+```
+
+##MvcAttribute in Sprint.Filter.OData.Mvc
+
+```csharp
+public ActionResult List([ODataFilterBinder]Expression<Func<Customer,bool>> predicate)
+{
+    ....
+}
 ```
 
 ## Bugs
