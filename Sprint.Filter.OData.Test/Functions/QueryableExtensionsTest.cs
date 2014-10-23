@@ -118,7 +118,7 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Numbers.Max() == 15),
                Filter.Deserialize<Customer>("Numbers/Max() eq 15")));
 
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Numbers.Max(x=>x) == 15),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Numbers.Max(x => x) == 15),
                Filter.Deserialize<Customer>("Numbers/Max(x: x) eq 15")));
 
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Max(x => x.Id) == 15),
