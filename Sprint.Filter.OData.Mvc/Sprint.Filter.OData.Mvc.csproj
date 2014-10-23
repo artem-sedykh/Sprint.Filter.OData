@@ -11,7 +11,7 @@
     <AssemblyName>Sprint.Filter.OData.Mvc</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-	<NugetDir>$(SolutionDir)Tools\NuGet.exe</NugetDir>
+    <NugetDir>$(SolutionDir)Tools\NuGet.exe</NugetDir>
     <nuspecDir>$(SolutionDir)nuget-package\SprintFilterODataMvc.nuspec</nuspecDir>
     <OutputPackageDirectory>$(SolutionDir)nuget-package</OutputPackageDirectory>
     <TargetFrameworkProfile />
@@ -58,6 +58,7 @@
   <ItemGroup>
     <None Include="..\nuget-package\SprintFilterODataMvc.nuspec">
       <Link>nuget-package\SprintFilterODataMvc.nuspec</Link>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,7 +15,7 @@ namespace Sprint.Filter.OData.Mvc
         }
     }
 
-    public class ODataFilterBinder : DefaultModelBinder
+    internal class ODataFilterBinder : DefaultModelBinder
     {
         private readonly bool _nullDefaultValue;
 
