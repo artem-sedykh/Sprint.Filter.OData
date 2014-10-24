@@ -11,12 +11,28 @@ coming soon...
 ```csharp
 Filter.Serialize<Customer>(t => t.Customers.Select(x => x.Id).Any())
 //result: Customers/Select(x: x/Id)/Any()
+
 ```
 ## Deserialize
 
 ```csharp
 Filter.Deserialize<Customer>("Numbers/Max(x: x) eq 15")
 //result: t => t.Numbers.Max(x => x) == 15
+
+//Support Enumerable,Queryable  Methods:
+
+Filter.Deserialize<Customer>("IntArray/Average(x: x) eq 15")
+//result: t => t.IntArray.Average(x => x) == 15
+
+Filter.Deserialize<Customer>("Customers/GroupBy(x: x/Id)/Count() eq 15")
+//result: t => t.Customers.GroupBy(x => x.Id).Count() == 15
+
+Filter.Deserialize<Customer>("IntArray/Contains(Id)")
+//result: t => t.IntArray.Contains(t.Id)
+
+Filter.Deserialize<Customer>("Customers/Select(x: x/Id)/Distinct()/Count() eq 15")
+//result: t => t.Customers.Select(x => x.Id).Distinct().Count() == 15
+
 ```
 ##User functions
 
