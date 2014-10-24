@@ -15,15 +15,15 @@ namespace Sprint.Filter.OData.Deserialize
 
         private static readonly MethodInfo StringCompareMethodInfo = typeof(string).GetMethod("Compare", new[] { typeof(string), typeof(string), typeof(StringComparison) });
         private static readonly Expression ZeroConstant = Expression.Constant(0);
-        private readonly IDictionary<ODataParameterExpression, ParameterExpression> parameters = new Dictionary<ODataParameterExpression, ParameterExpression>();
-        private readonly IMemberNameProvider memberNameProvider = new MemberNameProvider();
+        private readonly IDictionary<ODataParameterExpression, ParameterExpression> _parameters = new Dictionary<ODataParameterExpression, ParameterExpression>();
+        private readonly IMemberNameProvider _memberNameProvider = new MemberNameProvider();
         private Expression VisitMember(ODataPropertyExpression node)
         {
             if(node.Expression != null)
             {
                 var expression = Visit(node.Expression);
 
-                var info = memberNameProvider.ResolveAlias(expression.Type, node.Name);
+                var info = _memberNameProvider.ResolveAlias(expression.Type, node.Name);
 
                 if(info.MemberType == MemberTypes.Field)
                     return Expression.Field(expression, (FieldInfo)info);
@@ -298,7 +298,7 @@ namespace Sprint.Filter.OData.Deserialize
                 {
                     if(node.Arguments.Length == 1)
                     {
-                        var parameter = parameters.Select(x=>x.Value).FirstOrDefault();
+                        var parameter = _parameters.Select(x=>x.Value).FirstOrDefault();
                         if(parameter != null)
                         {
                             var type = (Type)((ConstantExpression)Visit(node.Arguments[0])).Value;
@@ -320,7 +320,7 @@ namespace Sprint.Filter.OData.Deserialize
                 {
                     if (node.Arguments.Length == 1)
                     {
-                        var parameter = parameters.Select(x => x.Value).FirstOrDefault();
+                        var parameter = _parameters.Select(x => x.Value).FirstOrDefault();
                         if (parameter != null)
                         {
                             var type = (Type)((ConstantExpression)Visit(node.Arguments[0])).Value;
@@ -345,7 +345,7 @@ namespace Sprint.Filter.OData.Deserialize
                     var genericArguments = context.Type.GetTypeGenericArguments();
 
                     var argument = node.Arguments.Length == 0
-                        ? parameters.Select(x => x.Value).First()
+                        ? _parameters.Select(x => x.Value).First()
                         : Visit(node.Arguments[0]);
 
                     if(genericArguments[0].IsNullableType() && Nullable.GetUnderlyingType(genericArguments[0]) == argument.Type)
@@ -420,10 +420,10 @@ namespace Sprint.Filter.OData.Deserialize
 
         private Expression VisitParameter(ODataParameterExpression node, Type parameterType)
         {
-            if(parameters.ContainsKey(node))
-                return parameters[node];
+            if(_parameters.ContainsKey(node))
+                return _parameters[node];
 
-            return parameters[node] = Expression.Parameter(parameterType, node.Name);
+            return _parameters[node] = Expression.Parameter(parameterType, node.Name);
         }
 
         private Expression VisitLambda(ODataLambdaExpression node, Type parameterType = null)
