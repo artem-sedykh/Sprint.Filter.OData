@@ -6,6 +6,7 @@ Sprint.Filter.OData
 
 coming soon...
 
+[Operators and functions](http://msdn.microsoft.com/en-us/library/hh169248(v=nav.71).aspx)
 ## Serialize
 
 ```csharp
