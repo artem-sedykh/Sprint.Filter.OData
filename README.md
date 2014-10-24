@@ -52,6 +52,20 @@ Filter.Serialize<Customer>(t => SqlFunctions.StringConvert(t.Price) == "1")
 //result: StringConvert(Price) eq '1'
 ```
 
+## Attributes
+
+```csharp
+//Support Attributes:
+[XmlElement(ElementName = "...")]
+[XmlAttributeAttribute(AttributeName = "...")]
+[DataMember(Name = "...")]
+ 
+Filter.Serialize<Customer>(t => t.CustomName1 == 1 || t.CustomName2 == 2 || t.CustomName3 == 3)
+//result: cn1 eq 1 or cn2 eq 2 or cn3 eq 3
+
+Filter.Deserialize<Customer>("cn1 eq 1 or cn2 eq 2 or cn3 eq 3")
+//result: t => t.CustomName1 == 1 || t.CustomName2 == 2 || t.CustomName3 == 3
+```
 ##MvcAttribute in Sprint.Filter.OData.Mvc
 
 ```csharp

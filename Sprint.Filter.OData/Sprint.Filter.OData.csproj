@@ -47,9 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ExpressionExtensions.cs" />
-    <Compile Include="Helpers\Evaluator.cs" />
-    <Compile Include="Helpers\ExpressionHelper.cs" />
-    <Compile Include="Helpers\ExpressionMethodBinder.cs" />
+    <Compile Include="Extensions\Helpers\Evaluator.cs" />
+    <Compile Include="Extensions\Helpers\ExpressionHelper.cs" />
+    <Compile Include="Extensions\Helpers\ExpressionMethodBinder.cs" />
     <Compile Include="OData\IMemberNameProvider.cs" />
     <Compile Include="OData\MemberNameProvider.cs" />
     <Compile Include="OData\Serialize\QueryTranslator.cs" />
