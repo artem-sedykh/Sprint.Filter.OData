@@ -138,15 +138,18 @@ namespace Sprint.Filter.OData.Test.Functions
         [TestMethod]
         public void Average()
         {            
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.IntArray.Average(x => x) == 15),
-            Filter.Deserialize<Customer>("IntArray/Average(x: x) eq 15")));
+            Assert.IsTrue(ExpressionEqualityComparer.Equals( 
+                
+                Linq.Expr<Customer, bool>(t => t.IntArray.Average(x => x) == 15d), 
+
+                Filter.Deserialize<Customer>("IntArray/Average(x: x) eq 15")));
 
 // ReSharper disable once CompareOfFloatsByEqualityOperator
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Average(x => x.Id) == 15),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Customers.Average(x => x.Id) == 15d),
              Filter.Deserialize<Customer>("Customers/Average(x: x/Id) eq 15")));
 
 // ReSharper disable once CompareOfFloatsByEqualityOperator
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Numbers.Average() == 15),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Numbers.Average() == 15d),
                Filter.Deserialize<Customer>("Numbers/Average() eq 15")));
         }
 

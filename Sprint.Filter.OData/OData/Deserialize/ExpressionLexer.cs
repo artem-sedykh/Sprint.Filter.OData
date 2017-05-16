@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using JetBrains.Annotations;
 using Sprint.Filter.Extensions;
+using Sprint.Filter.Helpers;
 using Sprint.Filter.OData.Common;
 
 namespace Sprint.Filter.OData.Deserialize
@@ -25,8 +26,7 @@ namespace Sprint.Filter.OData.Deserialize
             DateTimeOffset
         }
 
-        private static readonly CultureInfo ParseCulture = CultureInfo.InvariantCulture;
-        private static readonly Regex DateTimeRegex = new Regex("^(\\d{4})-(\\d{1,2})-(\\d{1,2})T(\\d{1,22}):(\\d{2})(?::(\\d{2})(?:\\.(\\d{7}))?)?$");        
+        private static readonly CultureInfo ParseCulture = CultureInfo.InvariantCulture;        
         private static readonly Regex GuidRegex = new Regex(@"([a-f0-9\-]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);        
         private static readonly Regex TimeSpanRegex = new Regex(@"(P.+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -187,37 +187,15 @@ namespace Sprint.Filter.OData.Deserialize
 
         private ODataConstantExpression ParseDateTimeString(string value)
         {
-            // We parse this date/time because we want to take care of the optional
-            // seconds and nanoseconds.
+            var dateTime = DateTimeHelper.Parse(value);
 
-            var match = DateTimeRegex.Match(value);
-
-            if (match.Success)
-            {
-                var year = int.Parse(match.Groups[1].Value, ParseCulture);
-                var month = int.Parse(match.Groups[2].Value, ParseCulture);
-                var day = int.Parse(match.Groups[3].Value, ParseCulture);
-                var hour = int.Parse(match.Groups[4].Value, ParseCulture);
-                var minute = int.Parse(match.Groups[5].Value, ParseCulture);
-                var second = match.Groups[6].Value.Length > 0 ? int.Parse(match.Groups[6].Value, ParseCulture) : 0;
-                var nanoSecond = match.Groups[7].Value.Length > 0 ? int.Parse(match.Groups[7].Value, ParseCulture) : 0;
-
-                // We let DateTime take care of validating the input.
-
-                return ODataExpression.Constant(new DateTime(year, month, day, hour, minute, second, nanoSecond / 1000));
-            }
-
-            throw new Exception(String.Format(
-                "Date/time format is invalid at {0}.", _offset
-                ));
+            return ODataExpression.Constant(dateTime);
         }
 
         private ODataConstantExpression ParseDateTimeOffsetString(string value)
         {
             var dateTimeOffset = XmlConvert.ToDateTimeOffset(value);
             return ODataExpression.Constant(dateTimeOffset);
-
-            //return ODataExpression.Constant(DateTime.ParseExact(value, "o", ParseCulture));
         }
 
         private ODataConstantExpression ParseGuidString(string value)

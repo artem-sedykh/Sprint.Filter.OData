@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
@@ -59,6 +60,15 @@ namespace Sprint.Filter.OData.Test
         public void BooleanOperatorNullableTypes()
         {
             var expr = Filter.Deserialize<Customer>("UnitPrice eq 5.00m or CategoryID eq 0");
+        }
+
+        [TestMethod]
+        public void DateTimeTest()
+        {            
+            var raw = Filter.Serialize<Customer>(c => c.BirthDate >= DateTime.Now);
+
+
+            var expr = Filter.Deserialize<Customer>(raw);
         }
     }
 }
