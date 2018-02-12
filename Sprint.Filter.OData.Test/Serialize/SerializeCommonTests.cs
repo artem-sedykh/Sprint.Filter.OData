@@ -54,5 +54,19 @@ namespace Sprint.Filter.OData.Test.Serialize
         {
             Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Customers.Select(x => new { x.Id }).Any()));
         }
+
+        [TestMethod]
+        public void Property()
+        {
+            var expr = Linq.Expr<Customer, int>(t => t.Items.First().Id);
+
+            var query = Filter.Serialize(expr);
+
+            Assert.IsFalse(string.IsNullOrWhiteSpace(query));
+
+            var expression = Filter.Deserialize(typeof(Customer), query);
+
+            Assert.IsNotNull(expression);
+        }
     }
 }

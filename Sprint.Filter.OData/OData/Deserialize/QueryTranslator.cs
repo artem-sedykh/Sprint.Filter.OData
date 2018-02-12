@@ -444,8 +444,8 @@ namespace Sprint.Filter.OData.Deserialize
             {
                 case ExpressionType.Call:
                     return VisitMethodCall((ODataMethodCallExpression)expression);
-                case ExpressionType.Constant:                
-                    return VisitConstant((ODataConstantExpression)expression);                                    
+                case ExpressionType.Constant:
+                    return VisitConstant((ODataConstantExpression)expression);
                 case ExpressionType.Add:
                 case ExpressionType.Subtract:
                 case ExpressionType.Multiply:
@@ -458,9 +458,9 @@ namespace Sprint.Filter.OData.Deserialize
                 case ExpressionType.GreaterThan:
                 case ExpressionType.GreaterThanOrEqual:
                 case ExpressionType.NotEqual:
-                case ExpressionType.Equal:                
+                case ExpressionType.Equal:
                     return VisitBinary((ODataBinaryExpression)expression);                                    
-                case ExpressionType.Lambda:                
+                case ExpressionType.Lambda:
                     return  VisitLambda((ODataLambdaExpression)expression);                                    
                 case ExpressionType.MemberAccess:                
                     return VisitMember((ODataPropertyExpression)expression);                                    
@@ -478,11 +478,11 @@ namespace Sprint.Filter.OData.Deserialize
         {
             var lambda = (LambdaExpression)VisitLambda(expression, typeof(TModel));
 
-            return Expression.Lambda<Func<TModel, TResult>>(lambda.Body, lambda.Parameters);            
+            return Expression.Lambda<Func<TModel, TResult>>(lambda.Body, lambda.Parameters);
         }
 
         public LambdaExpression Translate(ODataLambdaExpression expression, Type modelType)
-        {            
+        {
             return (LambdaExpression)VisitLambda(expression, modelType);
         }
 

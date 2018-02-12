@@ -47,7 +47,16 @@ namespace Sprint.Filter.OData
 
             return query;
         }
-        
+
+        public static string Serialize<TModel, TResult>(Expression<Func<TModel, TResult>> expression)
+        {
+            var translator = new Serialize.QueryTranslator();
+
+            var query = translator.Translate(expression);
+
+            return query;
+        }
+
         public static Expression<Func<TResult>> Invoke<TResult>([NotNull]string query)
         {
             var expressionLexer = new ExpressionLexer(query);

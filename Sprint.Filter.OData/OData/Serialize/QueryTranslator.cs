@@ -202,7 +202,7 @@ namespace Sprint.Filter.OData.Serialize
 
         internal string VisitArrayLength(UnaryExpression expression)
         {
-            return String.Format("{0}/Length", Visit(expression.Operand));            
+            return String.Format("{0}/Length", Visit(expression.Operand));
         }
 
         internal string VisitTypeIs(TypeBinaryExpression expression)
@@ -237,9 +237,9 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.ConvertChecked:
                     return VisitConvert((UnaryExpression)expression);
                 case ExpressionType.Quote:
-                    return VisitQuote((UnaryExpression)expression);                                                                           
+                    return VisitQuote((UnaryExpression)expression);
                 case ExpressionType.TypeAs:
-                    return VisitTypeAs((UnaryExpression)expression);                    
+                    return VisitTypeAs((UnaryExpression)expression);
                 case ExpressionType.Add:
                 case ExpressionType.AddChecked:
                 case ExpressionType.Subtract:
@@ -265,7 +265,7 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.ExclusiveOr:
                     return VisitBinary((BinaryExpression)expression);
                 case ExpressionType.TypeIs:
-                    return VisitTypeIs((TypeBinaryExpression)expression);                                    
+                    return VisitTypeIs((TypeBinaryExpression)expression);
                 case ExpressionType.Constant:
                     return VisitConstant((ConstantExpression)expression);
                 case ExpressionType.Parameter:
@@ -277,11 +277,11 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.Lambda:
                     return VisitLambda((LambdaExpression)expression, root);
 
-                case ExpressionType.New:                    
+                case ExpressionType.New:
                 case ExpressionType.NewArrayInit:
-                case ExpressionType.NewArrayBounds:                    
-                case ExpressionType.Invoke:                    
-                case ExpressionType.MemberInit:                    
+                case ExpressionType.NewArrayBounds:
+                case ExpressionType.Invoke:
+                case ExpressionType.MemberInit:
                 case ExpressionType.ListInit:
                 case ExpressionType.Conditional:
                     throw new NotSupportedException(expression.ToString());
@@ -292,12 +292,12 @@ namespace Sprint.Filter.OData.Serialize
         }
 
         public string Translate(Expression expression)
-        {            
+        {
             parameters.Clear();
 
             expression = Evaluator.PartialEval(expression);
 
             return Visit(expression, true);
-        }                      
-    }    
+        }
+    }
 }
