@@ -141,7 +141,7 @@ namespace Sprint.Filter.OData.Serialize
 
         public string VisitBinaryAndAlsoOrElse(BinaryExpression expression)
         {
-            var op = expression.Left.NodeType == ExpressionType.AndAlso ? "and" : "or";
+            var op = expression.NodeType == ExpressionType.AndAlso ? "and" : "or";
 
             var leftCompositBinary = expression.Left.NodeType == ExpressionType.AndAlso || expression.Left.NodeType == ExpressionType.Or;
 
