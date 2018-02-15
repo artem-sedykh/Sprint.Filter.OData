@@ -91,7 +91,7 @@ namespace Sprint.Filter.OData.Serialize
         {
             var memberCall = GetMemberCall(memberExpr);
             
-            if(memberCall != null)            
+            if(memberCall != null)
                 return String.Format("{0}({1})", memberCall, Visit(memberExpr.Expression));
 
             var name = memberNameProvider.ResolveName(memberExpr.Member);
@@ -132,11 +132,32 @@ namespace Sprint.Filter.OData.Serialize
         }
 
         public string VisitBinary(BinaryExpression expression)
-        {                       
+        {
             var left = Visit(expression.Left);
             var right = Visit(expression.Right);
 
             return String.Format(expression.Method == MethodProvider.ConcatMethod ? "concat({0}, {1})" : expression.NodeType.ODataFormat(), left, right);
+        }
+
+        public string VisitBinaryAndAlsoOrElse(BinaryExpression expression)
+        {
+            var op = expression.Left.NodeType == ExpressionType.AndAlso ? "and" : "or";
+
+            var leftCompositBinary = expression.Left.NodeType == ExpressionType.AndAlso || expression.Left.NodeType == ExpressionType.Or;
+
+            var rightCompositBinary = expression.Right.NodeType == ExpressionType.AndAlso || expression.Right.NodeType == ExpressionType.OrElse;
+
+            var left = Visit(expression.Left);
+
+            var right = Visit(expression.Right);
+
+            if (leftCompositBinary)
+                left = string.Format("({0})", left);
+
+            if (rightCompositBinary)
+                right = string.Format("({0})", right);
+
+            return string.Format("{0} {1} {2}", left, op, right);
         }
 
         public string VisitConstant(ConstantExpression constantExpr)
@@ -248,10 +269,6 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.MultiplyChecked:
                 case ExpressionType.Divide:
                 case ExpressionType.Modulo:
-                case ExpressionType.And:
-                case ExpressionType.AndAlso:
-                case ExpressionType.Or:
-                case ExpressionType.OrElse:
                 case ExpressionType.LessThan:
                 case ExpressionType.LessThanOrEqual:
                 case ExpressionType.GreaterThan:
@@ -264,6 +281,11 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.LeftShift:
                 case ExpressionType.ExclusiveOr:
                     return VisitBinary((BinaryExpression)expression);
+                case ExpressionType.Or:
+                case ExpressionType.And:
+                case ExpressionType.AndAlso:
+                case ExpressionType.OrElse:
+                    return VisitBinaryAndAlsoOrElse((BinaryExpression) expression);
                 case ExpressionType.TypeIs:
                     return VisitTypeIs((TypeBinaryExpression)expression);
                 case ExpressionType.Constant:
