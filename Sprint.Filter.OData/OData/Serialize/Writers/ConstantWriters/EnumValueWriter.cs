@@ -6,7 +6,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
     {
         public bool Handles(Type type)
         {
-            return type.IsEnum;
+            return type==typeof(Enum) || type.IsEnum;
         }
 
         public string Write(object value)
