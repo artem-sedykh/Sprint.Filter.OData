@@ -99,7 +99,7 @@ namespace Sprint.Filter.Helpers
                 if(constantExpression.Value == null)
                     return liftToNull ? Expression.Convert(Expression.Constant(null, enumType.ToNullable()), enumUnderlyingType.ToNullable()) : expression;
 
-                if(liftToNull)                
+                if(liftToNull)
                     return Expression.Convert(expression, enumUnderlyingType.ToNullable());
                 
                 var value = Convert.ChangeType(constantExpression.Value, enumUnderlyingType);
@@ -107,13 +107,13 @@ namespace Sprint.Filter.Helpers
                 return Expression.Constant(value, enumUnderlyingType);
             }
 
-            if (expression.Type == enumType)            
-                return Expression.Convert(expression, enumUnderlyingType);            
+            if (expression.Type == enumType)
+                return Expression.Convert(expression, enumUnderlyingType);
 
             if (Nullable.GetUnderlyingType(expression.Type) == enumType)
-                return Expression.Convert(expression, enumUnderlyingType.ToNullable());            
+                return Expression.Convert(expression, enumUnderlyingType.ToNullable());
 
-            throw new NotSupportedException();            
+            throw new NotSupportedException();
         }
 
         private static void BinaryExpressionEnumArgumentConverter(ref Expression left, ref Expression right)
@@ -201,10 +201,10 @@ namespace Sprint.Filter.Helpers
 
                 #endregion
 
-                if (logicalOperation && left.Type == right.Type)                    
+                if (logicalOperation && left.Type == right.Type)
                     return;
 
-                if (logicalOperation && left.Type == right.Type)                    
+                if (logicalOperation && left.Type == right.Type)
                     return;
 
                 if (leftTypeIsNullable || rightTypeIsNullable)

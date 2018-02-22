@@ -385,19 +385,19 @@ namespace Sprint.Filter.OData.Deserialize
                     }
 
                     throw new NotSupportedException(String.Format("Can't find a method: {0}", node.DebugView()));   
-                }                    
+                }
             }
         }
 
         private Expression VisitConstant(ODataConstantExpression node)
         {
-            return Expression.Constant(node.Value);                        
+            return Expression.Constant(node.Value);
         }
 
         private Expression VisitBinary(ODataBinaryExpression node)
         {
             var left = Visit(node.Left);
-            var right = Visit(node.Right);            
+            var right = Visit(node.Right);
 
             ExpressionHelper.BinaryExpressionArgumentConverter(ref left, ref right, node.NodeType);
 

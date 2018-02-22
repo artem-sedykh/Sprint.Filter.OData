@@ -62,7 +62,7 @@ namespace Sprint.Filter.OData
             InnerDoubleFloorMethod = mathType.GetMethod("Floor", new[] { typeof(double) });
             InnerDecimalFloorMethod = mathType.GetMethod("Floor", new[] { typeof(decimal) });
             InnerDoubleCeilingMethod = mathType.GetMethod("Ceiling", new[] { typeof(double) });
-            InnerDecimalCeilingMethod = mathType.GetMethod("Ceiling", new[] { typeof(decimal) });            
+            InnerDecimalCeilingMethod = mathType.GetMethod("Ceiling", new[] { typeof(decimal) });
         }
 
         internal static MethodInfo ReplaceMethod

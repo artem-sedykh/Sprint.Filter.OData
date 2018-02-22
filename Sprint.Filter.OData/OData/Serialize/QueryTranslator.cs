@@ -281,8 +281,6 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.LeftShift:
                 case ExpressionType.ExclusiveOr:
                     return VisitBinary((BinaryExpression)expression);
-                case ExpressionType.Or:
-                case ExpressionType.And:
                 case ExpressionType.AndAlso:
                 case ExpressionType.OrElse:
                     return VisitBinaryAndAlsoOrElse((BinaryExpression) expression);
@@ -306,6 +304,8 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.MemberInit:
                 case ExpressionType.ListInit:
                 case ExpressionType.Conditional:
+                case ExpressionType.Or:
+                case ExpressionType.And:
                     throw new NotSupportedException(expression.ToString());
 
                 default:
