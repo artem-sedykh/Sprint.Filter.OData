@@ -29,10 +29,10 @@ namespace Sprint.Filter.OData.Deserialize
                     return Expression.Field(expression, (FieldInfo)info);
 
                 if(info.MemberType == MemberTypes.Property)
-                    return  Expression.Property(expression, (PropertyInfo)info);                               
+                    return  Expression.Property(expression, (PropertyInfo)info);
             }
 
-            throw new NotImplementedException();         
+            throw new NotImplementedException();
         }
 
         private Expression VisitUnary(ODataUnaryExpression node)
@@ -355,6 +355,16 @@ namespace Sprint.Filter.OData.Deserialize
 
                     return Expression.Call(type, functionName, genericArguments, new [] { context, argument });
                 }
+                case "item":
+                {
+                    var context = Visit(node.Context);
+
+                    var arguments = node.Arguments.Select(Visit).ToList();
+
+                    var expr = Expression.ArrayAccess(context, arguments);
+
+                    return expr;
+                }
                 default:
                 {
                     if(node.Context != null)
@@ -415,7 +425,7 @@ namespace Sprint.Filter.OData.Deserialize
                 }
             }
 
-            return Expression.MakeBinary(node.NodeType, left, right);            
+            return Expression.MakeBinary(node.NodeType, left, right);
         }
 
         private Expression VisitParameter(ODataParameterExpression node, Type parameterType)
@@ -459,11 +469,11 @@ namespace Sprint.Filter.OData.Deserialize
                 case ExpressionType.GreaterThanOrEqual:
                 case ExpressionType.NotEqual:
                 case ExpressionType.Equal:
-                    return VisitBinary((ODataBinaryExpression)expression);                                    
+                    return VisitBinary((ODataBinaryExpression)expression);
                 case ExpressionType.Lambda:
-                    return  VisitLambda((ODataLambdaExpression)expression);                                    
-                case ExpressionType.MemberAccess:                
-                    return VisitMember((ODataPropertyExpression)expression);                                    
+                    return  VisitLambda((ODataLambdaExpression)expression);
+                case ExpressionType.MemberAccess:
+                    return VisitMember((ODataPropertyExpression)expression);
                 case ExpressionType.Parameter:
                     return VisitParameter((ODataParameterExpression)expression, null);
                 case ExpressionType.Not:

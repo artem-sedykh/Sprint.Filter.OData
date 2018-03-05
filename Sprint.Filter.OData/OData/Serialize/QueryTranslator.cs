@@ -32,7 +32,7 @@ namespace Sprint.Filter.OData.Serialize
             new IntegerValueWriter<short>(),
             new IntegerValueWriter<uint>(),
             new IntegerValueWriter<ulong>(),
-            new IntegerValueWriter<ushort>()            
+            new IntegerValueWriter<ushort>()
         };
 
         private static readonly IMethodWriter DefaultMethodWriter = new DefaultMethodWriter();
@@ -56,7 +56,7 @@ namespace Sprint.Filter.OData.Serialize
             new StringSubstringMethodWriter(), 
             new StringToLowerMethodWriter(), 
             new StringToUpperMethodWriter(), 
-            new StringTrimMethodWriter()            
+            new StringTrimMethodWriter()
         };
 
         #endregion
@@ -111,7 +111,7 @@ namespace Sprint.Filter.OData.Serialize
             var declaringType = memberExpression.Member.DeclaringType;
             var name = memberExpression.Member.Name;
 
-            if (declaringType == StringType && String.Equals(name, "Length"))            
+            if (declaringType == StringType && String.Equals(name, "Length"))
                 return name.ToLowerInvariant();
 
             if (declaringType == DateTimeType)
@@ -172,7 +172,7 @@ namespace Sprint.Filter.OData.Serialize
             if(writer == null)
                 throw new NotSupportedException(String.Format("type '{0}' is not supported", type));
 
-            return writer.Write(constantExpr.Value);            
+            return writer.Write(constantExpr.Value);
         }
 
         public string VisitLambda(LambdaExpression lambda, bool root)
@@ -184,10 +184,10 @@ namespace Sprint.Filter.OData.Serialize
 
                 parameters[lambda.Parameters[0]] = String.Empty;
 
-                return Visit(lambda.Body);   
+                return Visit(lambda.Body);
             }
 
-            foreach (var p in lambda.Parameters)            
+            foreach (var p in lambda.Parameters)
                 parameters[p] = p.Name;
 
             return lambda.Parameters.Count > 1 
@@ -226,6 +226,14 @@ namespace Sprint.Filter.OData.Serialize
             return String.Format("{0}/Length", Visit(expression.Operand));
         }
 
+        internal string VisitArrayIndex(BinaryExpression expression)
+        {
+            var left = Visit(expression.Left);
+            var right = Visit(expression.Right);
+
+            return String.Format("{0}/item({1})", left,right);
+        }
+
         internal string VisitTypeIs(TypeBinaryExpression expression)
         {
             var member = Visit(expression.Expression);
@@ -247,6 +255,8 @@ namespace Sprint.Filter.OData.Serialize
 
             switch (expression.NodeType)
             {
+                case ExpressionType.ArrayIndex:
+                    return VisitArrayIndex((BinaryExpression) expression);
                 case ExpressionType.ArrayLength:
                     return VisitArrayLength((UnaryExpression)expression); 
                 case ExpressionType.Not:
@@ -276,7 +286,6 @@ namespace Sprint.Filter.OData.Serialize
                 case ExpressionType.Equal:
                 case ExpressionType.NotEqual:
                 case ExpressionType.Coalesce:
-                case ExpressionType.ArrayIndex:
                 case ExpressionType.RightShift:
                 case ExpressionType.LeftShift:
                 case ExpressionType.ExclusiveOr:

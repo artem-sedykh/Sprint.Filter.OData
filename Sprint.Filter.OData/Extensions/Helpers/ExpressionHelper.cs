@@ -93,7 +93,7 @@ namespace Sprint.Filter.Helpers
         internal static Expression ConvertToEnumUnderlyingType(Expression expression, Type enumType, Type enumUnderlyingType, bool liftToNull)
         {
             if (expression.NodeType == ExpressionType.Constant)
-            {                
+            {
                 var constantExpression = (ConstantExpression)expression;
 
                 if(constantExpression.Value == null)

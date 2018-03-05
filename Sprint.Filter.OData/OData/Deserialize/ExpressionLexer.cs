@@ -94,20 +94,16 @@ namespace Sprint.Filter.OData.Deserialize
                 case '(':
                 case ')':
                 case ',':
-                case ':':                    
-                        return ParseSyntax();                    
+                case ':':
+                    return ParseSyntax();
                 default:
-                    if (Char.IsNumber(c))
-                    {
+                    if (char.IsNumber(c))
                         return ParseNumeric();
-                    }
+
                     if (IsIdentifierStartChar(c))
-                    {
                         return ParseIdentifier(false, parameter, parent, lambdaParameters);
-                    }
-                    throw new Exception(String.Format(
-                        "Unexpecter character '{0}' at offset {1}.", c, _current
-                        ));
+
+                    throw new Exception(String.Format("Unexpecter character '{0}' at offset {1}.", c, _current ));
             }
 
         }
