@@ -226,6 +226,15 @@ namespace Sprint.Filter.OData.Serialize
             return String.Format("{0}/Length", Visit(expression.Operand));
         }
 
+        internal string VisitIndex(IndexExpression expression)
+        {
+            var left = Visit(expression.Object);
+
+            var right = Visit(expression.Arguments.FirstOrDefault());
+
+            return String.Format("{0}/item({1})", left, right);
+        }
+
         internal string VisitArrayIndex(BinaryExpression expression)
         {
             var left = Visit(expression.Left);
@@ -255,6 +264,8 @@ namespace Sprint.Filter.OData.Serialize
 
             switch (expression.NodeType)
             {
+                case ExpressionType.Index:
+                    return VisitIndex((IndexExpression)expression);
                 case ExpressionType.ArrayIndex:
                     return VisitArrayIndex((BinaryExpression) expression);
                 case ExpressionType.ArrayLength:

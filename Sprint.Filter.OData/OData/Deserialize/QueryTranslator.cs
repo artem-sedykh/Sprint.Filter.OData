@@ -357,13 +357,14 @@ namespace Sprint.Filter.OData.Deserialize
                 }
                 case "item":
                 {
-                    var context = Visit(node.Context);
+                    var left = Visit(node.Context);
 
-                    var arguments = node.Arguments.Select(Visit).ToList();
+                    var right = node.Arguments.Select(Visit).FirstOrDefault();
 
-                    var expr = Expression.ArrayAccess(context, arguments);
+                    if (right == null)
+                        throw new Exception("right is null");
 
-                    return expr;
+                    return Expression.MakeBinary(ExpressionType.ArrayIndex, left, right);
                 }
                 default:
                 {
