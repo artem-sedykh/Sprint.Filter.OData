@@ -143,7 +143,7 @@ namespace Sprint.Filter.OData.Serialize
         {
             var op = expression.NodeType == ExpressionType.AndAlso ? "and" : "or";
 
-            var leftCompositBinary = expression.Left.NodeType == ExpressionType.AndAlso || expression.Left.NodeType == ExpressionType.Or;
+            var leftCompositBinary = expression.Left.NodeType == ExpressionType.AndAlso || expression.Left.NodeType == ExpressionType.OrElse;
 
             var rightCompositBinary = expression.Right.NodeType == ExpressionType.AndAlso || expression.Right.NodeType == ExpressionType.OrElse;
 
