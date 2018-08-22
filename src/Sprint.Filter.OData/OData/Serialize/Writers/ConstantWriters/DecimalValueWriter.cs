@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {

@@ -5,14 +5,15 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Sprint.Filter.Extensions;
 
+// ReSharper disable once CheckNamespace
 namespace Sprint.Filter.Helpers
 {
     public static class ExpressionMethodBinder
-    {        
+    {
         internal class Method
         {
             public Method(ParameterInfo[] parameters)
-            {                
+            {
                 GenericArguments = new Dictionary<Type, Type>();
             }
 
@@ -27,7 +28,7 @@ namespace Sprint.Filter.Helpers
 
         public static MethodCallExpression Bind(MethodInfo[] methodInfos, string methodName, Expression instance, Expression[] args)
         {
-            methodInfos = methodInfos.Where(m => String.Compare(m.Name, methodName, StringComparison.OrdinalIgnoreCase) == 0 && m.GetParameters().Length == args.Length).ToArray();
+            methodInfos = methodInfos.Where(m => string.Compare(m.Name, methodName, StringComparison.OrdinalIgnoreCase) == 0 && m.GetParameters().Length == args.Length).ToArray();
 
             var method = FindBestMethod(methodInfos, args);
 
@@ -51,7 +52,7 @@ namespace Sprint.Filter.Helpers
         public static MethodCallExpression Bind(Type type, string methodName,Expression instance, Expression[] args)
         {
             var methodInfos = type.GetMethods()
-                .Where(m => String.Compare(m.Name, methodName, StringComparison.OrdinalIgnoreCase) == 0 && m.GetParameters().Length == args.Length).ToArray();
+                .Where(m => string.Compare(m.Name, methodName, StringComparison.OrdinalIgnoreCase) == 0 && m.GetParameters().Length == args.Length).ToArray();
 
             return Bind(methodInfos, methodName, instance, args);
         }
@@ -59,11 +60,10 @@ namespace Sprint.Filter.Helpers
         private static Method FindBestMethod(IEnumerable<MethodInfo> methodInfos, Expression[] args)
         {
             if (methodInfos == null)
-                throw new ArgumentNullException("methodInfos");
+                throw new ArgumentNullException(nameof(methodInfos));
 
             if (args == null)
-                throw new ArgumentNullException("args");
-
+                throw new ArgumentNullException(nameof(args));
 
             var methods = new List<Method>();
 
@@ -97,10 +97,10 @@ namespace Sprint.Filter.Helpers
                     {
                         if(parameterType.IsGenericType  && !parameterType.IsNullableType())
                         {
-                            if(parameterType.BaseType == typeof(LambdaExpression))                            
+                            if(typeof(LambdaExpression).IsAssignableFrom(parameterType.BaseType))
                                 parameterType = parameterType.GetGenericArguments()[0];
 
-                            if (argumentType.BaseType == typeof(LambdaExpression))
+                            if (typeof(LambdaExpression).IsAssignableFrom(argumentType.BaseType))
                                 argumentType = argumentType.GetGenericArguments()[0];
 
                             var cast = false;
@@ -119,12 +119,12 @@ namespace Sprint.Filter.Helpers
                             {
                                 method.Priority--;
                                 continue;
-                            }                                
+                            }
                         }
 
                         methods.Remove(method);
                         break;
-                    }                    
+                    }
                 }
 
                 if(method.MethodInfo.GetGenericArguments().Count(x => x.IsGenericParameter) != method.GenericArguments.Count)
@@ -143,7 +143,7 @@ namespace Sprint.Filter.Helpers
                 if (methods.Count(x => x.Priority == maxPriority && x.GenericArguments.Count == minGenericArgs) == 1)
                     return methods.OrderByDescending(x => x.Priority == maxPriority && x.GenericArguments.Count == minGenericArgs).FirstOrDefault();
 
-                throw new Exception(String.Format("The call is ambiguous between the following methods: {0}", String.Join(", ", methods.Where(x => x.Priority == maxPriority).Select(x => x.MethodInfo.ToString()))));
+                throw new Exception($"The call is ambiguous between the following methods: {string.Join(", ", methods.Where(x => x.Priority == maxPriority).Select(x => x.MethodInfo.ToString()))}");
             }
 
 
@@ -252,10 +252,10 @@ namespace Sprint.Filter.Helpers
                             }
 
                             return false;
-                        }                        
+                        }
                     }
                 }
-            }            
+            }
 
             return true;
         }

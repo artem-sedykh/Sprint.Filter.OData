@@ -1,4 +1,5 @@
 ﻿using System;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -13,7 +14,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
         {
             var enumType = value.GetType();
 
-            return string.Format("{0}'{1}'", enumType.FullName, value);
+            return $"{enumType.FullName}'{value}'";
         }
     }
 }

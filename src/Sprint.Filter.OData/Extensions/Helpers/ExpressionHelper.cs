@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using JetBrains.Annotations;
 using Sprint.Filter.Extensions;
 
+// ReSharper disable once CheckNamespace
 namespace Sprint.Filter.Helpers
 {
     internal static class ExpressionHelper
     {
-        private static readonly Type NullableType = typeof(Nullable<>);        
+        private static readonly Type NullableType = typeof(Nullable<>);
 
         /// <summary>
         /// http://msdn.microsoft.com/en-US/en-en/library/exx3b86w.aspx
@@ -33,7 +33,7 @@ namespace Sprint.Filter.Helpers
             { typeof(int), new[] { typeof(int), typeof(long),typeof(ulong), typeof(float), typeof(double), typeof(decimal) } },
             { typeof(uint), new[] { typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double), typeof(decimal) } },
             { typeof(long), new[] { typeof(long),typeof(ulong), typeof(float), typeof(double), typeof(decimal) } },
-            { typeof(char), new[] { typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double), typeof(decimal) } },            
+            { typeof(char), new[] { typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double), typeof(decimal) } },
             { typeof(ulong), new[] { typeof(ulong), typeof(float), typeof(double), typeof(decimal) } },
             { typeof(float), new[] { typeof(float), typeof(double),typeof(decimal) } },
             { typeof(double), new[] { typeof(double), typeof(decimal) } },
@@ -55,7 +55,7 @@ namespace Sprint.Filter.Helpers
             { typeof(char?), typeof(int?) }
         };
 
-        internal static Expression ConvertExpression([NotNull]Expression expression, Type type)
+        internal static Expression ConvertExpression(Expression expression, Type type)
         {
             if(expression.Type == type)
                 return expression;
@@ -137,8 +137,7 @@ namespace Sprint.Filter.Helpers
             }
         }
 
-        public static void BinaryExpressionArgumentConverter(ref Expression left, ref Expression right,
-           ExpressionType type)
+        public static void BinaryExpressionArgumentConverter(ref Expression left, ref Expression right, ExpressionType type)
         {
             BinaryExpressionEnumArgumentConverter(ref left, ref right);
 
@@ -269,7 +268,7 @@ namespace Sprint.Filter.Helpers
                     }
                 }
             }
-        }        
+        }
 
         private static void PreparingNullableArguments(ref Expression left, ref Expression right)
         {

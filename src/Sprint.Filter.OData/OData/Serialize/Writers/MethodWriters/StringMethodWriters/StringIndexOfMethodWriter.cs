@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -17,7 +18,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
             var argumentExpression = expression.Arguments[0];
             var obj = expression.Object;
 
-            return string.Format("indexof({0}, {1})", writer(obj), writer(argumentExpression));
+            return $"indexof({writer(obj)}, {writer(argumentExpression)})";
         }
     }
 }

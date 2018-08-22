@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Expressions;
 using Sprint.Filter.Extensions;
 
@@ -22,11 +21,11 @@ namespace Sprint.Filter.OData.Common
 
         internal override string DebugView()
         {
-            var arguments = String.Join(", ", Arguments.Select(t => t.ToString()));
+            var arguments = string.Join(", ", Arguments.Select(t => t.ToString()));
 
             return Context != null
-                ? String.Format("{0}.{1}({2})", Context, MethodName.Capitalize(), arguments)
-                : String.Format("{0}({1})", MethodName.Capitalize(), arguments);
-        }       
+                ? $"{Context}.{MethodName.Capitalize()}({arguments})"
+                : $"{MethodName.Capitalize()}({arguments})";
+        }
     }
 }

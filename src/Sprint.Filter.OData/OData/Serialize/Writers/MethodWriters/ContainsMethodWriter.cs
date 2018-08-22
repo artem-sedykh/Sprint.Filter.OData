@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -26,13 +27,12 @@ namespace Sprint.Filter.OData.Serialize.Writers
             {
                 var constant = (ConstantExpression)source;
 
-                var values = (from object obj in (IEnumerable)constant.Value
-                              select String.Format("{0} eq {1}", identificator, queryTranslator.VisitConstant(Expression.Constant(obj)))).ToArray();
+                var values = (from object obj in (IEnumerable)constant.Value select $"{identificator} eq {queryTranslator.VisitConstant(Expression.Constant(obj))}").ToArray();
 
                 return "(" + String.Join(" or ", values) + ")";
             }
 
-            return string.Format("{0}/{1}({2})", queryTranslator.Visit(source), expression.Method.Name, identificator);
+            return $"{queryTranslator.Visit(source)}/{expression.Method.Name}({identificator})";
         }
 
         public int Priority { get; set; }
@@ -52,13 +52,12 @@ namespace Sprint.Filter.OData.Serialize.Writers
             {
                 var constant = (ConstantExpression)source;
 
-                var values = (from object obj in (IEnumerable)constant.Value
-                              select String.Format("{0} eq {1}", identificator, writer(Expression.Constant(obj)))).ToArray();
+                var values = (from object obj in (IEnumerable)constant.Value select $"{identificator} eq {writer(Expression.Constant(obj))}").ToArray();
 
-                return "(" + String.Join(" or ", values) + ")";
+                return "(" + string.Join(" or ", values) + ")";
             }
 
-            return string.Format("{0}/{1}({2})", writer(source), expression.Method.Name, identificator);
+            return $"{writer(source)}/{expression.Method.Name}({identificator})";
         }
     }
 }

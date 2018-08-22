@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-
+// ReSharper disable once CheckNamespace
 namespace Sprint.Filter.OData.Serialize.Writers
 {
     internal class StreamValueWriter : ValueWriterBase<Stream>
@@ -17,7 +17,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
             stream.Read(buffer, 0, buffer.Length);
             var base64 = Convert.ToBase64String(buffer);
 
-            return string.Format("X'{0}'", base64);
+            return $"X'{base64}'";
         }
     }
 }

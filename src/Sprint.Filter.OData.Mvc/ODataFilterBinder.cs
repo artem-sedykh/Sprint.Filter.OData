@@ -6,7 +6,7 @@ namespace Sprint.Filter.OData.Mvc
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Parameter | AttributeTargets.Struct | AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class ODataFilterBinderAttribute : CustomModelBinderAttribute
-    {        
+    {
         public bool NullDefaultValue { get; set; }
 
         public override IModelBinder GetBinder()
@@ -48,6 +48,6 @@ namespace Sprint.Filter.OData.Mvc
         private LambdaExpression DefaultLambda(Type modelType)
         {
             return Expression.Lambda(typeof (Func<,>).MakeGenericType(modelType, typeof (bool)), Expression.Constant(true), Expression.Parameter(modelType, "t"));
-        }        
+        }
     }
 }

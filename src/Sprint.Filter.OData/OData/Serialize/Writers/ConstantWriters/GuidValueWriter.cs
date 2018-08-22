@@ -1,4 +1,5 @@
 ﻿using System;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -6,7 +7,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
     {
         public override string Write(object value)
         {
-            return string.Format("guid'{0}'", value);
+            return $"guid'{value}'";
         }
     }
 }

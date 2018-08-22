@@ -23,11 +23,11 @@ namespace Sprint.Filter.OData.Test
         public void Isof()
         {
             // ReSharper disable once CSharpWarnings::CS0183
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Parent is Customer),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Parent is Customer),
                 Filter.Deserialize<Customer>("isof(Parent, Sprint.Filter.OData.Test.Models.Customer)")));
 
             // ReSharper disable once CSharpWarnings::CS0183
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t is Customer),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t is Customer),
                  Filter.Deserialize<Customer>("isof(Sprint.Filter.OData.Test.Models.Customer)")));            
         }
 
@@ -35,18 +35,18 @@ namespace Sprint.Filter.OData.Test
         public void Cast()
         {
             // ReSharper disable once RedundantCast
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t.Parent as Customer!=null),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Parent as Customer!=null),
                 Filter.Deserialize<Customer>("cast(Parent, Sprint.Filter.OData.Test.Models.Customer) ne null")));
 
             // ReSharper disable once RedundantCast
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Expr<Customer, bool>(t => t as Customer!=null),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t as Customer!=null),
                  Filter.Deserialize<Customer>("cast(Sprint.Filter.OData.Test.Models.Customer) ne null")));
         }
 
         [TestMethod]
         public void Test()
         {
-         // //  var epxression = Linq.Expr<Customer, int>(x => x.Id>);
+         // //  var epxression = Linq.Linq.Expr<Customer, int>(x => x.Id>);
 
          //   var p = Expression.Parameter(typeof(Customer), "model");
          ////   var ddddd = Expression.Invoke(epxression, p);
@@ -56,8 +56,8 @@ namespace Sprint.Filter.OData.Test
 
          //   var dddd=visitor.Visit(ddddd);
             
-         //   var t = Sprint.Filter.Helpers.Evaluator.PartialEval(Linq.Expr<Customer, bool>(x => x.BirthDate == Now()));
-         //   var test = Linq.Expr<Customer, bool>(x => x.BirthDate == DateTime.Now);
+         //   var t = Sprint.Filter.Helpers.Evaluator.PartialEval(Linq.Linq.Expr<Customer, bool>(x => x.BirthDate == Now()));
+         //   var test = Linq.Linq.Expr<Customer, bool>(x => x.BirthDate == DateTime.Now);
         }
 
        // [ReturnConstantValueFunction]

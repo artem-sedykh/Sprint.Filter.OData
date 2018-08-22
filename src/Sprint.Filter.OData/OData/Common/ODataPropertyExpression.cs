@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Sprint.Filter.OData.Common
 {
@@ -15,7 +14,7 @@ namespace Sprint.Filter.OData.Common
 
         internal override string DebugView()
         {
-            return Expression != null ? String.Format("{0}.{1}", Expression, Name) : Name;
-        }        
+            return Expression != null ? $"{Expression}.{Name}" : Name;
+        }
     }
 }

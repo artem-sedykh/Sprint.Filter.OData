@@ -27,10 +27,10 @@ namespace Sprint.Filter.Helpers
 
                 var value = new DateTime(year, month, day, hour, minute, second).AddTicks(millisecond);
 
-                return value;                
+                return value;
             }
 
-            throw new Exception(String.Format("Date/time format is invalid at {0}.", s));
+            throw new Exception($"Date/time format is invalid at {s}.");
         }
     }
 }

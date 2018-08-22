@@ -11,7 +11,7 @@ namespace Sprint.Filter.Extensions
             ExpressionType.Subtract,
             ExpressionType.Multiply,
             ExpressionType.Divide,
-            ExpressionType.Modulo,                        
+            ExpressionType.Modulo,
             ExpressionType.AndAlso,
             ExpressionType.OrElse,
             ExpressionType.GreaterThan,
@@ -175,7 +175,7 @@ namespace Sprint.Filter.Extensions
                 case ExpressionType.LessThan:
                     return "({0} < {1})";
                 case ExpressionType.LessThanOrEqual:
-                    return "({0} <= {1})";                    
+                    return "({0} <= {1})";
                 case ExpressionType.Equal:
                     return "({0} == {1})";
                 case ExpressionType.NotEqual:

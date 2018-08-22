@@ -53,14 +53,14 @@ namespace Sprint.Filter.OData.Deserialize
                         var right = Visit(node.Arguments[1]);
                         var left = Visit(node.Arguments[0]);
 
-                        return Expression.Call(right, MethodProvider.ContainsMethod, new[] { left });
+                        return Expression.Call(right, MethodProvider.ContainsMethod, left);
                     }
                 case "endswith":
                     {
                         var right = Visit(node.Arguments[1]);
                         var left = Visit(node.Arguments[0]);
 
-                        return Expression.Call(left, MethodProvider.EndsWithMethod, new[] { right });
+                        return Expression.Call(left, MethodProvider.EndsWithMethod, right);
                     }
 
                 case "startswith":
@@ -68,7 +68,7 @@ namespace Sprint.Filter.OData.Deserialize
                         var right = Visit(node.Arguments[1]);
                         var left = Visit(node.Arguments[0]);
 
-                        return Expression.Call(left, MethodProvider.StartsWithMethod, new[] { right });
+                        return Expression.Call(left, MethodProvider.StartsWithMethod, right);
                     }
 
                 case "length":
@@ -83,7 +83,7 @@ namespace Sprint.Filter.OData.Deserialize
                         var right = Visit(node.Arguments[1]);
                         var left = Visit(node.Arguments[0]);
 
-                        return Expression.Call(left, MethodProvider.IndexOfMethod, new[] { right });
+                        return Expression.Call(left, MethodProvider.IndexOfMethod, right);
                     }
 
                 case "substring":
@@ -92,7 +92,7 @@ namespace Sprint.Filter.OData.Deserialize
                             return Expression.Call(Visit(node.Arguments[0]), MethodProvider.SubstringMethodWithTwoArg, new[] { Visit(node.Arguments[1]), Visit(node.Arguments[2]) });
 
                         if (node.Arguments.Length == 2)
-                            return Expression.Call(Visit(node.Arguments[0]), MethodProvider.SubstringMethodWithOneArg, new[] { Visit(node.Arguments[1]) });
+                            return Expression.Call(Visit(node.Arguments[0]), MethodProvider.SubstringMethodWithOneArg, Visit(node.Arguments[1]));
 
                         throw new NotSupportedException();//Нет перегрузки для данного метода
                     }
@@ -264,7 +264,7 @@ namespace Sprint.Filter.OData.Deserialize
                         
                         var type = context.Type.IsIQueryable() ? typeof(Queryable) : typeof(Enumerable);
 
-                        return Expression.Call(type, functionName, genericArguments.ToArray(), new [] { context, lambda });
+                        return Expression.Call(type, functionName, genericArguments.ToArray(), context, lambda);
                     }
                 case "any":
                 case "all":
@@ -353,7 +353,7 @@ namespace Sprint.Filter.OData.Deserialize
 
                     var type = context.Type.IsIQueryable() ? typeof(Queryable) : typeof(Enumerable);
 
-                    return Expression.Call(type, functionName, genericArguments, new [] { context, argument });
+                    return Expression.Call(type, functionName, genericArguments, context, argument);
                 }
                 case "item":
                 {
@@ -377,7 +377,7 @@ namespace Sprint.Filter.OData.Deserialize
                         var expr = ExpressionMethodBinder.Bind(context.Type, functionName, context, arguments.ToArray());
 
                         if (expr == null)
-                            throw new Exception(String.Format("Can't find a method: {0}", node.DebugView()));
+                            throw new Exception($"Can't find a method: {node.DebugView()}");
 
                         return expr;
                     }
@@ -390,12 +390,12 @@ namespace Sprint.Filter.OData.Deserialize
                             MethodProvider.UserFunctions[node.MethodName], node.MethodName, null, arguments);
 
                         if (methodExpression == null)
-                            throw new Exception(String.Format("Can't find a method: {0}", node.DebugView()));
+                            throw new Exception($"Can't find a method: {node.DebugView()}");
 
                         return methodExpression;
                     }
 
-                    throw new NotSupportedException(String.Format("Can't find a method: {0}", node.DebugView()));   
+                    throw new NotSupportedException($"Can't find a method: {node.DebugView()}");   
                 }
             }
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Expressions;
 
 namespace Sprint.Filter.OData.Common
@@ -18,12 +17,12 @@ namespace Sprint.Filter.OData.Common
         internal override string DebugView()
         {
             if(Parameters.Length==0)
-                return String.Format("() => {0}", Body);
+                return $"() => {Body}";
 
             if (Parameters.Length > 1)
-                return String.Format("({0}) => {1}", String.Join(", ", Parameters.Select(x => x.DebugView())), Body);
+                return $"({string.Join(", ", Parameters.Select(x => x.DebugView()))}) => {Body}";
 
-            return String.Format("{0} => {1}", Parameters[0].DebugView(), Body!=null?Body.DebugView():null);
+            return $"{Parameters[0].DebugView()} => {Body?.DebugView()}";
         }
     }
 }

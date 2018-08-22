@@ -1,4 +1,5 @@
 ﻿using System;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -7,7 +8,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
         public override string Write(object value)
         {
             var base64 = Convert.ToBase64String((byte[])value);
-            return string.Format("X'{0}'", base64);
+            return $"X'{base64}'";
         }
     }
 }

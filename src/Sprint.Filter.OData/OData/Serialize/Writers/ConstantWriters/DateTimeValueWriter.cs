@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -9,7 +10,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
         {
             var dateTimeValue = (DateTime)value;
 
-            return string.Format("datetime'{0}'", XmlConvert.ToString(dateTimeValue, XmlDateTimeSerializationMode.Utc));
+            return $"datetime'{XmlConvert.ToString(dateTimeValue, XmlDateTimeSerializationMode.Utc)}'";
         }
     }
 }

@@ -6,30 +6,6 @@ namespace Sprint.Filter.OData
 {
     public static class MethodProvider
     {
-        private static readonly MethodInfo InnerContainsMethod;
-        private static readonly MethodInfo InnerIndexOfMethod;
-        private static readonly MethodInfo EndsWithMethod1;
-        private static readonly MethodInfo InnerStartsWithMethod;
-        private static readonly PropertyInfo InnerLengthProperty;
-        private static readonly MethodInfo InnerSubstringMethodWithOneArg;
-        private static readonly MethodInfo InnerSubstringMethodWithTwoArg;
-        private static readonly MethodInfo InnerToLowerMethod;
-        private static readonly MethodInfo InnerToUpperMethod;
-        private static readonly MethodInfo InnerTrimMethod;
-        private static readonly PropertyInfo InnerDayProperty;
-        private static readonly PropertyInfo InnerHourProperty;
-        private static readonly PropertyInfo InnerMinuteProperty;
-        private static readonly PropertyInfo InnerSecondProperty;
-        private static readonly PropertyInfo InnerMonthProperty;
-        private static readonly PropertyInfo InnerYearProperty;
-        private static readonly MethodInfo InnerDoubleRoundMethod;
-        private static readonly MethodInfo InnerDecimalRoundMethod;
-        private static readonly MethodInfo InnerDoubleFloorMethod;
-        private static readonly MethodInfo InnerDecimalFloorMethod;
-        private static readonly MethodInfo InnerDoubleCeilingMethod;
-        private static readonly MethodInfo InnerDecimalCeilingMethod;
-        private static readonly MethodInfo InnerConcatMethod;
-        private static readonly MethodInfo InnerReplaceMethod;
         internal static readonly IDictionary<string, MethodInfo[]> UserFunctions = new Dictionary<string, MethodInfo[]>(); 
 
         static MethodProvider()
@@ -38,227 +14,85 @@ namespace Sprint.Filter.OData
             var datetimeType = typeof(DateTime);
             var mathType = typeof(Math);
 
-            InnerReplaceMethod = stringType.GetMethod("Replace", new[] { stringType,stringType });
-            InnerContainsMethod = stringType.GetMethod("Contains", new[] { stringType });
-            InnerIndexOfMethod = stringType.GetMethod("IndexOf", new[] { stringType });
-            EndsWithMethod1 = stringType.GetMethod("EndsWith", new[] { stringType });
-            InnerStartsWithMethod = stringType.GetMethod("StartsWith", new[] { stringType });
-            InnerLengthProperty = stringType.GetProperty("Length", Type.EmptyTypes);
-            InnerSubstringMethodWithOneArg = stringType.GetMethod("Substring", new[] { typeof(int) });
-            InnerSubstringMethodWithTwoArg = stringType.GetMethod("Substring", new[] { typeof(int), typeof(int) });
-            InnerToLowerMethod = stringType.GetMethod("ToLower", Type.EmptyTypes);
-            InnerToUpperMethod = stringType.GetMethod("ToUpper", Type.EmptyTypes);
-            InnerTrimMethod = stringType.GetMethod("Trim", Type.EmptyTypes);
-            InnerConcatMethod = stringType.GetMethod("Concat", new[] { stringType, stringType });
-            InnerDayProperty = datetimeType.GetProperty("Day", Type.EmptyTypes);
-            InnerHourProperty = datetimeType.GetProperty("Hour", Type.EmptyTypes);
-            InnerMinuteProperty = datetimeType.GetProperty("Minute", Type.EmptyTypes);
-            InnerSecondProperty = datetimeType.GetProperty("Second", Type.EmptyTypes);
-            InnerMonthProperty = datetimeType.GetProperty("Month", Type.EmptyTypes);
-            InnerYearProperty = datetimeType.GetProperty("Year", Type.EmptyTypes);
+            ReplaceMethod = stringType.GetMethod("Replace", new[] { stringType,stringType });
+            ContainsMethod = stringType.GetMethod("Contains", new[] { stringType });
+            IndexOfMethod = stringType.GetMethod("IndexOf", new[] { stringType });
+            EndsWithMethod = stringType.GetMethod("EndsWith", new[] { stringType });
+            StartsWithMethod = stringType.GetMethod("StartsWith", new[] { stringType });
+            LengthProperty = stringType.GetProperty("Length", Type.EmptyTypes);
+            SubstringMethodWithOneArg = stringType.GetMethod("Substring", new[] { typeof(int) });
+            SubstringMethodWithTwoArg = stringType.GetMethod("Substring", new[] { typeof(int), typeof(int) });
+            ToLowerMethod = stringType.GetMethod("ToLower", Type.EmptyTypes);
+            ToUpperMethod = stringType.GetMethod("ToUpper", Type.EmptyTypes);
+            TrimMethod = stringType.GetMethod("Trim", Type.EmptyTypes);
+            ConcatMethod = stringType.GetMethod("Concat", new[] { stringType, stringType });
+            DayProperty = datetimeType.GetProperty("Day", Type.EmptyTypes);
+            HourProperty = datetimeType.GetProperty("Hour", Type.EmptyTypes);
+            MinuteProperty = datetimeType.GetProperty("Minute", Type.EmptyTypes);
+            SecondProperty = datetimeType.GetProperty("Second", Type.EmptyTypes);
+            MonthProperty = datetimeType.GetProperty("Month", Type.EmptyTypes);
+            YearProperty = datetimeType.GetProperty("Year", Type.EmptyTypes);
 
-            InnerDoubleRoundMethod = mathType.GetMethod("Round", new[] { typeof(double) });
-            InnerDecimalRoundMethod = mathType.GetMethod("Round", new[] { typeof(decimal) });
-            InnerDoubleFloorMethod = mathType.GetMethod("Floor", new[] { typeof(double) });
-            InnerDecimalFloorMethod = mathType.GetMethod("Floor", new[] { typeof(decimal) });
-            InnerDoubleCeilingMethod = mathType.GetMethod("Ceiling", new[] { typeof(double) });
-            InnerDecimalCeilingMethod = mathType.GetMethod("Ceiling", new[] { typeof(decimal) });
-        }
-
-        internal static MethodInfo ReplaceMethod
-        {
-            get
-            {
-                return InnerReplaceMethod;
-            }
-        }
-        internal static MethodInfo IndexOfMethod
-        {
-            get
-            {                
-                return InnerIndexOfMethod;
-            }
+            DoubleRoundMethod = mathType.GetMethod("Round", new[] { typeof(double) });
+            DecimalRoundMethod = mathType.GetMethod("Round", new[] { typeof(decimal) });
+            DoubleFloorMethod = mathType.GetMethod("Floor", new[] { typeof(double) });
+            DecimalFloorMethod = mathType.GetMethod("Floor", new[] { typeof(decimal) });
+            DoubleCeilingMethod = mathType.GetMethod("Ceiling", new[] { typeof(double) });
+            DecimalCeilingMethod = mathType.GetMethod("Ceiling", new[] { typeof(decimal) });
         }
 
-        internal static MethodInfo ContainsMethod
-        {
-            get
-            {                
-                return InnerContainsMethod;
-            }
-        }
+        internal static MethodInfo ReplaceMethod { get; }
 
-        internal static MethodInfo EndsWithMethod
-        {
-            get
-            {                
-                return EndsWithMethod1;
-            }
-        }
+        internal static MethodInfo IndexOfMethod { get; }
 
-        internal static MethodInfo StartsWithMethod
-        {
-            get
-            {                
-                return InnerStartsWithMethod;
-            }
-        }
+        internal static MethodInfo ContainsMethod { get; }
 
-        internal static PropertyInfo LengthProperty
-        {
-            get
-            {                
-                return InnerLengthProperty;
-            }
-        }
+        internal static MethodInfo EndsWithMethod { get; }
 
-        internal static MethodInfo SubstringMethodWithOneArg
-        {
-            get
-            {                
-                return InnerSubstringMethodWithOneArg;
-            }
-        }
-        internal static MethodInfo SubstringMethodWithTwoArg
-        {
-            get
-            {                
-                return InnerSubstringMethodWithTwoArg;
-            }
-        }
+        internal static MethodInfo StartsWithMethod { get; }
 
-        internal static MethodInfo ConcatMethod
-        {
-            get
-            {                
-                return InnerConcatMethod;
-            }
-        }
+        internal static PropertyInfo LengthProperty { get; }
 
-        internal static MethodInfo ToLowerMethod
-        {
-            get
-            {                
-                return InnerToLowerMethod;
-            }
-        }
+        internal static MethodInfo SubstringMethodWithOneArg { get; }
 
-        internal static MethodInfo ToUpperMethod
-        {
-            get
-            {                
-                return InnerToUpperMethod;
-            }
-        }
+        internal static MethodInfo SubstringMethodWithTwoArg { get; }
 
-        internal static MethodInfo TrimMethod
-        {
-            get
-            {                
-                return InnerTrimMethod;
-            }
-        }
+        internal static MethodInfo ConcatMethod { get; }
 
-        internal static PropertyInfo DayProperty
-        {
-            get
-            {                
-                return InnerDayProperty;
-            }
-        }
+        internal static MethodInfo ToLowerMethod { get; }
 
-        internal static PropertyInfo HourProperty
-        {
-            get
-            {                
-                return InnerHourProperty;
-            }
-        }
+        internal static MethodInfo ToUpperMethod { get; }
 
-        internal static PropertyInfo MinuteProperty
-        {
-            get
-            {                
-                return InnerMinuteProperty;
-            }
-        }
+        internal static MethodInfo TrimMethod { get; }
 
-        internal static PropertyInfo SecondProperty
-        {
-            get
-            {                
-                return InnerSecondProperty;
-            }
-        }
+        internal static PropertyInfo DayProperty { get; }
 
-        internal static PropertyInfo MonthProperty
-        {
-            get
-            {                
-                return InnerMonthProperty;
-            }
-        }
+        internal static PropertyInfo HourProperty { get; }
 
-        internal static PropertyInfo YearProperty
-        {
-            get
-            {                
-                return InnerYearProperty;
-            }
-        }
+        internal static PropertyInfo MinuteProperty { get; }
 
-        internal static MethodInfo DoubleRoundMethod
-        {
-            get
-            {                
-                return InnerDoubleRoundMethod;
-            }
-        }
+        internal static PropertyInfo SecondProperty { get; }
 
-        internal static MethodInfo DecimalRoundMethod
-        {
-            get
-            {                
-                return InnerDecimalRoundMethod;
-            }
-        }
+        internal static PropertyInfo MonthProperty { get; }
 
-        internal static MethodInfo DoubleFloorMethod
-        {
-            get
-            {                
-                return InnerDoubleFloorMethod;
-            }
-        }
+        internal static PropertyInfo YearProperty { get; }
 
-        internal static MethodInfo DecimalFloorMethod
-        {
-            get
-            {                
-                return InnerDecimalFloorMethod;
-            }
-        }
+        internal static MethodInfo DoubleRoundMethod { get; }
 
-        internal static MethodInfo DoubleCeilingMethod
-        {
-            get
-            {                
-                return InnerDoubleCeilingMethod;
-            }
-        }
+        internal static MethodInfo DecimalRoundMethod { get; }
 
-        internal static MethodInfo DecimalCeilingMethod
-        {
-            get
-            {                
-                return InnerDecimalCeilingMethod;
-            }
-        }
-        
+        internal static MethodInfo DoubleFloorMethod { get; }
+
+        internal static MethodInfo DecimalFloorMethod { get; }
+
+        internal static MethodInfo DoubleCeilingMethod { get; }
+
+        internal static MethodInfo DecimalCeilingMethod { get; }
+
         public static void RegisterFunction(string name, MethodInfo[] methodInfos)
-        {            
+        {
             if(UserFunctions.ContainsKey(name))
-                throw new Exception(String.Format("function '{0}' exists", name));
+                throw new Exception($"function '{name}' exists");
 
             UserFunctions.Add(name, methodInfos);
         }

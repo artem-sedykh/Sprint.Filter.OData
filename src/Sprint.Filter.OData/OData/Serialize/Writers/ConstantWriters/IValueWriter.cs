@@ -1,5 +1,5 @@
 ﻿using System;
-
+// ReSharper disable once CheckNamespace
 namespace Sprint.Filter.OData.Serialize.Writers
 {
     public abstract class ValueWriterBase<T> : IValueWriter

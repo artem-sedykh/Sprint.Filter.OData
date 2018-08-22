@@ -44,34 +44,34 @@ namespace Sprint.Filter.OData.Serialize
             new ContainsMethodWriter(),
             new QueryableMethodWriter(),
 
-            new MathCeilingMethodWriter(), 
-            new MathFloorMethodWriter(), 
+            new MathCeilingMethodWriter(),
+            new MathFloorMethodWriter(),
             new MathRoundMethodWriter(),
 
-            new StringContainsMethodWriter(), 
-            new StringEndsWithMethodWriter(), 
-            new StringIndexOfMethodWriter(), 
-            new StringReplaceMethodWriter(), 
-            new StringStartsWithMethodWriter(), 
-            new StringSubstringMethodWriter(), 
-            new StringToLowerMethodWriter(), 
-            new StringToUpperMethodWriter(), 
+            new StringContainsMethodWriter(),
+            new StringEndsWithMethodWriter(),
+            new StringIndexOfMethodWriter(),
+            new StringReplaceMethodWriter(),
+            new StringStartsWithMethodWriter(),
+            new StringSubstringMethodWriter(),
+            new StringToLowerMethodWriter(),
+            new StringToUpperMethodWriter(),
             new StringTrimMethodWriter()
         };
 
         #endregion
 
-        private readonly IDictionary<ParameterExpression, string> parameters = new Dictionary<ParameterExpression, string>();        
+        private readonly IDictionary<ParameterExpression, string> _parameters = new Dictionary<ParameterExpression, string>();
 
         private static readonly Type DateTimeType = typeof(DateTime);
 
         private static readonly Type StringType = typeof(string);
 
-        private readonly IMemberNameProvider memberNameProvider = new MemberNameProvider();
+        private readonly IMemberNameProvider _memberNameProvider = new MemberNameProvider();
 
         public string VisitParameter(ParameterExpression expression)
         {
-            return parameters[expression];
+            return _parameters[expression];
         }
 
         public string VisitMethodCall(MethodCallExpression expression)
@@ -90,17 +90,17 @@ namespace Sprint.Filter.OData.Serialize
         public string VisitMemberAccess(MemberExpression memberExpr)
         {
             var memberCall = GetMemberCall(memberExpr);
-            
-            if(memberCall != null)
-                return String.Format("{0}({1})", memberCall, Visit(memberExpr.Expression));
 
-            var name = memberNameProvider.ResolveName(memberExpr.Member);
-          
+            if(memberCall != null)
+                return $"{memberCall}({Visit(memberExpr.Expression)})";
+
+            var name = _memberNameProvider.ResolveName(memberExpr.Member);
+
             if (memberExpr.Expression != null)
-            {                
+            {
                 var left = Visit(memberExpr.Expression);
 
-                return String.IsNullOrWhiteSpace(left) ? name : String.Format("{0}/{1}", left, name);
+                return string.IsNullOrWhiteSpace(left) ? name : $"{left}/{name}";
             }
 
             return name;
@@ -111,7 +111,7 @@ namespace Sprint.Filter.OData.Serialize
             var declaringType = memberExpression.Member.DeclaringType;
             var name = memberExpression.Member.Name;
 
-            if (declaringType == StringType && String.Equals(name, "Length"))
+            if (declaringType == StringType && string.Equals(name, "Length"))
                 return name.ToLowerInvariant();
 
             if (declaringType == DateTimeType)
@@ -136,7 +136,7 @@ namespace Sprint.Filter.OData.Serialize
             var left = Visit(expression.Left);
             var right = Visit(expression.Right);
 
-            return String.Format(expression.Method == MethodProvider.ConcatMethod ? "concat({0}, {1})" : expression.NodeType.ODataFormat(), left, right);
+            return string.Format(expression.Method == MethodProvider.ConcatMethod ? "concat({0}, {1})" : expression.NodeType.ODataFormat(), left, right);
         }
 
         public string VisitBinaryAndAlsoOrElse(BinaryExpression expression)
@@ -152,12 +152,12 @@ namespace Sprint.Filter.OData.Serialize
             var right = Visit(expression.Right);
 
             if (leftCompositBinary)
-                left = string.Format("({0})", left);
+                left = $"({left})";
 
             if (rightCompositBinary)
-                right = string.Format("({0})", right);
+                right = $"({right})";
 
-            return string.Format("{0} {1} {2}", left, op, right);
+            return $"{left} {op} {right}";
         }
 
         public string VisitConstant(ConstantExpression constantExpr)
@@ -170,7 +170,7 @@ namespace Sprint.Filter.OData.Serialize
             var writer = ValueWriters.FirstOrDefault(w => w.Handles(type));
 
             if(writer == null)
-                throw new NotSupportedException(String.Format("type '{0}' is not supported", type));
+                throw new NotSupportedException($"type '{type}' is not supported");
 
             return writer.Write(constantExpr.Value);
         }
@@ -182,17 +182,17 @@ namespace Sprint.Filter.OData.Serialize
                 if (lambda.Parameters.Count > 1)
                     throw new NotSupportedException();
 
-                parameters[lambda.Parameters[0]] = String.Empty;
+                _parameters[lambda.Parameters[0]] = string.Empty;
 
                 return Visit(lambda.Body);
             }
 
             foreach (var p in lambda.Parameters)
-                parameters[p] = p.Name;
+                _parameters[p] = p.Name;
 
             return lambda.Parameters.Count > 1 
-                ? String.Format("({0}): {1}", String.Join(", ", lambda.Parameters.Select(x => x.Name)),Visit(lambda.Body))
-                : String.Format("{0}: {1}", lambda.Parameters[0].Name, Visit(lambda.Body));
+                ? $"({String.Join(", ", lambda.Parameters.Select(x => x.Name))}): {Visit(lambda.Body)}"
+                : $"{lambda.Parameters[0].Name}: {Visit(lambda.Body)}";
         }
 
         internal string VisitQuote(UnaryExpression expression)
@@ -216,14 +216,14 @@ namespace Sprint.Filter.OData.Serialize
         internal string VisitNot(UnaryExpression expression)
         {
             if (expression.Operand.NodeType.IsBinary() || expression.Operand.NodeType.IsBinaryLogical())
-                return String.Format("not ({0})", Visit(expression.Operand));
+                return $"not ({Visit(expression.Operand)})";
 
-            return String.Format("not {0}", Visit(expression.Operand));
+            return $"not {Visit(expression.Operand)}";
         }
 
         internal string VisitArrayLength(UnaryExpression expression)
         {
-            return String.Format("{0}/Length", Visit(expression.Operand));
+            return $"{Visit(expression.Operand)}/Length";
         }
 
         internal string VisitIndex(IndexExpression expression)
@@ -232,7 +232,7 @@ namespace Sprint.Filter.OData.Serialize
 
             var right = Visit(expression.Arguments.FirstOrDefault());
 
-            return String.Format("{0}/item({1})", left, right);
+            return $"{left}/item({right})";
         }
 
         internal string VisitArrayIndex(BinaryExpression expression)
@@ -240,21 +240,21 @@ namespace Sprint.Filter.OData.Serialize
             var left = Visit(expression.Left);
             var right = Visit(expression.Right);
 
-            return String.Format("{0}/item({1})", left,right);
+            return $"{left}/item({right})";
         }
 
         internal string VisitTypeIs(TypeBinaryExpression expression)
         {
             var member = Visit(expression.Expression);
 
-            return String.IsNullOrEmpty(member) ? String.Format("isof({0})", expression.TypeOperand.FullName) : String.Format("isof({0}, {1})", member, expression.TypeOperand.FullName);
+            return string.IsNullOrEmpty(member) ? $"isof({expression.TypeOperand.FullName})" : $"isof({member}, {expression.TypeOperand.FullName})";
         }
 
         internal string VisitTypeAs(UnaryExpression expression)
         {
             var operand = Visit(expression.Operand);
 
-            return String.IsNullOrEmpty(operand) ? String.Format("cast({0})", expression.Type.FullName) : String.Format("cast({0}, {1})",operand, expression.Type.FullName);
+            return string.IsNullOrEmpty(operand) ? $"cast({expression.Type.FullName})" : $"cast({operand}, {expression.Type.FullName})";
         }
 
         internal string Visit(Expression expression, bool root=false)
@@ -329,13 +329,13 @@ namespace Sprint.Filter.OData.Serialize
                     throw new NotSupportedException(expression.ToString());
 
                 default:
-                    throw new Exception(string.Format("Unhandled expression type: '{0}'", expression.NodeType));
+                    throw new Exception($"Unhandled expression type: '{expression.NodeType}'");
             }
         }
 
         public string Translate(Expression expression)
         {
-            parameters.Clear();
+            _parameters.Clear();
 
             expression = Evaluator.PartialEval(expression);
 

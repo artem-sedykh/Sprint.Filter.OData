@@ -20,16 +20,16 @@ namespace Sprint.Filter.OData.Test.Serialize
         [TestMethod]
         public void ArrayLength()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.CustomersArray.Length == 15)), "CustomersArray/Length eq 15");            
+            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.CustomersArray.Length == 15)), "CustomersArray/Length eq 15");            
         }
 
         [TestMethod]
         public void Isof()
         {            
             // ReSharper disable once CSharpWarnings::CS0183
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Parent is Customer)), "isof(Parent, Sprint.Filter.OData.Test.Models.Customer)");
+            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Parent is Customer)), "isof(Parent, Sprint.Filter.OData.Test.Models.Customer)");
             // ReSharper disable once CSharpWarnings::CS0183
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t is Customer)), "isof(Sprint.Filter.OData.Test.Models.Customer)");
+            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t is Customer)), "isof(Sprint.Filter.OData.Test.Models.Customer)");
         }
 
 
@@ -37,28 +37,28 @@ namespace Sprint.Filter.OData.Test.Serialize
         public void Cast()
         {            
             // ReSharper disable once RedundantCast
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Parent as Customer !=null)), "cast(Parent, Sprint.Filter.OData.Test.Models.Customer) ne null");
+            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Parent as Customer !=null)), "cast(Parent, Sprint.Filter.OData.Test.Models.Customer) ne null");
 
             // ReSharper disable once RedundantCast
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t as Customer != null)), "cast(Sprint.Filter.OData.Test.Models.Customer) ne null");
+            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t as Customer != null)), "cast(Sprint.Filter.OData.Test.Models.Customer) ne null");
         }
 
         [TestMethod]
         public void Select()
         {            
-            Assert.AreEqual(Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Customers.Select(x => x.Id).Any())), "Customers/Select(x: x/Id)/Any()");
+            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Select(x => x.Id).Any())), "Customers/Select(x: x/Id)/Any()");
         }
 
         [TestMethod, ExpectedException(typeof(NotSupportedException))]
         public void SelectNew()
         {
-            Filter.Serialize(Linq.Expr<Customer, bool>(t => t.Customers.Select(x => new { x.Id }).Any()));
+            Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Select(x => new { x.Id }).Any()));
         }
 
         [TestMethod]
         public void Property()
         {
-            var expr = Linq.Expr<Customer, int>(t => t.Items.First().Id);
+            var expr = Linq.Linq.Expr<Customer, int>(t => t.Items.First().Id);
 
             var query = Filter.Serialize(expr);
 

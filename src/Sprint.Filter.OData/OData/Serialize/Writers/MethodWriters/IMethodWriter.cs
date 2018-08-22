@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using JetBrains.Annotations;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -8,8 +8,8 @@ namespace Sprint.Filter.OData.Serialize.Writers
     {
         int Priority { get; set; }
 
-        bool CanHandle([NotNull]MethodCallExpression expression);
+        bool CanHandle(MethodCallExpression expression);
 
-        string Write([NotNull]MethodCallExpression expression, [NotNull]Func<Expression, string> writer);
+        string Write(MethodCallExpression expression, Func<Expression, string> writer);
     }
 }

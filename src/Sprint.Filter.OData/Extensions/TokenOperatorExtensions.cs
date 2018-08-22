@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using JetBrains.Annotations;
 
 namespace Sprint.Filter.Extensions
 {
@@ -13,34 +12,34 @@ namespace Sprint.Filter.Extensions
         private static readonly string[] UnaryOperations = { "not", "-" };
 
         
-        public static bool IsOperator([NotNull] this string @operator)
+        public static bool IsOperator(this string @operator)
         {
             return Combiners.Any(x => String.Equals(x, @operator, StringComparison.OrdinalIgnoreCase))
                    || Operations.Any(x => String.Equals(x, @operator, StringComparison.OrdinalIgnoreCase))
                    || Arithmetic.Any(x => String.Equals(x, @operator, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static bool IsCombinationOperator([NotNull]this string @operator)
+        public static bool IsCombinationOperator(this string @operator)
         {
             return Combiners.Any(x => String.Equals(x, @operator, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static bool IsUnaryOperator([NotNull]this string @operator)
+        public static bool IsUnaryOperator(this string @operator)
         {
-            return UnaryOperations.Any(x => String.Equals(x, @operator, StringComparison.OrdinalIgnoreCase));
+            return UnaryOperations.Any(x => string.Equals(x, @operator, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static bool IsLogicalOperator([NotNull]this string @operator)
+        public static bool IsLogicalOperator(this string @operator)
         {
-            return Operations.Any(x => String.Equals(x, @operator, StringComparison.OrdinalIgnoreCase));
+            return Operations.Any(x => string.Equals(x, @operator, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static bool IsArithmeticOperator([NotNull]this string @operator)
+        public static bool IsArithmeticOperator(this string @operator)
         {
-            return Arithmetic.Any(x => String.Equals(x, @operator, StringComparison.OrdinalIgnoreCase));
+            return Arithmetic.Any(x => string.Equals(x, @operator, StringComparison.OrdinalIgnoreCase));
         }
 
-        public static ExpressionType GetExpressionType([NotNull] this string @operator)
+        public static ExpressionType GetExpressionType(this string @operator)
         {
             switch (@operator.ToLowerInvariant())
             {

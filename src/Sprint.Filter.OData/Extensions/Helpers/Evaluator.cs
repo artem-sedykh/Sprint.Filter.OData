@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
+// ReSharper disable once CheckNamespace
 namespace Sprint.Filter.Helpers
 {
     internal static class Evaluator
@@ -51,8 +52,8 @@ namespace Sprint.Filter.Helpers
 
             public override Expression Visit(Expression exp)
             {
-                if (exp == null)              
-                    return null;                
+                if (exp == null)
+                    return null;
 
                 return _candidates.Contains(exp) ? Evaluate(exp) : base.Visit(exp);
             }

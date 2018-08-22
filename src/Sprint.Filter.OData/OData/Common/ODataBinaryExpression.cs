@@ -3,9 +3,9 @@ using System.Linq.Expressions;
 using Sprint.Filter.Extensions;
 
 namespace Sprint.Filter.OData.Common
-{    
+{
     internal class ODataBinaryExpression : ODataExpression
-    {        
+    {
         public ODataBinaryExpression(ExpressionType type)
         {
             if(!type.IsBinary())
@@ -20,7 +20,7 @@ namespace Sprint.Filter.OData.Common
 
         internal override string DebugView()
         {
-            return String.Format(nodeType.DebugFormat(), Left, Right);
-        }        
+            return string.Format(nodeType.DebugFormat(), Left, Right);
+        }
     }
 }

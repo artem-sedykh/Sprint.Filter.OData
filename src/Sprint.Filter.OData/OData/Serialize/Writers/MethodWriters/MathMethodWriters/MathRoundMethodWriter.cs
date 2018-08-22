@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -8,7 +9,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
         public int Priority { get; set; }
 
         public bool CanHandle(MethodCallExpression expression)
-        {            
+        {
             return expression.Method.DeclaringType == typeof(Math) && expression.Method.Name == "Round";
         }
 
@@ -16,7 +17,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
         {
             var mathArgument = expression.Arguments[0];
 
-            return string.Format("{0}({1})", "round", writer(mathArgument));
-        }   
+            return $"round({writer(mathArgument)})";
+        }
     }
 }

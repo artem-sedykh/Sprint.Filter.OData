@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -70,7 +69,7 @@ namespace Sprint.Filter.OData.Test
             }
 
 
-            //var expr = Linq.Expr<Customer, IEnumerable<int>>(t => t.Customers.SelectMany(c => c.Items, (a, b) => a.Id + b.Id));
+            //var expr = Linq.Linq.Expr<Customer, IEnumerable<int>>(t => t.Customers.SelectMany(c => c.Items, (a, b) => a.Id + b.Id));
             //var translator = new QueryTranslator();
 
             //var d = translator.Invoke<Customer, IEnumerable<int>>(expression);

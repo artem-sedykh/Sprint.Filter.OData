@@ -1,4 +1,5 @@
-﻿namespace Sprint.Filter.OData.Serialize.Writers
+﻿// ReSharper disable once CheckNamespace
+namespace Sprint.Filter.OData.Serialize.Writers
 {
     internal class IntegerValueWriter<T> : ValueWriterBase<T>
     {

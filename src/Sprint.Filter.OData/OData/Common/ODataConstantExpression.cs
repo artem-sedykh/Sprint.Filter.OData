@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq.Expressions;
-using JetBrains.Annotations;
 
 namespace Sprint.Filter.OData.Common
-{    
+{
     internal sealed class ODataConstantExpression : ODataExpression
     {
         private object _value { get; set; }
         private Type _type { get; set; }
 
-        public ODataConstantExpression([NotNull]object value)
+        public ODataConstantExpression(object value)
         {
             _type = value.GetType();
 
@@ -17,7 +16,7 @@ namespace Sprint.Filter.OData.Common
 
             nodeType = ExpressionType.Constant;
         }
-        public ODataConstantExpression(object value, [NotNull] Type type)
+        public ODataConstantExpression(object value, Type type)
         {
             _value = value;
 
@@ -29,19 +28,13 @@ namespace Sprint.Filter.OData.Common
             nodeType = ExpressionType.Constant;
         }
 
-        public Type Type
-        {
-            get { return _type; }
-        }
+        public Type Type => _type;
 
-        public object Value
-        {
-            get { return _value; }
-        }
+        public object Value => _value;
 
         internal override string DebugView()
         {
-            return String.Format(_type == typeof(string) ? "\"{0}\"" : "{0}", _value != null ? _value.ToString() : "null");
+            return string.Format(_type == typeof(string) ? "\"{0}\"" : "{0}", _value?.ToString() ?? "null");
         }
     }
 }

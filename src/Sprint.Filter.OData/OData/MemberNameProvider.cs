@@ -22,18 +22,17 @@ namespace Sprint.Filter.OData
         public string ResolveName(MemberInfo member)
         {
             var result = KnownMemberNames.GetOrAdd(member, ResolveNameInternal);
-            
 
             return result;
         }
 
         private static string ResolveNameInternal(MemberInfo member)
-        {           
+        {
             var dataMember = member.GetCustomAttributes(typeof(DataMemberAttribute), true)
                 .OfType<DataMemberAttribute>()
                 .FirstOrDefault();
 
-            if (dataMember != null && dataMember.Name != null)
+            if (dataMember?.Name != null)
             {
                 return dataMember.Name;
             }
@@ -42,21 +41,21 @@ namespace Sprint.Filter.OData
                 .OfType<XmlElementAttribute>()
                 .FirstOrDefault();
 
-            if (xmlElement != null && xmlElement.ElementName != null)            
-                return xmlElement.ElementName;            
+            if (xmlElement?.ElementName != null)
+                return xmlElement.ElementName;
 
             var xmlAttribute = member.GetCustomAttributes(typeof(XmlAttributeAttribute), true)
                 .OfType<XmlAttributeAttribute>()
                 .FirstOrDefault();
 
-            if (xmlAttribute != null && xmlAttribute.AttributeName != null)            
-                return xmlAttribute.AttributeName;            
+            if (xmlAttribute?.AttributeName != null)
+                return xmlAttribute.AttributeName;
             
             return member.Name;
         }
 
         private static MemberInfo ResolveAliasInternal(Type type, string alias)
-        {            
+        {
 
             var member = GetMembers(type)
                 .Select(
@@ -82,10 +81,10 @@ namespace Sprint.Filter.OData
         }
 
         private static MemberInfo CheckFrontingProperty(MemberInfo field)
-        {            
+        {
             var declaringType = field.DeclaringType;
 
-            var correspondingProperty = declaringType.GetProperties().FirstOrDefault(x => string.Equals(x.Name, field.Name.Replace("_", string.Empty), StringComparison.OrdinalIgnoreCase));
+            var correspondingProperty = declaringType?.GetProperties().FirstOrDefault(x => string.Equals(x.Name, field.Name.Replace("_", string.Empty), StringComparison.OrdinalIgnoreCase));
 
             return correspondingProperty ?? field;
         }
@@ -130,7 +129,7 @@ namespace Sprint.Filter.OData
         }
 
         private static bool HasAliasAttribute(string alias, MemberInfo member)
-        {            
+        {
             var attributes = member.GetCustomAttributes(true);
             var dataMember = attributes.OfType<DataMemberAttribute>()
                 .FirstOrDefault();

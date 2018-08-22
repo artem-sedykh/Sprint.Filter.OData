@@ -18,7 +18,7 @@ namespace Sprint.Filter.OData.Test
         [TestMethod]
         public void Brackets()
         {
-            Assert.IsTrue(ExpressionEqualityComparer.Equals(Filter.Deserialize<Customer>("Id mul (3 add Id) ge -15"), Linq.Expr<Customer, bool>(t => t.Id * (3 + t.Id) >= -15)));
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Filter.Deserialize<Customer>("Id mul (3 add Id) ge -15"), Linq.Linq.Expr<Customer, bool>(t => t.Id * (3 + t.Id) >= -15)));
         }
     }
 }

@@ -13,6 +13,6 @@ namespace Sprint.Filter.Extensions
             }
 
             return false;
-        }        
+        }
     }
 }

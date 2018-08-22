@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -8,8 +9,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
         public int Priority { get; set; }
         public bool CanHandle(MethodCallExpression expression)
         {
-            return expression.Method.DeclaringType == typeof(string)
-                   && expression.Method.Name == "Replace";
+            return expression.Method.DeclaringType == typeof(string) && expression.Method.Name == "Replace";
         }
 
         public string Write(MethodCallExpression expression, Func<Expression, string> writer)
@@ -18,7 +18,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
             var secondArgument = expression.Arguments[1];
             var obj = expression.Object;
 
-            return string.Format("replace({0}, {1}, {2})", writer(obj), writer(firstArgument), writer(secondArgument));
+            return $"replace({writer(obj)}, {writer(firstArgument)}, {writer(secondArgument)})";
         }
     }
 }

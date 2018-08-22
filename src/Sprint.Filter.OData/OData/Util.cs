@@ -70,7 +70,7 @@ namespace Sprint.Filter.OData
                     return (value - 'A') + 10;
 
                 default:
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
             }
         }
     }

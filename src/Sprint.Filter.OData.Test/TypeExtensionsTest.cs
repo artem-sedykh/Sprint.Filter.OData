@@ -15,7 +15,7 @@ namespace Sprint.Filter.OData.Test
         {
             Assert.IsFalse((new List<int>()).GetType().IsIQueryable());
 
-            Assert.IsTrue((new List<int>().AsQueryable()).GetType().IsIQueryable());            
+            Assert.IsTrue((new List<int>().AsQueryable()).GetType().IsIQueryable());
 
             Assert.IsTrue((typeof(IQueryable<int>)).IsIQueryable());
 

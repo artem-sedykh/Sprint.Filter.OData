@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -13,9 +14,9 @@ namespace Sprint.Filter.OData.Serialize.Writers
 
         public string Write(MethodCallExpression expression, Func<Expression, string> writer)
         {
-            var obj = expression.Object;            
+            var obj = expression.Object;
 
-            return string.Format("tolower({0})", writer(obj));
+            return $"tolower({writer(obj)})";
         }
     }
 }

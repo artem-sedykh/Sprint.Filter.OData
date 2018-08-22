@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq.Expressions;
-using JetBrains.Annotations;
 using Sprint.Filter.OData.Deserialize;
 
 namespace Sprint.Filter.OData
@@ -9,7 +8,7 @@ namespace Sprint.Filter.OData
     {
         public static LambdaExpression Deserialize(Type modelType, string query)
         {
-            if (String.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(query))
                 return null;
 
             var expressionLexer = new ExpressionLexer(query);
@@ -67,7 +66,7 @@ namespace Sprint.Filter.OData
             return query;
         }
 
-        public static Expression<Func<TResult>> Invoke<TResult>([NotNull]string query)
+        public static Expression<Func<TResult>> Invoke<TResult>(string query)
         {
             var expressionLexer = new ExpressionLexer(query);
 

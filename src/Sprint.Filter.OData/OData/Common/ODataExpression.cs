@@ -5,15 +5,12 @@ using Sprint.Filter.Extensions;
 
 namespace Sprint.Filter.OData.Common
 {
-    [DebuggerDisplay("{DebugView()}")]
+    [DebuggerDisplay("{" + nameof(DebugView) + "()}")]
     internal abstract class ODataExpression
-    {        
+    {
         protected ExpressionType nodeType;
 
-        public virtual ExpressionType NodeType
-        {
-            get { return nodeType; }
-        }
+        public virtual ExpressionType NodeType => nodeType;
 
         internal virtual string DebugView()
         {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+// ReSharper disable once CheckNamespace
 
 namespace Sprint.Filter.OData.Serialize.Writers
 {
@@ -21,7 +22,7 @@ namespace Sprint.Filter.OData.Serialize.Writers
                 return methodInfos.Any(m => m == genericMethodDefinition) || methodInfos.Any(m => m == expression.Method);
             }
 
-            return methodInfos.Any(m => m == expression.Method);            
+            return methodInfos.Any(m => m == expression.Method);
         }
 
         public string Write(MethodCallExpression expression, Func<Expression, string> writer)
@@ -34,12 +35,12 @@ namespace Sprint.Filter.OData.Serialize.Writers
 
                 var userFunction = MethodProvider.UserFunctions.First(uf =>uf.Value.Any(m => m == genericMethodDefinition) || uf.Value.Any(m => m == expression.Method));                
 
-                return String.Format("{0}({1})", userFunction.Key, String.Join(", ", arguments));                
+                return $"{userFunction.Key}({string.Join(", ", arguments)})";
             }
 
             var uFunction = MethodProvider.UserFunctions.First(uf => uf.Value.Any(m => m == expression.Method));
 
-            return String.Format("{0}({1})", uFunction.Key, String.Join(", ", arguments));
+            return $"{uFunction.Key}({string.Join(", ", arguments)})";
         }
     }
 }
