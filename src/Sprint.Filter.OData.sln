@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData", "Sprint.Filter.OData\Sprint.Filter.OData.csproj", "{6D7B79DC-D3B5-4E00-82B7-8AADFC4B8F27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.Filter.OData", "Sprint.Filter.OData\Sprint.Filter.OData.csproj", "{6D7B79DC-D3B5-4E00-82B7-8AADFC4B8F27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData.Test", "Sprint.Filter.OData.Test\Sprint.Filter.OData.Test.csproj", "{BDDFC04E-9A04-4177-A87D-CC3E0D9DBAD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.Filter.OData.Mvc", "Sprint.Filter.OData.Mvc\Sprint.Filter.OData.Mvc.csproj", "{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData.Mvc", "Sprint.Filter.OData.Mvc\Sprint.Filter.OData.Mvc.csproj", "{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData.Test", "Sprint.Filter.OData.Test\Sprint.Filter.OData.Test.csproj", "{52C0C67F-0B45-4F57-AD7B-6864622B3B23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{6D7B79DC-D3B5-4E00-82B7-8AADFC4B8F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D7B79DC-D3B5-4E00-82B7-8AADFC4B8F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D7B79DC-D3B5-4E00-82B7-8AADFC4B8F27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDDFC04E-9A04-4177-A87D-CC3E0D9DBAD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDDFC04E-9A04-4177-A87D-CC3E0D9DBAD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDDFC04E-9A04-4177-A87D-CC3E0D9DBAD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDDFC04E-9A04-4177-A87D-CC3E0D9DBAD8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52C0C67F-0B45-4F57-AD7B-6864622B3B23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C0C67F-0B45-4F57-AD7B-6864622B3B23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52C0C67F-0B45-4F57-AD7B-6864622B3B23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52C0C67F-0B45-4F57-AD7B-6864622B3B23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
