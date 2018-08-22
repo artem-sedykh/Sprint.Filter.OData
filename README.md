@@ -1,6 +1,9 @@
 Sprint.Filter.OData
 ===================
-[Download from NuGet](http://nuget.org/packages/Sprint.Filter.OData).
+# Status
+[![Build status](https://ci.appveyor.com/api/projects/status/210ubfc6jn3g5hk0/branch/master?svg=true)](https://ci.appveyor.com/project/artem-sedykh/sprint-filter-odata/branch/master)
+
+[![NuGet](https://img.shields.io/nuget/v/Sprint.Filter.OData.svg)](https://www.nuget.org/packages/Sprint.Filter.OData/)
 
 ## Introduction
 

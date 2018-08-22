@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFrameworks>net46;</TargetFrameworks>
+    <Version>1.1.1</Version>
+    <Authors>Artem Sedykh</Authors>
+    <Company>Artem Sedykh</Company>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/artem-sedykh/Sprint.Filter.OData/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/artem-sedykh/Sprint.Filter.OData</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/artem-sedykh/Sprint.Filter.OData</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Expression Tree OData Query Linq Parser Serialization Mvc aspnet</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
