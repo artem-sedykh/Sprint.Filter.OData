@@ -2,51 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Sprint.Filter.OData;
-using Sprint.Filter.OData.Test;
-using Xunit;
+using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test
 {
-    
+    [TestFixture]
     public class CommonTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        
-        public CommonTest()
+        [SetUp]
+        public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [Fact]
+        [Test]
         public void Isof()
         {
             // ReSharper disable once CSharpWarnings::CS0183
-            Assert.True(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Parent is Customer),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Parent is Customer),
                 Filter.Deserialize<Customer>("isof(Parent, Sprint.Filter.OData.Test.Models.Customer)")));
 
             // ReSharper disable once CSharpWarnings::CS0183
-            Assert.True(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t is Customer),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t is Customer),
                  Filter.Deserialize<Customer>("isof(Sprint.Filter.OData.Test.Models.Customer)")));            
         }
 
-        [Fact]
+        [Test]
         public void Cast()
         {
             // ReSharper disable once RedundantCast
-            var left = Linq.Linq.Expr<Customer, bool>(t => t.Parent as Customer != null);
-            var right = Filter.Deserialize<Customer>("cast(Parent, Sprint.Filter.OData.Test.Models.Customer) ne null");
-            Assert.True(ExpressionEqualityComparer.Equals(left, right));
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Parent as Customer!=null),
+                Filter.Deserialize<Customer>("cast(Parent, Sprint.Filter.OData.Test.Models.Customer) ne null")));
 
             // ReSharper disable once RedundantCast
-            Assert.True(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t as Customer!=null),
+            Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t as Customer!=null),
                  Filter.Deserialize<Customer>("cast(Sprint.Filter.OData.Test.Models.Customer) ne null")));
         }
 
-        [Fact]
+        [Test]
         public void Test()
         {
          // //  var epxression = Linq.Linq.Expr<Customer, int>(x => x.Id>);

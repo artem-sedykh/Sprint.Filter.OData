@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.Filter.OData", "Spri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sprint.Filter.OData.Mvc", "Sprint.Filter.OData.Mvc\Sprint.Filter.OData.Mvc.csproj", "{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData.Test", "Sprint.Filter.OData.Test\Sprint.Filter.OData.Test.csproj", "{52C0C67F-0B45-4F57-AD7B-6864622B3B23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint.Filter.OData.Test", "Sprint.Filter.OData.Test\Sprint.Filter.OData.Test.csproj", "{95AEEF37-BB08-46F3-A3DC-64CCD11A7FFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F49299F3-088C-4CDC-9B38-FF0E1FBA540A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52C0C67F-0B45-4F57-AD7B-6864622B3B23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52C0C67F-0B45-4F57-AD7B-6864622B3B23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52C0C67F-0B45-4F57-AD7B-6864622B3B23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52C0C67F-0B45-4F57-AD7B-6864622B3B23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95AEEF37-BB08-46F3-A3DC-64CCD11A7FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95AEEF37-BB08-46F3-A3DC-64CCD11A7FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95AEEF37-BB08-46F3-A3DC-64CCD11A7FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95AEEF37-BB08-46F3-A3DC-64CCD11A7FFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
