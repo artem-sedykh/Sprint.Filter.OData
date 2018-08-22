@@ -1,94 +1,94 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test.Serialize
 {
-    [TestFixture]
+    
     public class SerializeStringFunctionsTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [SetUp]
+        
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [Test]
+        [Fact]
         public void Substringof()
         {
             // ReSharper disable once RedundantBoolCompare
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Contains("Alfreds") == true)), "substringof('Alfreds', Name) eq true");
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Contains("Alfreds") == true)), "substringof('Alfreds', Name) eq true");
         }
 
-        [Test]
+        [Fact]
         public void EndsWith()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.EndsWith("Futterkiste"))), "endswith(Name, 'Futterkiste')");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.EndsWith("Futterkiste"))), "endswith(Name, 'Futterkiste')");            
         }
 
-        [Test]
+        [Fact]
         public void StartsWith()
         {
             // ReSharper disable once RedundantBoolCompare
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.StartsWith("Alfr") == true)), "startswith(Name, 'Alfr') eq true");                        
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.StartsWith("Alfr") == true)), "startswith(Name, 'Alfr') eq true");                        
         }
 
-        [Test]
+        [Fact]
         public void Length()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Length == 19)), "length(Name) eq 19");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Length == 19)), "length(Name) eq 19");            
         }
 
-        [Test]
+        [Fact]
         public void TestIndexOf()
         {
             // ReSharper disable StringIndexOfIsCultureSpecific.1
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.IndexOf("lfreds") == 1)), "indexof(Name, 'lfreds') eq 1");                      
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.IndexOf("lfreds") == 1)), "indexof(Name, 'lfreds') eq 1");                      
         }
 
-        [Test]
+        [Fact]
         public void Replace()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Replace(" ", "") == "AlfredsFutterkiste")), "replace(Name, ' ', '') eq 'AlfredsFutterkiste'");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Replace(" ", "") == "AlfredsFutterkiste")), "replace(Name, ' ', '') eq 'AlfredsFutterkiste'");            
         }
 
 
-        [Test]
+        [Fact]
         public void SubstringWithOneArgument()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Substring(1) == "lfreds Futterkiste")), "substring(Name, 1) eq 'lfreds Futterkiste'");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Substring(1) == "lfreds Futterkiste")), "substring(Name, 1) eq 'lfreds Futterkiste'");            
         }
 
-        [Test]
+        [Fact]
         public void SubstringWithTwoArgument()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Substring(1, 2) == "lf")), "substring(Name, 1, 2) eq 'lf'");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Substring(1, 2) == "lf")), "substring(Name, 1, 2) eq 'lf'");            
         }
 
-        [Test]
+        [Fact]
         public void ToLower()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.ToLower() == "alfreds futterkiste")), "tolower(Name) eq 'alfreds futterkiste'");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.ToLower() == "alfreds futterkiste")), "tolower(Name) eq 'alfreds futterkiste'");            
         }
 
-        [Test]
+        [Fact]
         public void ToUpper()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.ToUpper() == "ALFREDS FUTTERKISTE")), "toupper(Name) eq 'ALFREDS FUTTERKISTE'");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.ToUpper() == "ALFREDS FUTTERKISTE")), "toupper(Name) eq 'ALFREDS FUTTERKISTE'");            
         }
 
-        [Test]
+        [Fact]
         public void Trim()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Trim() == "Alfreds Futterkiste")), "trim(Name) eq 'Alfreds Futterkiste'");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Name.Trim() == "Alfreds Futterkiste")), "trim(Name) eq 'Alfreds Futterkiste'");            
         }
 
-        [Test]
+        [Fact]
         public void Concat()
         {
-            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => (t.Name + ", " + t.LastName) == "Berlin, Germany")), "concat(concat(Name, ', '), LastName) eq 'Berlin, Germany'");            
+            Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => (t.Name + ", " + t.LastName) == "Berlin, Germany")), "concat(concat(Name, ', '), LastName) eq 'Berlin, Germany'");            
         }
     }
 }

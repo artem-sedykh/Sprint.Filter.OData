@@ -2,60 +2,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using Xunit;
 using Sprint.Filter.Extensions;
+using Xunit;
 
 namespace Sprint.Filter.OData.Test
 {
-    [TestFixture]
     public class TypeExtensionsTest
     {
-        [Test]
+        [Fact]
         public void IsIQueryable()
         {
-            Assert.IsFalse((new List<int>()).GetType().IsIQueryable());
+            Assert.False((new List<int>()).GetType().IsIQueryable());
 
-            Assert.IsTrue((new List<int>().AsQueryable()).GetType().IsIQueryable());
+            Assert.True((new List<int>().AsQueryable()).GetType().IsIQueryable());
 
-            Assert.IsTrue((typeof(IQueryable<int>)).IsIQueryable());
+            Assert.True((typeof(IQueryable<int>)).IsIQueryable());
 
-            Assert.IsTrue((typeof(IQueryable<>)).IsIQueryable());
+            Assert.True((typeof(IQueryable<>)).IsIQueryable());
 
-            Assert.IsTrue((typeof(IQueryable)).IsIQueryable());
+            Assert.True((typeof(IQueryable)).IsIQueryable());
         }
 
-        [Test]
+        [Fact]
         public void IsIEnumerable()
         {
-            Assert.IsTrue((new List<int>()).GetType().IsIEnumerable());
+            Assert.True((new List<int>()).GetType().IsIEnumerable());
 
-            Assert.IsTrue((new List<int>().AsQueryable()).GetType().IsIEnumerable());
+            Assert.True((new List<int>().AsQueryable()).GetType().IsIEnumerable());
 
-            Assert.IsTrue((typeof(IQueryable<int>)).IsIEnumerable());
+            Assert.True((typeof(IQueryable<int>)).IsIEnumerable());
 
-            Assert.IsTrue((typeof(IQueryable<>)).IsIEnumerable());
+            Assert.True((typeof(IQueryable<>)).IsIEnumerable());
 
-            Assert.IsTrue((typeof(IEnumerable<>)).IsIEnumerable());
+            Assert.True((typeof(IEnumerable<>)).IsIEnumerable());
 
-            Assert.IsTrue((typeof(IEnumerable<int>)).IsIEnumerable());
+            Assert.True((typeof(IEnumerable<int>)).IsIEnumerable());
 
-            Assert.IsTrue((typeof(IEnumerable<object>)).IsIEnumerable());
+            Assert.True((typeof(IEnumerable<object>)).IsIEnumerable());
 
-            Assert.IsTrue((typeof(IEnumerable)).IsIEnumerable());
+            Assert.True((typeof(IEnumerable)).IsIEnumerable());
         }
 
-        [Test]
+        [Fact]
         public void IsOpenType()
         {
-            Assert.IsTrue(typeof(List<>).IsOpenType());
+            Assert.True(typeof(List<>).IsOpenType());
 
-            Assert.IsFalse(typeof(List<int>).IsOpenType());
+            Assert.False(typeof(List<int>).IsOpenType());
 
-            Assert.IsFalse(typeof(IQueryable<object>).IsOpenType());
+            Assert.False(typeof(IQueryable<object>).IsOpenType());
 
-            Assert.IsTrue(typeof(IQueryable<>).IsOpenType());
+            Assert.True(typeof(IQueryable<>).IsOpenType());
 
-            Assert.IsTrue(typeof(Func<,>).IsOpenType());
+            Assert.True(typeof(Func<,>).IsOpenType());
         }
     }
 }

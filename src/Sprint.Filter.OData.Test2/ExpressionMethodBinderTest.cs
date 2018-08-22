@@ -4,13 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
+using NUnit.Framework;
 using Sprint.Filter.Helpers;
 
 namespace Sprint.Filter.OData.Test
 {
     
-    
+    [TestFixture]
     public class ExpressionMethodBinderTest
     {
         #region Test Data
@@ -34,14 +34,14 @@ namespace Sprint.Filter.OData.Test
 
         #endregion
 
-        [Fact]
+        [Test]
         public void Bind()
         {
             Expression<Func<IEnumerable<object>, int>> e1 = x => 0;
             
             var method = ExpressionMethodBinder.Bind(typeof(Source), "Test2",null, new Expression[] { Expression.Constant(e1), Expression.Constant(1) });
 
-            Assert.NotNull(method);
+            Assert.IsNotNull(method);
 
         }
 
@@ -66,7 +66,7 @@ namespace Sprint.Filter.OData.Test
 
             });
 
-            Assert.NotNull(method);
+            Assert.IsNotNull(method);
         }
     }
 }
