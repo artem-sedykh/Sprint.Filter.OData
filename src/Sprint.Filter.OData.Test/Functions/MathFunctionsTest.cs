@@ -1,23 +1,23 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 
 namespace Sprint.Filter.OData.Test.Functions
 {
-    [TestClass]
+    [TestFixture]
     public class MathFunctionsTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [TestMethod]
+        [Test]
         public void Round()
         {            
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Round(t.FreightDecimal) == 32), Filter.Deserialize<Customer>("round(FreightDecimal) eq 32")));
@@ -26,7 +26,7 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Round(t.FreightDouble) == 32), Filter.Deserialize<Customer>("round(FreightDouble) eq 32")));
         }
 
-        [TestMethod]
+        [Test]
         public void RoundNullable()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Round(t.FreightDecimalNullable.Value) == 32), Filter.Deserialize<Customer>("round(FreightDecimalNullable) eq 32")));
@@ -35,7 +35,7 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Round(t.FreightDoubleNullable.Value) == 32), Filter.Deserialize<Customer>("round(FreightDoubleNullable) eq 32")));
         }
 
-        [TestMethod]
+        [Test]
         public void Ceiling()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Ceiling(t.FreightDecimal) == 33), Filter.Deserialize<Customer>("ceiling(FreightDecimal) eq 33")));
@@ -44,7 +44,7 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Ceiling(t.FreightDouble) == 33), Filter.Deserialize<Customer>("ceiling(FreightDouble) eq 33")));
         }
 
-        [TestMethod]
+        [Test]
         public void CeilingNullable()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Ceiling(t.FreightDecimalNullable.Value) == 33), Filter.Deserialize<Customer>("ceiling(FreightDecimalNullable) eq 33")));
@@ -53,7 +53,7 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Ceiling(t.FreightDoubleNullable.Value) == 33), Filter.Deserialize<Customer>("ceiling(FreightDoubleNullable) eq 33")));
         }
 
-        [TestMethod]
+        [Test]
         public void Floor()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Floor(t.FreightDecimal) == 34), Filter.Deserialize<Customer>("floor(FreightDecimal) eq 34")));
@@ -62,7 +62,7 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Floor(t.FreightDouble) == 34), Filter.Deserialize<Customer>("floor(FreightDouble) eq 34")));
         }
 
-        [TestMethod]
+        [Test]
         public void FloorNullable()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => Math.Floor(t.FreightDecimalNullable.Value) == 34), Filter.Deserialize<Customer>("floor(FreightDecimalNullable) eq 34")));

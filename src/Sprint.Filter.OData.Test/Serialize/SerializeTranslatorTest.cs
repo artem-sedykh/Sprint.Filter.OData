@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Serialize;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
@@ -9,18 +9,18 @@ using Sprint.Linq;
 
 namespace Sprint.Filter.OData.Test.Serialize
 {
-    [TestClass]
+    [TestFixture]
     public class SerializeTranslatorTest
     {
         QueryTranslator QueryTranslator { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             QueryTranslator = new QueryTranslator();
         }
 
-        [TestMethod]
+        [Test]
         public void Test()
         {
             var expr = Linq.Linq.Expr<Customer, bool>(t => t.Id == 15);
@@ -32,7 +32,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.IsNotNull(query);
         }
 
-        [TestMethod]
+        [Test]
         public void SimpleExpression()
         {
             var expr = Linq.Linq.Expr<Customer, bool>(t => t.Id == 15);
@@ -40,7 +40,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual("Id eq 15",QueryTranslator.Translate(expr));
         }
         
-        [TestMethod]
+        [Test]
         public void CaptureVariable()
         {
             Assert.AreEqual(String.Format("false", DateTime.Now.Day), QueryTranslator.Translate(Linq.Linq.Expr<Customer, bool>(t => DateTime.Now.Day == 15)));
@@ -57,7 +57,7 @@ namespace Sprint.Filter.OData.Test.Serialize
         }
 
 
-        [TestMethod]
+        [Test]
         public void Contains()
         {
             var array = new[] { 1, 2, 3, 4, 5 };            
@@ -71,7 +71,7 @@ namespace Sprint.Filter.OData.Test.Serialize
            var query = QueryTranslator.Translate(expr);
         }
 
-        [TestMethod]
+        [Test]
         public void Any()
         {
             var expr = Linq.Linq.Expr<Customer, bool>(x =>x.Customers.Any() || x.Items.Any() ||  x.Customers.Any(a => a.Id > 15) || x.Items.Any(c=>c.Id==13) || x.Customers.Any(c=>c.Customers.Any(c2=>c2.Id==x.Id)));
@@ -82,7 +82,7 @@ namespace Sprint.Filter.OData.Test.Serialize
         }
 
 
-        [TestMethod]
+        [Test]
         public void All()
         {
             var expr = Linq.Linq.Expr<Customer, bool>(x => x.Customers.All(a => a.Id > 15) || x.Items.All(c => c.Id == 13) || x.Customers.All(c => c.Customers.All(c2 => c2.Id == x.Id)));

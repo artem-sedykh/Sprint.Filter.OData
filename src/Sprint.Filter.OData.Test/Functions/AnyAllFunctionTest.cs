@@ -1,22 +1,22 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test.Functions
 {
-    [TestClass]
+    [TestFixture]
     public class AnyAllFunctionTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [TestMethod]
+        [Test]
         public void AnyNoArgsTest()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Any()), Filter.Deserialize<Customer>("Customers/Any()")));
@@ -26,7 +26,7 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.ListCustomers.Any()), Filter.Deserialize<Customer>("ListCustomers/Any()")));
         }
 
-        [TestMethod]
+        [Test]
         public void Any()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Any(x => true)), Filter.Deserialize<Customer>("Customers/Any(x: true)")));
@@ -36,7 +36,7 @@ namespace Sprint.Filter.OData.Test.Functions
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.ListCustomers.Any(x => true)), Filter.Deserialize<Customer>("ListCustomers/Any(x: true)")));
         }
 
-        [TestMethod]
+        [Test]
         public void All()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.All(x => true)), Filter.Deserialize<Customer>("Customers/All(x: true)")));

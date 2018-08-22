@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Common;
 using Sprint.Filter.OData.Deserialize;
 using Sprint.Filter.OData.Test.Helpers;
@@ -11,10 +11,10 @@ using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test
 {
-    [TestClass]
+    [TestFixture]
     public class TranslatorTest
     {
-        [TestMethod]
+        [Test]
         public void LambdaExpression()
         {                       
             var tparameter = ODataExpression.Parameter("t");
@@ -77,7 +77,7 @@ namespace Sprint.Filter.OData.Test
 
 
 
-        [TestMethod]
+        [Test]
         public void Parce()
         {
 

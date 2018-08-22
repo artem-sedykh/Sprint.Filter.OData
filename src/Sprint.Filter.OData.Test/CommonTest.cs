@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test
 {
-    [TestClass]
+    [TestFixture]
     public class CommonTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [TestMethod]
+        [Test]
         public void Isof()
         {
             // ReSharper disable once CSharpWarnings::CS0183
@@ -31,7 +31,7 @@ namespace Sprint.Filter.OData.Test
                  Filter.Deserialize<Customer>("isof(Sprint.Filter.OData.Test.Models.Customer)")));            
         }
 
-        [TestMethod]
+        [Test]
         public void Cast()
         {
             // ReSharper disable once RedundantCast
@@ -43,7 +43,7 @@ namespace Sprint.Filter.OData.Test
                  Filter.Deserialize<Customer>("cast(Sprint.Filter.OData.Test.Models.Customer) ne null")));
         }
 
-        [TestMethod]
+        [Test]
         public void Test()
         {
          // //  var epxression = Linq.Linq.Expr<Customer, int>(x => x.Id>);

@@ -2,15 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.Extensions;
 
 namespace Sprint.Filter.OData.Test
 {
-    [TestClass]
+    [TestFixture]
     public class TypeExtensionsTest
     {
-        [TestMethod]
+        [Test]
         public void IsIQueryable()
         {
             Assert.IsFalse((new List<int>()).GetType().IsIQueryable());
@@ -24,7 +24,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue((typeof(IQueryable)).IsIQueryable());
         }
 
-        [TestMethod]
+        [Test]
         public void IsIEnumerable()
         {
             Assert.IsTrue((new List<int>()).GetType().IsIEnumerable());
@@ -44,7 +44,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue((typeof(IEnumerable)).IsIEnumerable());
         }
 
-        [TestMethod]
+        [Test]
         public void IsOpenType()
         {
             Assert.IsTrue(typeof(List<>).IsOpenType());

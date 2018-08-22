@@ -1,21 +1,21 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test.Serialize
 {
-    [TestClass]
+    [TestFixture]
     public class SerializeCustomPropertyName
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [TestMethod]
+        [Test]
         public void CustomName()
         {
             var query = Filter.Serialize<Customer>(t => t.CustomName1 == 1 || t.CustomName2 == 2 || t.CustomName3 == 3);

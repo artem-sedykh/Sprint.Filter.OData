@@ -2,24 +2,24 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test
 {
-    [TestClass]
+    [TestFixture]
     public class ConstantTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
         
-        [TestMethod]
+        [Test]
         public void DateTime()
         {
             var expr1 = Filter.Invoke<DateTime>("datetime'2000-12-12T12:00'");
@@ -27,7 +27,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(expr1.Compile()() == new DateTime(2000, 12, 12, 12, 0, 0));           
         }
 
-        [TestMethod]
+        [Test]
         public void TimeSpan()
         {
             var value = Filter.Invoke<TimeSpan>("time'P1Y3M5DT7H10M3.3S'").Compile()();
@@ -35,7 +35,7 @@ namespace Sprint.Filter.OData.Test
             Assert.AreEqual(XmlConvert.ToTimeSpan("P1Y3M5DT7H10M3.3S"), value);
         }
 
-        [TestMethod]
+        [Test]
         public void DateTimeOffset()
         {
             var offset = new DateTimeOffset(new DateTime(2012, 2, 20, 12, 40, 45,327), new TimeSpan(1, 0, 0));
@@ -49,7 +49,7 @@ namespace Sprint.Filter.OData.Test
             Assert.AreEqual(new DateTimeOffset(new DateTime(2012, 2, 20, 12, 40, 45, 327), new TimeSpan(-1, 0, 0)), Filter.Invoke<DateTimeOffset>("datetimeoffset'2012-02-20T12:40:45.327-01:00'").Compile()());
         }
 
-        [TestMethod]
+        [Test]
         public void Int16()
         {
             //TODO: подумать нужна ли этп фигня
@@ -60,7 +60,7 @@ namespace Sprint.Filter.OData.Test
             //Assert.IsTrue(expr1.Compile()() == v);
         }
 
-        [TestMethod]
+        [Test]
         public void Int32()
         {
             var expr1 = Filter.Invoke<int>("12");
@@ -68,7 +68,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(expr1.Compile()() == 12);
         }
 
-        [TestMethod]
+        [Test]
         public void Int64()
         {
             var expr1 = Filter.Invoke<long>("12l");
@@ -82,7 +82,7 @@ namespace Sprint.Filter.OData.Test
             Assert.AreEqual(Filter.Invoke<long>("-12L").Compile()(), -12L);
         }
 
-        [TestMethod]
+        [Test]
         public void Double()
         {
             var expr1 = Filter.Invoke<double>("12.0");
@@ -94,7 +94,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(expr1.Compile()() == 12.0);
         }
 
-        [TestMethod]
+        [Test]
         public void Decimal()
         {
             var expr1 = Filter.Invoke<decimal>("12.1m");
@@ -108,7 +108,7 @@ namespace Sprint.Filter.OData.Test
             Assert.AreEqual(Filter.Invoke<decimal>("-12.1m").Compile()(), -12.1m);
         }
 
-        [TestMethod]
+        [Test]
         public void Single()
         {
             var expr1 = Filter.Invoke<float>("2.0f");
@@ -116,7 +116,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(expr1.Compile()() == 2f);
         }
 
-        [TestMethod]
+        [Test]
         public void String()
         {
             var expr1 = Filter.Invoke<string>("'test string'");
@@ -124,7 +124,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(expr1.Compile()() == "test string");
         }
 
-        [TestMethod]
+        [Test]
         public void Binary()
         {            
             var expr1 = Filter.Invoke<byte[]>("X'23AB'");
@@ -136,7 +136,7 @@ namespace Sprint.Filter.OData.Test
             CollectionAssert.AreEqual(expr2.Compile()(), new byte[]{35,171, 255});
         }
 
-        [TestMethod]
+        [Test]
         public void Boolean()
         {
             var expr1 = Filter.Invoke<bool>("true");
@@ -149,7 +149,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsFalse(expr2.Compile()());            
         }
 
-        [TestMethod]
+        [Test]
         public void Null()
         {
             var expr1 = Filter.Invoke<object>("null");
@@ -157,7 +157,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsNull(expr1.Compile()());
         }
 
-        [TestMethod]
+        [Test]
         public void Guid()
         {
             var guid = System.Guid.NewGuid();
@@ -167,7 +167,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(guid==expr1.Compile()());            
         }
 
-        [TestMethod]
+        [Test]
         public void Enum()
         {            
             Assert.AreEqual(EnumData.TestData1, Filter.Invoke<EnumData>("Sprint.Filter.OData.Test.Models.EnumData'TestData1'").Compile()());

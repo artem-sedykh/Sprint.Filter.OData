@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test.Serialize
 {
-    [TestClass]
+    [TestFixture]
     public class SerializeCommonTests
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [TestMethod]
+        [Test]
         public void ArrayLength()
         {
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.CustomersArray.Length == 15)), "CustomersArray/Length eq 15");            
         }
 
-        [TestMethod]
+        [Test]
         public void Isof()
         {            
             // ReSharper disable once CSharpWarnings::CS0183
@@ -33,7 +33,7 @@ namespace Sprint.Filter.OData.Test.Serialize
         }
 
 
-        [TestMethod]
+        [Test]
         public void Cast()
         {            
             // ReSharper disable once RedundantCast
@@ -43,19 +43,19 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t as Customer != null)), "cast(Sprint.Filter.OData.Test.Models.Customer) ne null");
         }
 
-        [TestMethod]
+        [Test]
         public void Select()
         {            
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Select(x => x.Id).Any())), "Customers/Select(x: x/Id)/Any()");
         }
 
-        [TestMethod, ExpectedException(typeof(NotSupportedException))]
+        [Test]
         public void SelectNew()
         {
-            Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Select(x => new { x.Id }).Any()));
+            Assert.That(() => Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Select(x => new { x.Id }).Any())), Throws.InstanceOf<NotSupportedException>());
         }
 
-        [TestMethod]
+        [Test]
         public void Property()
         {
             var expr = Linq.Linq.Expr<Customer, int>(t => t.Items.First().Id);

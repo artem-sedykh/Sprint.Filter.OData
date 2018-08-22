@@ -1,91 +1,91 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test.Functions
 {
-    [TestClass]
+    [TestFixture]
     public class StringFunctionsTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [TestMethod]
+        [Test]
         public void Substringof()
         {            
             // ReSharper disable once RedundantBoolCompare
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.Contains("Alfreds") == true), Filter.Deserialize<Customer>("substringof('Alfreds', Name) eq true")));
         }
 
-        [TestMethod]
+        [Test]
         public void EndsWith()
         {            
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.EndsWith("Futterkiste")), Filter.Deserialize<Customer>("endswith(Name, 'Futterkiste')")));
         }
 
-        [TestMethod]
+        [Test]
         public void StartsWith()
         {
             // ReSharper disable once RedundantBoolCompare
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.StartsWith("Alfr") == true), Filter.Deserialize<Customer>("startswith(Name, 'Alfr') eq true")));
         }
 
-        [TestMethod]
+        [Test]
         public void Length()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.Length == 19), Filter.Deserialize<Customer>("length(Name) eq 19")));
         }
 
-        [TestMethod]
+        [Test]
         public void TestIndexOf()
         {            
             // ReSharper disable StringIndexOfIsCultureSpecific.1
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.IndexOf("lfreds") == 1), Filter.Deserialize<Customer>("indexof(Name, 'lfreds') eq 1")));
         }
 
-        [TestMethod]
+        [Test]
         public void Replace()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.Replace(" ", "") == "AlfredsFutterkiste"), Filter.Deserialize<Customer>("replace(Name, ' ', '') eq 'AlfredsFutterkiste'")));
         }
 
 
-        [TestMethod]
+        [Test]
         public void SubstringWithOneArgument()
         {            
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.Substring(1) == "lfreds Futterkiste"), Filter.Deserialize<Customer>("substring(Name, 1) eq 'lfreds Futterkiste'")));
         }
 
-        [TestMethod]
+        [Test]
         public void SubstringWithTwoArgument()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.Substring(1, 2) == "lf"), Filter.Deserialize<Customer>("substring(Name, 1, 2) eq 'lf'")));
         }
 
-        [TestMethod]
+        [Test]
         public void ToLower()
         {            
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.ToLower() == "alfreds futterkiste"), Filter.Deserialize<Customer>("tolower(Name) eq 'alfreds futterkiste'")));
         }
 
-        [TestMethod]
+        [Test]
         public void ToUpper()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.ToUpper() == "ALFREDS FUTTERKISTE"), Filter.Deserialize<Customer>("toupper(Name) eq 'ALFREDS FUTTERKISTE'")));
         }
 
-        [TestMethod]
+        [Test]
         public void Trim()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Name.Trim() == "Alfreds Futterkiste"), Filter.Deserialize<Customer>("trim(Name) eq 'Alfreds Futterkiste'")));
         }
 
-        [TestMethod]
+        [Test]
         public void Concat()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => (t.Name + ", " + t.LastName) == "Berlin, Germany"), Filter.Deserialize<Customer>("concat(concat(Name, ', '), LastName) eq 'Berlin, Germany'")));

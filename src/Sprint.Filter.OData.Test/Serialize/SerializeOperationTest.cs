@@ -1,21 +1,21 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test.Serialize
 {
-    [TestClass]
+    [TestFixture]
     public class SerializeOperationTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [TestMethod]
+        [Test]
         public void Negation()
         {
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => -t.Id > 0)), "-Id gt 0");
@@ -23,7 +23,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => -t.FreightDoubleNullable > 0)), "-FreightDoubleNullable gt 0");            
         }
 
-        [TestMethod]
+        [Test]
         public void LogicalNegation()
         {
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => !(t.FreightDoubleNullable > t.FreightDouble))), "not (FreightDoubleNullable gt FreightDouble)");
@@ -31,7 +31,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => !t.Name.EndsWith("milk"))), "not endswith(Name, 'milk')");
         }
 
-        [TestMethod]
+        [Test]
         public void Equal()
         {
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.NullableEnumData == (EnumData.TestData1 | EnumData.TestData2))), "NullableEnumData eq 6");
@@ -55,7 +55,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.NullableEnumData == null)), "NullableEnumData eq null");            
         }
 
-        [TestMethod]
+        [Test]
         public void EquNotEqualal()
         {
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => null != t.FreightDecimalNullable)), "null ne FreightDecimalNullable");
@@ -77,7 +77,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.EnumDataLong != (EnumDataLong.TestData1 | EnumDataLong.TestData2))), "EnumDataLong ne 6");
         }
 
-        [TestMethod]
+        [Test]
         public void Modulo()
         {
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Salary % 5 == 0)), "Salary mod 5m eq 0m");
@@ -90,7 +90,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.FreightDouble % 5 == null)), "FreightDouble mod 5 eq null");            
         }
 
-        [TestMethod]
+        [Test]
         public void Multiplication()
         {
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.NullableSbyte + t.NullableSbyte > 10)), "NullableSbyte add NullableSbyte gt 10");
@@ -101,7 +101,7 @@ namespace Sprint.Filter.OData.Test.Serialize
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.NullableSbyte + t.Sbyte > 10)), "NullableSbyte add Sbyte gt 10");       
         }
 
-        [TestMethod]
+        [Test]
         public void Division()
         {
             Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.NullableSbyte / t.NullableSbyte > 10)), "NullableSbyte div NullableSbyte gt 10");

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.Helpers;
 
 namespace Sprint.Filter.OData.Test
 {
     
-    [TestClass]
+    [TestFixture]
     public class ExpressionMethodBinderTest
     {
         #region Test Data
@@ -34,7 +34,7 @@ namespace Sprint.Filter.OData.Test
 
         #endregion
 
-        [TestMethod]
+        [Test]
         public void Bind()
         {
             Expression<Func<IEnumerable<object>, int>> e1 = x => 0;

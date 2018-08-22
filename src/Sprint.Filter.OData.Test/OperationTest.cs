@@ -1,22 +1,22 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test
 {
-    [TestClass]
+    [TestFixture]
     public class OperationTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        //[TestMethod]
+        //[Test]
         public void Negation()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => -t.Id > 0), Filter.Deserialize<Customer>("-Id gt 0")));
@@ -25,7 +25,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => -t.FreightDoubleNullable > 0), Filter.Deserialize<Customer>("- FreightDoubleNullable gt 0")));
         }
 
-       // [TestMethod]
+       // [Test]
         public void Equal()
         {            
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => String.Compare(t.Name, t.LastName, StringComparison.Ordinal) > 0 ), Filter.Deserialize<Customer>("Name gt LastName")));
@@ -58,7 +58,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.EnumDataLong == (EnumDataLong.TestData1 | EnumDataLong.TestData2)), Filter.Deserialize<Customer>("EnumDataLong eq Sprint.Filter.OData.Test.Models.EnumDataLong'TestData1,TestData2'")));
         }
 
-        [TestMethod]
+        [Test]
         public void NotEqual()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Id != 15), Filter.Deserialize<Customer>("Id ne 15")));
@@ -70,7 +70,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.NullableChar != 15), Filter.Deserialize<Customer>("NullableChar ne 15")));
         }
 
-      //  [TestMethod]
+      //  [Test]
         public void Modulo()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Salary % 5 == 0), Filter.Deserialize<Customer>("Salary mod 5 eq 0")));
@@ -81,7 +81,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.FreightDecimalNullable % 5 == null), Filter.Deserialize<Customer>("FreightDecimalNullable mod 5 eq null")));
         }
 
-    //    [TestMethod]
+    //    [Test]
         public void Multiplication()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Sbyte + t.Sbyte > 10), Filter.Deserialize<Customer>("Sbyte add Sbyte gt 10")));
@@ -108,7 +108,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.NullableInt + t.NullableInt != null), Filter.Deserialize<Customer>("NullableInt add NullableInt ne null")));
         }
 
-       // [TestMethod]
+       // [Test]
         public void Division()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Sbyte / t.Sbyte > 10), Filter.Deserialize<Customer>("Sbyte div Sbyte gt 10")));
@@ -135,7 +135,7 @@ namespace Sprint.Filter.OData.Test
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.NullableInt / t.NullableInt != null), Filter.Deserialize<Customer>("NullableInt div NullableInt ne null")));
         }
 
-        [TestMethod]
+        [Test]
         public void LogicalNegation()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => !(t.FreightDoubleNullable > t.FreightDouble)), Filter.Deserialize<Customer>("not (FreightDoubleNullable gt FreightDouble)")));

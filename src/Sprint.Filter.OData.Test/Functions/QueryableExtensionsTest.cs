@@ -1,22 +1,22 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sprint.Filter.OData.Test.Helpers;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test.Functions
 {
-    [TestClass]
+    [TestFixture]
     public class QueryableExtensionsTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
         }
 
-        [TestMethod]
+        [Test]
         public void First()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.First().Id == 15),
@@ -26,7 +26,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/First(c: c/Name eq 'test')/Id eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void FirstOrDefault()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.FirstOrDefault().Id == 15),
@@ -36,7 +36,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/FirstOrDefault(c: c/Name eq 'test')/Id eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Last()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Last().Id == 15),
@@ -46,7 +46,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/Last(c: c/Name eq 'test')/Id eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void LastOrDefault()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.LastOrDefault().Id == 15),
@@ -56,7 +56,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/LastOrDefault(c: c/Name eq 'test')/Id eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Single()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Single().Id == 15),
@@ -66,7 +66,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/Single(c: c/Name eq 'test')/Id eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void SingleOrDefault()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.SingleOrDefault().Id == 15),
@@ -76,7 +76,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/SingleOrDefault(c: c/Name eq 'test')/Id eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Count()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.IntArray.Count() == 15),
@@ -89,7 +89,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/Count(c: c/Name eq 'test') eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void LongCount()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.IntArray.LongCount() == 15),
@@ -102,7 +102,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/LongCount(c: c/Name eq 'test') eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Min()
         {                   
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Numbers.Min() == 15),
@@ -112,7 +112,7 @@ namespace Sprint.Filter.OData.Test.Functions
               Filter.Deserialize<Customer>("Customers/Min(x: x/Id) eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Max()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Numbers.Max() == 15),
@@ -125,7 +125,7 @@ namespace Sprint.Filter.OData.Test.Functions
               Filter.Deserialize<Customer>("Customers/Max(x: x/Id) eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Sum()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Sum(x => x.Id) == 15),
@@ -135,7 +135,7 @@ namespace Sprint.Filter.OData.Test.Functions
                Filter.Deserialize<Customer>("Numbers/Sum() eq 15")));            
         }
 
-        [TestMethod]
+        [Test]
         public void Average()
         {            
             Assert.IsTrue(ExpressionEqualityComparer.Equals( 
@@ -153,14 +153,14 @@ namespace Sprint.Filter.OData.Test.Functions
                Filter.Deserialize<Customer>("Numbers/Average() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void GroupBy()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.GroupBy(x => x.Id).Count() == 15), 
                 Filter.Deserialize<Customer>("Customers/GroupBy(x: x/Id)/Count() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void SelectMany()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.SelectMany(x => x.Items).Count() == 15),
@@ -170,7 +170,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Items/SelectMany(x: x/Customers)/Count() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Select()
         {            
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.IntArray.Select(x => x).Count() == 15),
@@ -180,7 +180,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Customers/Select(x: x/Id)/Count() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Distinct()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Select(x => x.Id).Distinct().Count() == 15),
@@ -190,7 +190,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/Distinct()/Count() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Where()
         {
             // ReSharper disable once ReplaceWithSingleCallToCount
@@ -206,7 +206,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/Where(x: x gt 10)/Count() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Take()
         {
             // ReSharper disable once ReplaceWithSingleCallToCount
@@ -218,7 +218,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/Take(5)/Count() eq 5")));
         }
 
-        [TestMethod]
+        [Test]
         public void Skip()
         {
             // ReSharper disable once ReplaceWithSingleCallToCount
@@ -230,7 +230,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/Skip(5)/Count() eq 5")));
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultIfEmpty()
         {
             // ReSharper disable once ReplaceWithSingleCallToCount
@@ -242,7 +242,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/DefaultIfEmpty()/Count() eq 5")));
         }
 
-        [TestMethod]
+        [Test]
         public void OrderBy()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.OrderBy(x => x.Id).Select(x=>x.Id).First() == 15),
@@ -252,7 +252,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/Distinct()/OrderBy(x: x)/First() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void ThenBy()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.OrderBy(x => x.Id).ThenBy(x=>x.Name).Select(x => x.Id).First() == 15),
@@ -262,7 +262,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/Distinct()/OrderBy(x: x)/ThenBy(x: x)/First() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void OrderByDescending()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.OrderByDescending(x => x.Id).Select(x => x.Id).First() == 15),
@@ -272,7 +272,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/Distinct()/OrderByDescending(x: x)/First() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void ThenByDescending()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.OrderBy(x => x.Id).ThenByDescending(x => x.Name).Select(x => x.Id).First() == 15),
@@ -282,7 +282,7 @@ namespace Sprint.Filter.OData.Test.Functions
                 Filter.Deserialize<Customer>("Numbers/Distinct()/OrderBy(x: x)/ThenByDescending(x: x)/First() eq 15")));
         }
 
-        [TestMethod]
+        [Test]
         public void Contains()
         {
             Assert.IsTrue(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Contains(t.Parent)),

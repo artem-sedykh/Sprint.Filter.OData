@@ -1,17 +1,17 @@
 ﻿//using System.Data.Entity.SqlServer;
 //using System.Linq;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using NUnit.Framework;
 //using Sprint.Filter.OData.Test.Helpers;
 //using Sprint.Filter.OData.Test.Models;
 
 //namespace Sprint.Filter.OData.Test.Serialize
 //{
-//    [TestClass]
+//    [TestFixture]
 //    public class SerializeUserFunctions
 //    {
 //        public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-//        [TestInitialize]
+//        [SetUp]
 //        public void TestInitialize()
 //        {
 //            ExpressionEqualityComparer = new ExpressionEqualityComparer();
@@ -23,7 +23,7 @@
 //            MethodProvider.RegisterFunction("StringConvert", methods);
 //        }
 
-//        [TestMethod]
+//        [Test]
 //        public void EntityFramworkStringConvert()
 //        {
 //            Assert.AreEqual(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => SqlFunctions.StringConvert(t.Price) == "1")),"StringConvert(Price) eq '1'");
