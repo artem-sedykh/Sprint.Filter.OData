@@ -10,6 +10,8 @@
     <RepositoryUrl>https://github.com/artem-sedykh/Sprint.Filter.OData</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Expression Tree OData Query Linq Parser Serialization Mvc aspnet</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>$(ProjectDir)../../artifacts</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

@@ -107,3 +107,4 @@ UpgradeLog*.XML
 /nuget-package
 /src/.vs/Sprint.Filter.OData/v15/Server/sqlite3
 /src/.vs/Sprint.Filter.OData/DesignTimeBuild
+/artifacts
