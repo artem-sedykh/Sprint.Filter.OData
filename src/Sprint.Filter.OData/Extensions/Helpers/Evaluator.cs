@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 
 // ReSharper disable once CheckNamespace
 namespace Sprint.Filter.Helpers
 {
     internal static class Evaluator
     {
+        private static readonly MemberInfo DateTimeNowPropertyInfo = typeof(DateTime).GetProperty(nameof(DateTime.Now));
+        private static readonly MemberInfo DateTimeUtcNowPropertyInfo = typeof(DateTime).GetProperty(nameof(DateTime.UtcNow));
+
         /// <summary>
         /// Performs evaluation & replacement of independent sub-trees
         /// </summary>
@@ -30,6 +34,15 @@ namespace Sprint.Filter.Helpers
 
         private static bool CanBeEvaluatedLocally(Expression expression)
         {
+            if (expression is  MemberExpression memberExpression)
+            {
+                if (memberExpression.Member == DateTimeNowPropertyInfo ||
+                    memberExpression.Member == DateTimeUtcNowPropertyInfo)
+                {
+                    return false;
+                }
+
+            }
             return expression.NodeType != ExpressionType.Parameter;
         }
 

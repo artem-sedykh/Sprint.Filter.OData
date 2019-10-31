@@ -67,7 +67,33 @@ namespace Sprint.Filter.OData.Deserialize
             return tokens.ToArray();
         }
 
-        private ODataExpression GetNext(ODataParameterExpression parameter, ODataExpression parent = null, IDictionary<string, ODataParameterExpression> lambdaParameters = null)
+        private int GetBracketLastPosition(int position)
+        {
+            var source = _source.Substring(position);
+            var chars = source.ToCharArray();
+            var bracket = 1;
+
+            for (var i = 1; i < chars.Length; i++)
+            {
+
+                if (chars[i] == ')')
+                {
+                    bracket = bracket - 1;
+                }
+
+                if (chars[i] == '(')
+                {
+                    bracket = bracket + 1;
+                }
+
+                if (bracket == 0)
+                    return position + i;
+            }
+
+            return -1;
+        }
+
+        private ODataExpression GetNext(ODataParameterExpression parameter, ODataExpression parent = null, IDictionary<string, ODataParameterExpression> lambdaParameters = null, bool funcBody = false)
         {
             if (_offset >= _source.Length)
                 return null;
@@ -91,6 +117,32 @@ namespace Sprint.Filter.OData.Deserialize
                     return ParseString();
 
                 case '(':
+                {
+                    if(funcBody)
+                        return ParseSyntax();
+
+                    var position = GetBracketLastPosition(_current);
+
+                    if (position <= 0 || _source.Length <= position + 1 || _source[position + 1] != '/')
+                        return ParseSyntax();
+
+                    var source = _source.Substring(_current + 1, position - _current - 1);
+                    var lexer = new ExpressionLexer(source);
+
+                    var tokens = new List<ODataExpression>();
+                    ODataExpression token;
+
+                    while ((token = lexer.GetNext(parameter, parent, lambdaParameters)) != null)
+                        tokens.Add(token);
+
+                    var expression = CreateExpression(ConvertToRpn(tokens));
+
+                    _current = position + 1;
+                    _offset = _current + 1;
+
+                    return ParseIdentifier(false, parameter, expression, lambdaParameters);
+                }
+
                 case ')':
                 case ',':
                 case ':':
@@ -607,7 +659,7 @@ namespace Sprint.Filter.OData.Deserialize
 
                             while (true)
                             {
-                                var token = GetNext(parameter, null, lambdaParameters);
+                                var token = GetNext(parameter, null, lambdaParameters,true);
 
                                 if (token == null)
                                     break;
@@ -725,7 +777,7 @@ namespace Sprint.Filter.OData.Deserialize
 
         #endregion
 
-        private static ODataExpression CreateExpression(ODataExpression[] tokens)
+        internal static ODataExpression CreateExpression(ODataExpression[] tokens)
         {
             if (tokens.Length == 0)
                 return null;

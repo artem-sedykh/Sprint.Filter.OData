@@ -15,10 +15,22 @@ namespace Sprint.Filter.OData.Test
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        
         public CommonTest()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
+        }
+
+        [Fact]
+        public void EnumTest()
+        {
+            //Assert.True(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<TestClass, bool>(t => t.Status == Status.Completed),
+            //    Filter.Deserialize<TestClass>("Status eq 2")));
+
+            //Assert.True(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<TestClass, bool>(t => t.NullableStatus == null),
+            //    Filter.Deserialize<TestClass>("NullableStatus eq null")));
+
+            //Assert.True(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<TestClass, bool>(t => t.NullableStatus == Status.Pending),
+            //    Filter.Deserialize<TestClass>("NullableStatus eq 0")));
         }
 
         [Fact]

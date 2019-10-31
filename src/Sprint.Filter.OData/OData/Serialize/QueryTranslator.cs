@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using Sprint.Filter.Extensions;
 using Sprint.Filter.Helpers;
 using Sprint.Filter.OData.Serialize.Writers;
@@ -66,6 +67,8 @@ namespace Sprint.Filter.OData.Serialize
         private static readonly Type DateTimeType = typeof(DateTime);
 
         private static readonly Type StringType = typeof(string);
+        private static readonly MemberInfo DateTimeNowPropertyInfo = typeof(DateTime).GetProperty(nameof(DateTime.Now));
+        private static readonly MemberInfo DateTimeUtcNowPropertyInfo = typeof(DateTime).GetProperty(nameof(DateTime.UtcNow));
 
         private readonly IMemberNameProvider _memberNameProvider = new MemberNameProvider();
 
@@ -100,7 +103,30 @@ namespace Sprint.Filter.OData.Serialize
             {
                 var left = Visit(memberExpr.Expression);
 
-                return string.IsNullOrWhiteSpace(left) ? name : $"{left}/{name}";
+                switch (memberExpr.Expression.NodeType)
+                {
+                    case ExpressionType.Add:
+                    case ExpressionType.AddChecked:
+                    case ExpressionType.Subtract:
+                    case ExpressionType.SubtractChecked:
+                    case ExpressionType.Multiply:
+                    case ExpressionType.MultiplyChecked:
+                    case ExpressionType.Divide:
+                    case ExpressionType.Modulo:
+                    case ExpressionType.LessThan:
+                    case ExpressionType.LessThanOrEqual:
+                    case ExpressionType.GreaterThan:
+                    case ExpressionType.GreaterThanOrEqual:
+                    case ExpressionType.Equal:
+                    case ExpressionType.NotEqual:
+                    case ExpressionType.Coalesce:
+                    case ExpressionType.RightShift:
+                    case ExpressionType.LeftShift:
+                    case ExpressionType.ExclusiveOr:
+                        return string.IsNullOrWhiteSpace(left) ? name : $"({left})/{name}";
+                    default:
+                        return string.IsNullOrWhiteSpace(left) ? name : $"{left}/{name}";
+                }
             }
 
             return name;
@@ -125,6 +151,16 @@ namespace Sprint.Filter.OData.Serialize
                     case "Month":
                     case "Year":
                         return name.ToLowerInvariant();
+                }
+
+                if (memberExpression.Member == DateTimeNowPropertyInfo)
+                {
+                    return "now";
+                }
+
+                if (memberExpression.Member == DateTimeUtcNowPropertyInfo)
+                {
+                    return "utcnow";
                 }
             }
 

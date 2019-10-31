@@ -29,12 +29,27 @@ namespace Sprint.Filter.OData.Test.Models
         TestData2 = 4,
         TestData3 = 8
     }
+
+    public enum Status
+    {
+        Pending = 0,
+
+        Failed = 1,
+
+        Completed = 2
+    }
+
     public class TestClass
     {
         public int Id { get; set; }
 
         public IQueryable<Customer>Customers { get; set; } 
+
+        public Status Status { get; set; }
+
+        public Status? NullableStatus { get; set; }
     }
+
     public class Customer
     {
         public int CategoryID { get; set; }

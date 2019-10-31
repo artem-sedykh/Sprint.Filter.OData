@@ -366,6 +366,19 @@ namespace Sprint.Filter.OData.Deserialize
 
                     return Expression.MakeBinary(ExpressionType.ArrayIndex, left, right);
                 }
+
+                case "now":
+                {
+                    var now = Expression.MakeMemberAccess(null, typeof(DateTime).GetProperty(nameof(DateTime.Now)));
+
+                    return now;
+                }
+                case "utcnow":
+                {
+                    var utcNow = Expression.MakeMemberAccess(null, typeof(DateTime).GetProperty(nameof(DateTime.UtcNow)));
+
+                    return utcNow;
+                }
                 default:
                 {
                     if(node.Context != null)

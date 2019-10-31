@@ -1,15 +1,13 @@
-﻿using Xunit;
-using Sprint.Filter.OData.Test.Helpers;
+﻿using System;
+using Xunit;
 using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test.Functions
 {
-    
     public class DateFunctionsTest
     {
         public ExpressionEqualityComparer ExpressionEqualityComparer { get; set; }
 
-        
         public DateFunctionsTest()
         {
             ExpressionEqualityComparer = new ExpressionEqualityComparer();
@@ -85,6 +83,35 @@ namespace Sprint.Filter.OData.Test.Functions
         public void NullableYear()
         {
             Assert.True(ExpressionEqualityComparer.Equals(Linq.Linq.Expr<Customer, bool>(t => t.NullableBirthDate.Value.Year == 1948), Filter.Deserialize<Customer>("year(NullableBirthDate) eq 1948")));
+        }
+
+        [Fact]
+        public void DateTimePropertyAccess()
+        {
+            var expression = Linq.Linq.Expr<Customer, bool>(t => (DateTime.UtcNow.Date - t.BirthDate.Date).TotalDays > 1 || (DateTime.UtcNow.Date - t.BirthDate.Date).TotalDays > 1);
+
+            var filter = Filter.Serialize(expression);
+
+            var exp = Filter.Deserialize<Customer>(filter);
+
+            Assert.True(ExpressionEqualityComparer.Equals(expression, exp));
+        }
+
+        [Fact]
+        public void Now()
+        {
+            Assert.True(ExpressionEqualityComparer.Equals(
+                Linq.Linq.Expr<Customer, bool>(t => t.BirthDate >= DateTime.Now),
+                Filter.Deserialize<Customer>("BirthDate ge now()")));
+
+        }
+
+        [Fact]
+        public void UtcNow()
+        {
+            Assert.True(ExpressionEqualityComparer.Equals(
+                Linq.Linq.Expr<Customer, bool>(t => t.BirthDate >= DateTime.UtcNow.Date),
+                Filter.Deserialize<Customer>("BirthDate ge utcnow()/Date")));
         }
     }
 }
