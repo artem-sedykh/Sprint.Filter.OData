@@ -14,7 +14,7 @@
     <RootNamespace>Sprint.Filter</RootNamespace>
     <DelaySign>true</DelaySign>
     <PackageReleaseNotes>add now() and utcnow built-in Query Functions</PackageReleaseNotes>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageOutputPath>$(ProjectDir)../../artifacts</PackageOutputPath>
   </PropertyGroup>
 
