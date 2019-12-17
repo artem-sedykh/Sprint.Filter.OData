@@ -16,7 +16,14 @@ namespace Sprint.Filter.OData.Deserialize
         private static readonly MethodInfo StringCompareMethodInfo = typeof(string).GetMethod("Compare", new[] { typeof(string), typeof(string), typeof(StringComparison) });
         private static readonly Expression ZeroConstant = Expression.Constant(0);
         private readonly IDictionary<ODataParameterExpression, ParameterExpression> _parameters = new Dictionary<ODataParameterExpression, ParameterExpression>();
-        private readonly IMemberNameProvider _memberNameProvider = new MemberNameProvider();
+
+        private readonly IMemberNameProvider _memberNameProvider;
+
+        public QueryTranslator(IMemberNameProvider memberNameProvider)
+        {
+            _memberNameProvider = new DefaultMemberNameProvider();
+        }
+
         private Expression VisitMember(ODataPropertyExpression node)
         {
             if(node.Expression != null)

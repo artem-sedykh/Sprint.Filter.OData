@@ -45,7 +45,7 @@ namespace Sprint.Filter.OData.Test.Serialize
 
         [Fact]
         public void Select()
-        {            
+        {
             Assert.Equal(Filter.Serialize(Linq.Linq.Expr<Customer, bool>(t => t.Customers.Select(x => x.Id).Any())), "Customers/Select(x: x/Id)/Any()");
         }
 

@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace Sprint.Filter.OData
 {
-    internal class MemberNameProvider : IMemberNameProvider
+    internal class DefaultMemberNameProvider : IMemberNameProvider
     {
         private static readonly ConcurrentDictionary<MemberInfo, string> KnownMemberNames = new ConcurrentDictionary<MemberInfo, string>();
         private static readonly ConcurrentDictionary<string, MemberInfo> KnownAliasNames = new ConcurrentDictionary<string, MemberInfo>();
@@ -16,6 +16,7 @@ namespace Sprint.Filter.OData
         public MemberInfo ResolveAlias(Type type, string alias)
         {
             var key = type.AssemblyQualifiedName + alias;
+
             return KnownAliasNames.GetOrAdd(key, s => ResolveAliasInternal(type, alias));
         }
 
@@ -56,28 +57,22 @@ namespace Sprint.Filter.OData
 
         private static MemberInfo ResolveAliasInternal(Type type, string alias)
         {
+            var members = GetMembers(type).ToArray();
 
-            var member = GetMembers(type)
-                .Select(
-                    x =>
-                    {
-                        if (HasAliasAttribute(alias, x))
-                        {
-                            return x.MemberType == MemberTypes.Field
-                                ? CheckFrontingProperty(x)
-                                : x;
-                        }
+            foreach (var member in members)
+            {
+                if (HasAliasAttribute(alias, member))
+                {
+                    return member.MemberType == MemberTypes.Field ? CheckFrontingProperty(member) : member;
+                }
 
-                        if (x.Name == alias)
-                        {
-                            return x;
-                        }
+                if (member.Name == alias)
+                {
+                    return member;
+                }
+            }
 
-                        return null;
-                    })
-                .FirstOrDefault(x => x != null);
-
-            return member;
+            return null;
         }
 
         private static MemberInfo CheckFrontingProperty(MemberInfo field)
@@ -131,8 +126,8 @@ namespace Sprint.Filter.OData
         private static bool HasAliasAttribute(string alias, MemberInfo member)
         {
             var attributes = member.GetCustomAttributes(true);
-            var dataMember = attributes.OfType<DataMemberAttribute>()
-                .FirstOrDefault();
+            var dataMember = attributes.OfType<DataMemberAttribute>().FirstOrDefault();
+
             if (dataMember != null && dataMember.Name == alias)
             {
                 return true;

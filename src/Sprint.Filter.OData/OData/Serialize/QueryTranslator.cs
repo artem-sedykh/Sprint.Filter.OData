@@ -70,7 +70,7 @@ namespace Sprint.Filter.OData.Serialize
         private static readonly MemberInfo DateTimeNowPropertyInfo = typeof(DateTime).GetProperty(nameof(DateTime.Now));
         private static readonly MemberInfo DateTimeUtcNowPropertyInfo = typeof(DateTime).GetProperty(nameof(DateTime.UtcNow));
 
-        private readonly IMemberNameProvider _memberNameProvider = new MemberNameProvider();
+        private readonly IMemberNameProvider _memberNameProvider = new DefaultMemberNameProvider();
 
         public string VisitParameter(ParameterExpression expression)
         {

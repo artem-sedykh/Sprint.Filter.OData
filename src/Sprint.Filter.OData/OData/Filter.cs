@@ -6,6 +6,8 @@ namespace Sprint.Filter.OData
 {
     public static class Filter
     {
+        public static IMemberNameProvider DefaultMemberNameProvider = new DefaultMemberNameProvider();
+
         public static LambdaExpression Deserialize(Type modelType, string query)
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -15,7 +17,7 @@ namespace Sprint.Filter.OData
 
             var expression = expressionLexer.BuildLambdaExpression();
 
-            var translator = new QueryTranslator();
+            var translator = new QueryTranslator(DefaultMemberNameProvider);
 
             var expr = translator.Translate(expression, modelType);
 
@@ -24,14 +26,14 @@ namespace Sprint.Filter.OData
 
         public static Expression<Func<TModel, bool>> Deserialize<TModel>(string query) where TModel : class
         {
-            if (String.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrWhiteSpace(query))
                 return model => true;
 
             var expressionLexer = new ExpressionLexer(query);
 
             var expression = expressionLexer.BuildLambdaExpression();
 
-            var translator = new QueryTranslator();
+            var translator = new QueryTranslator(DefaultMemberNameProvider);
 
             var expr = translator.Translate<TModel, bool>(expression);
 
@@ -54,7 +56,6 @@ namespace Sprint.Filter.OData
             var query = translator.Translate(expression);
 
             return query;
-
         }
 
         public static string Serialize<TModel, TResult>(Expression<Func<TModel, TResult>> expression)
@@ -72,7 +73,7 @@ namespace Sprint.Filter.OData
 
             var expression = expressionLexer.BuildLambdaExpression();
 
-            var translator = new QueryTranslator();
+            var translator = new QueryTranslator(DefaultMemberNameProvider);
 
             return translator.Translate<TResult>(expression);
         }

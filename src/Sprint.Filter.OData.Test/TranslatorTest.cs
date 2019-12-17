@@ -11,12 +11,11 @@ using Sprint.Filter.OData.Test.Models;
 
 namespace Sprint.Filter.OData.Test
 {
-    
     public class TranslatorTest
     {
         [Fact]
         public void LambdaExpression()
-        {                       
+        {
             var tparameter = ODataExpression.Parameter("t");
             var cparameter = ODataExpression.Parameter("c");
             var l1 = new ODataLambdaExpression
