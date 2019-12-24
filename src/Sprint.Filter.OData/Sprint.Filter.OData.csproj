@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>sign.snk</AssemblyOriginatorKeyFile>
-    <Version>1.3.2</Version>
+    <Version>1.3.3</Version>
     <Authors>Artem Sedykh</Authors>
     <PackageLicenseUrl>https://raw.githubusercontent.com/artem-sedykh/Sprint.Filter.OData/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/artem-sedykh/Sprint.Filter.OData</PackageProjectUrl>
@@ -13,7 +13,7 @@
     <PackageTags>Expression Tree OData Query Linq Parser Serialization</PackageTags>
     <RootNamespace>Sprint.Filter</RootNamespace>
     <DelaySign>true</DelaySign>
-    <PackageReleaseNotes>add DefaultMemberNameProvider in filter</PackageReleaseNotes>
+    <PackageReleaseNotes>fix datetime parsing</PackageReleaseNotes>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageOutputPath>$(ProjectDir)../../artifacts</PackageOutputPath>
   </PropertyGroup>

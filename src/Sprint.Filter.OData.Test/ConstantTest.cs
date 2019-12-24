@@ -24,7 +24,7 @@ namespace Sprint.Filter.OData.Test
         {
             var expr1 = Filter.Invoke<DateTime>("datetime'2000-12-12T12:00'");
 
-            Assert.True(expr1.Compile()() == new DateTime(2000, 12, 12, 12, 0, 0));           
+            Assert.True(expr1.Compile()() == new DateTime(2000, 12, 12, 12, 0, 0));
         }
 
         [Fact]
